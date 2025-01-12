@@ -1,6 +1,9 @@
+import { useState } from "react";
 import { Check } from "lucide-react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { PlanComparison } from "./PlanComparison";
+import { PlanCustomizer } from "./PlanCustomizer";
 
 const plans = [
   {
@@ -47,9 +50,15 @@ const plans = [
 ];
 
 export const SubscriptionPlans = () => {
-  const handleSubscribe = (planName: string) => {
-    // TODO: Implement subscription logic
-    console.log(`Subscribing to ${planName}`);
+  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<string | null>(null);
+
+  const handleSubscribe = async (planName: string) => {
+    setIsLoading(planName);
+    // Simulate API call
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    setSelectedPlan(planName);
+    setIsLoading(null);
   };
 
   return (
@@ -103,13 +112,30 @@ export const SubscriptionPlans = () => {
                     plan.popular ? "bg-secondary hover:bg-secondary/90" : ""
                   }`}
                   onClick={() => handleSubscribe(plan.name)}
+                  disabled={isLoading === plan.name}
                 >
-                  Subscribe Now
+                  {isLoading === plan.name ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
+                      Processing...
+                    </>
+                  ) : (
+                    "Subscribe Now"
+                  )}
                 </Button>
               </CardFooter>
             </Card>
           ))}
         </div>
+
+        {selectedPlan && (
+          <PlanCustomizer
+            basePlan={selectedPlan}
+            basePrice={plans.find((p) => p.name === selectedPlan)?.price || 0}
+          />
+        )}
+
+        <PlanComparison />
 
         <div className="mt-16 text-center">
           <h2 className="text-2xl font-bold text-primary mb-4">
