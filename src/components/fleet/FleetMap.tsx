@@ -33,8 +33,8 @@ export const FleetMap = () => {
       const mapInstance = new mapboxgl.Map({
         container: mapContainer.current,
         style: "mapbox://styles/mapbox/streets-v12",
-        center: [-122.4194, 37.7749],
-        zoom: 12,
+        center: [-3.7038, 40.4168], // Madrid, Spain coordinates
+        zoom: 5.5, // Zoom level to show most of Spain
       });
 
       mapInstance.addControl(new mapboxgl.NavigationControl(), "top-right");
@@ -134,19 +134,11 @@ export const FleetMap = () => {
   }, [vehicles]);
 
   return (
-    <Card className="col-span-full">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Car className="h-5 w-5" />
-          Fleet Location Overview
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div
-          ref={mapContainer}
-          className="w-full h-[400px] rounded-lg border shadow-sm"
-        />
-      </CardContent>
-    </Card>
+    <div className="w-full h-full">
+      <div
+        ref={mapContainer}
+        className="w-full h-full rounded-lg border shadow-sm"
+      />
+    </div>
   );
 };
