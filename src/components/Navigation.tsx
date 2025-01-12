@@ -33,17 +33,17 @@ export const Navigation = () => {
       ]
     },
     {
-      title: "Support & Help",
+      title: "Account & Support",
       items: [
-        {
-          title: "Customer Support",
-          description: "Get help with your account",
-          link: "/support"
-        },
         {
           title: "Profile Settings",
           description: "Manage your account preferences",
           link: "/profile"
+        },
+        {
+          title: "Customer Support",
+          description: "Get help with your account",
+          link: "/support"
         }
       ]
     }
@@ -149,12 +149,9 @@ export const Navigation = () => {
           </Sheet>
         </div>
 
-        <div className="ml-auto flex items-center space-x-4">
+        <div className="ml-auto flex items-center">
           <Button asChild variant="secondary" className="whitespace-nowrap">
             <Link to="/booking">Book a Ride</Link>
-          </Button>
-          <Button asChild variant="ghost" className="whitespace-nowrap">
-            <Link to="/profile">Profile</Link>
           </Button>
         </div>
       </div>
