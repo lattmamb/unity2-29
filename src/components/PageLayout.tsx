@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Navigation } from "./Navigation";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ChevronLeft, ChevronRight, Home, Settings, HelpCircle, Bell, User, FileText } from "lucide-react";
+import { Menu, ChevronRight } from "lucide-react";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
 interface PageLayoutProps {
   children: React.ReactNode;
@@ -16,55 +17,61 @@ interface PageLayoutProps {
 }
 
 export const PageLayout = ({ children, title, menuItems }: PageLayoutProps) => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      <div className="flex">
-        <div className="flex-1">
-          <div className="container mx-auto px-4 py-8">
-            <h1 className="text-4xl font-bold mb-8">{title}</h1>
-            {children}
-          </div>
-        </div>
-        <div className="relative">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute -left-10 top-4 z-50"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            {isOpen ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
-          </Button>
-          <div className={`transition-all duration-300 ${isOpen ? 'w-80' : 'w-0'} overflow-hidden border-l bg-card`}>
-            <ScrollArea className="h-screen">
-              <div className="p-6 space-y-4">
-                <h3 className="font-semibold text-lg">Quick Actions</h3>
-                <div className="space-y-2">
-                  {menuItems.map((item) => (
-                    <Button
-                      key={item.title}
-                      variant="ghost"
-                      className="w-full justify-start h-auto py-4"
-                      onClick={item.action}
-                    >
-                      <div className="flex items-start space-x-4">
-                        <item.icon className="h-5 w-5 mt-0.5" />
-                        <div className="flex-1 text-left">
-                          <div className="font-medium">{item.title}</div>
-                          <p className="text-sm text-muted-foreground">
-                            {item.description}
-                          </p>
-                        </div>
-                        <ChevronRight className="h-5 w-5 opacity-60" />
+      <div className="container mx-auto px-4 relative">
+        <Sheet open={isOpen} onOpenChange={setIsOpen}>
+          <SheetTrigger asChild>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="absolute left-4 top-4 md:left-8 md:top-8"
+            >
+              <Menu className="h-5 w-5" />
+              <span className="sr-only">Toggle quick actions</span>
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="w-[300px] sm:w-[400px]">
+            <SheetHeader>
+              <SheetTitle>Quick Actions</SheetTitle>
+            </SheetHeader>
+            <ScrollArea className="h-[calc(100vh-4rem)] mt-4">
+              <div className="space-y-2">
+                {menuItems.map((item, index) => (
+                  <Button
+                    key={index}
+                    variant="ghost"
+                    className="w-full justify-start h-auto py-4"
+                    onClick={() => {
+                      if (item.action) {
+                        item.action();
+                        setIsOpen(false);
+                      }
+                    }}
+                  >
+                    <div className="flex items-start space-x-4">
+                      <item.icon className="h-5 w-5 mt-0.5 flex-shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <div className="font-medium truncate">{item.title}</div>
+                        <p className="text-sm text-muted-foreground line-clamp-2">
+                          {item.description}
+                        </p>
                       </div>
-                    </Button>
-                  ))}
-                </div>
+                      <ChevronRight className="h-5 w-5 opacity-60 flex-shrink-0" />
+                    </div>
+                  </Button>
+                ))}
               </div>
             </ScrollArea>
-          </div>
+          </SheetContent>
+        </Sheet>
+        
+        <div className="pt-20 md:pt-24">
+          <h1 className="text-4xl font-bold mb-8">{title}</h1>
+          {children}
         </div>
       </div>
     </div>
