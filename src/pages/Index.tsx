@@ -6,8 +6,22 @@ import { SubscriptionStatus } from "@/components/SubscriptionStatus";
 import { AvailableVehicles } from "@/components/AvailableVehicles";
 import { ActiveRentals } from "@/components/ActiveRentals";
 import { PromotionsBanner } from "@/components/PromotionsBanner";
+import { useEffect } from "react";
 
 const Index = () => {
+  // Add error boundary for postMessage errors
+  useEffect(() => {
+    const handleError = (error: ErrorEvent) => {
+      if (error.message.includes('postMessage')) {
+        console.error('PostMessage Error:', error);
+        // Implement any necessary error recovery here
+      }
+    };
+
+    window.addEventListener('error', handleError);
+    return () => window.removeEventListener('error', handleError);
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
