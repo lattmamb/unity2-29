@@ -3,13 +3,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 
 const stations = [
   {
-    id: 1,
-    name: "Georgia Station Hub",
-    location: "123 Unity Drive",
-    description: "Premium charging station with solar panels and eco-friendly design",
-    imageUrl: "/lovable-uploads/9a7951c8-5fac-4e5d-9c41-4517db1e9f87.png",
-  },
-  {
     id: 2,
     name: "Shopping Center Hub",
     location: "456 Market Avenue",
@@ -36,18 +29,26 @@ export const ChargingStations = () => {
   return (
     <section className="py-16 bg-accent">
       <div className="container mx-auto px-4">
-        <div className="flex flex-col items-center mb-12">
+        <div className="relative h-[400px] mb-16 rounded-xl overflow-hidden">
           <img 
-            src="/lovable-uploads/e00776b3-1f80-47c3-bccc-d21f9cd40dd6.png" 
-            alt="Unity Link Logo" 
-            className="w-32 h-32 mb-6 animate-float"
+            src="/lovable-uploads/9a7951c8-5fac-4e5d-9c41-4517db1e9f87.png" 
+            alt="Georgia Station Hub" 
+            className="w-full h-full object-cover"
           />
-          <h2 className="text-4xl font-bold text-center text-primary mb-4">Unity Link Charging Hub</h2>
-          <p className="text-lg text-muted-foreground text-center max-w-2xl">
-            Experience our state-of-the-art charging stations with solar integration and eco-friendly design
-          </p>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
+            <img 
+              src="/lovable-uploads/e00776b3-1f80-47c3-bccc-d21f9cd40dd6.png" 
+              alt="Unity Link Logo" 
+              className="w-32 h-32 mb-6 animate-float"
+            />
+            <h2 className="text-4xl font-bold text-center mb-4">Unity Link Charging Hub</h2>
+            <p className="text-lg text-center max-w-2xl px-4">
+              Experience our state-of-the-art charging stations with solar integration and eco-friendly design
+            </p>
+          </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {stations.map((station) => (
             <Card 
               key={station.id} 
