@@ -10,12 +10,10 @@ import { useEffect } from "react";
 import { toast } from "@/components/ui/use-toast";
 
 const Index = () => {
-  // Add error boundary for postMessage errors
   useEffect(() => {
     const handleError = (error: ErrorEvent) => {
       if (error.message.includes('postMessage')) {
         console.error('PostMessage Error:', error);
-        // Show a toast notification for better user feedback
         toast({
           title: "Connection Issue",
           description: "We're experiencing some technical difficulties. Please try refreshing the page.",
@@ -25,8 +23,6 @@ const Index = () => {
     };
 
     window.addEventListener('error', handleError);
-    
-    // Cleanup function
     return () => {
       window.removeEventListener('error', handleError);
     };
@@ -36,13 +32,15 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
       <Hero />
-      <main className="container mx-auto px-4 py-12 space-y-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <main className="container mx-auto px-4 py-8 md:py-12 space-y-8 md:space-y-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           <SubscriptionStatus />
           <AvailableVehicles />
           <ActiveRentals />
         </div>
-        <PromotionsBanner />
+        <div className="w-full overflow-hidden">
+          <PromotionsBanner />
+        </div>
       </main>
       <Benefits />
       <Footer />
