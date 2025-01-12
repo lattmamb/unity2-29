@@ -62,51 +62,51 @@ export const SubscriptionPlans = () => {
   };
 
   return (
-    <section className="py-16 bg-accent">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-primary mb-4">Choose Your Plan</h1>
-          <p className="text-lg text-gray-600">
+    <section className="py-8 md:py-16 bg-accent">
+      <div className="container mx-auto px-4 max-w-7xl">
+        <div className="text-center mb-8 md:mb-12">
+          <h1 className="text-3xl md:text-4xl font-bold text-primary mb-3 md:mb-4 break-words">Choose Your Plan</h1>
+          <p className="text-base md:text-lg text-gray-600 px-2">
             Select the perfect subscription that fits your lifestyle
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
           {plans.map((plan) => (
             <Card
               key={plan.name}
-              className={`relative ${
+              className={`relative overflow-hidden ${
                 plan.popular
-                  ? "border-2 border-secondary shadow-lg scale-105"
+                  ? "border-2 border-secondary shadow-lg md:scale-105"
                   : "border border-gray-200"
               }`}
             >
               {plan.popular && (
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <span className="bg-secondary text-secondary-foreground px-4 py-1 rounded-full text-sm font-semibold">
+                  <span className="bg-secondary text-secondary-foreground px-4 py-1 rounded-full text-sm font-semibold whitespace-nowrap">
                     Most Popular
                   </span>
                 </div>
               )}
-              <CardHeader>
-                <CardTitle className="text-2xl">{plan.name}</CardTitle>
-                <CardDescription>{plan.description}</CardDescription>
+              <CardHeader className="space-y-1 p-4 md:p-6">
+                <CardTitle className="text-xl md:text-2xl break-words">{plan.name}</CardTitle>
+                <CardDescription className="text-sm break-words">{plan.description}</CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="mb-6">
-                  <span className="text-4xl font-bold">${plan.price}</span>
+              <CardContent className="p-4 md:p-6">
+                <div className="mb-4 md:mb-6">
+                  <span className="text-3xl md:text-4xl font-bold">${plan.price}</span>
                   <span className="text-gray-600">/month</span>
                 </div>
-                <ul className="space-y-3">
+                <ul className="space-y-2 md:space-y-3">
                   {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-center gap-2">
-                      <Check className="h-5 w-5 text-green-500" />
-                      <span className="text-gray-600">{feature}</span>
+                    <li key={feature} className="flex items-center gap-2 break-words">
+                      <Check className="h-5 w-5 flex-shrink-0 text-green-500" />
+                      <span className="text-sm md:text-base text-gray-600">{feature}</span>
                     </li>
                   ))}
                 </ul>
               </CardContent>
-              <CardFooter>
+              <CardFooter className="p-4 md:p-6">
                 <Button
                   className={`w-full ${
                     plan.popular ? "bg-secondary hover:bg-secondary/90" : ""
@@ -129,30 +129,32 @@ export const SubscriptionPlans = () => {
         </div>
 
         {selectedPlan && (
-          <PlanCustomizer
-            basePlan={selectedPlan}
-            basePrice={plans.find((p) => p.name === selectedPlan)?.price || 0}
-          />
+          <div className="mt-8">
+            <PlanCustomizer
+              basePlan={selectedPlan}
+              basePrice={plans.find((p) => p.name === selectedPlan)?.price || 0}
+            />
+          </div>
         )}
 
         <PlanComparison />
 
-        <div className="mt-16 text-center">
-          <h2 className="text-2xl font-bold text-primary mb-4">
+        <div className="mt-8 md:mt-16 text-center px-4">
+          <h2 className="text-xl md:text-2xl font-bold text-primary mb-4 break-words">
             All Plans Include
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-3xl mx-auto">
             <div className="flex items-center gap-2 justify-center">
-              <Check className="h-5 w-5 text-green-500" />
-              <span>Insurance Coverage</span>
+              <Check className="h-5 w-5 flex-shrink-0 text-green-500" />
+              <span className="text-sm md:text-base break-words">Insurance Coverage</span>
             </div>
             <div className="flex items-center gap-2 justify-center">
-              <Check className="h-5 w-5 text-green-500" />
-              <span>Flexible Cancellation</span>
+              <Check className="h-5 w-5 flex-shrink-0 text-green-500" />
+              <span className="text-sm md:text-base break-words">Flexible Cancellation</span>
             </div>
             <div className="flex items-center gap-2 justify-center">
-              <Check className="h-5 w-5 text-green-500" />
-              <span>24/7 Customer Support</span>
+              <Check className="h-5 w-5 flex-shrink-0 text-green-500" />
+              <span className="text-sm md:text-base break-words">24/7 Customer Support</span>
             </div>
           </div>
         </div>

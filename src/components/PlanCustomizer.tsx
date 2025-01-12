@@ -31,15 +31,15 @@ export const PlanCustomizer = ({
   };
 
   return (
-    <Card className="mt-8">
-      <CardHeader>
-        <CardTitle>Customize Your {basePlan}</CardTitle>
+    <Card className="overflow-hidden">
+      <CardHeader className="p-4 md:p-6">
+        <CardTitle className="text-xl break-words">Customize Your {basePlan}</CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="space-y-6">
+      <CardContent className="p-4 md:p-6">
+        <div className="space-y-4 md:space-y-6">
           {addOns.map((addon, index) => (
             <div key={addon.name} className="space-y-2">
-              <Label>
+              <Label className="block break-words">
                 {addon.name} (+${addon.price}/unit)
               </Label>
               <Input
@@ -47,16 +47,17 @@ export const PlanCustomizer = ({
                 min="0"
                 value={addon.value}
                 onChange={(e) => handleAddonChange(index, parseInt(e.target.value))}
+                className="w-full"
               />
             </div>
           ))}
 
           <div className="space-y-2">
-            <div className="flex justify-between">
+            <div className="flex justify-between text-sm md:text-base">
               <span>Base Price</span>
               <span>${basePrice}</span>
             </div>
-            <div className="flex justify-between font-bold">
+            <div className="flex justify-between font-bold text-sm md:text-base">
               <span>Total Price</span>
               <span>${totalPrice}</span>
             </div>
