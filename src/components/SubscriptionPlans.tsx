@@ -9,8 +9,10 @@ const plans = [
   {
     name: "Essential Plan",
     price: 350,
-    description: "Perfect for occasional drivers",
+    description: "Perfect for occasional drivers - Includes Tesla Model 3",
+    vehicle: "Tesla Model 3",
     features: [
+      "Tesla Model 3 included",
       "Up to 1,000 miles per month",
       "Basic vehicle selection",
       "Standard maintenance coverage",
@@ -21,8 +23,10 @@ const plans = [
   {
     name: "Premium Plan",
     price: 750,
-    description: "Ideal for regular commuters",
+    description: "Ideal for regular commuters - Includes Tesla Model Y",
+    vehicle: "Tesla Model Y",
     features: [
+      "Tesla Model Y included",
       "Up to 2,000 miles per month",
       "Premium vehicle selection",
       "Full maintenance coverage",
@@ -35,8 +39,10 @@ const plans = [
   {
     name: "Elite Plan",
     price: 1500,
-    description: "Ultimate flexibility and luxury",
+    description: "Ultimate flexibility and luxury - Includes Tesla Model X",
+    vehicle: "Tesla Model X",
     features: [
+      "Tesla Model X included",
       "Unlimited miles",
       "Luxury vehicle selection",
       "Comprehensive coverage",
@@ -67,7 +73,7 @@ export const SubscriptionPlans = () => {
         <div className="text-center mb-8 md:mb-12">
           <h1 className="text-3xl md:text-4xl font-bold text-primary mb-3 md:mb-4 break-words">Choose Your Plan</h1>
           <p className="text-base md:text-lg text-gray-600 px-2">
-            Select the perfect subscription that fits your lifestyle
+            Select the perfect Tesla subscription that fits your lifestyle
           </p>
         </div>
 
@@ -90,12 +96,17 @@ export const SubscriptionPlans = () => {
               )}
               <CardHeader className="space-y-1 p-4 md:p-6">
                 <CardTitle className="text-xl md:text-2xl break-words">{plan.name}</CardTitle>
-                <CardDescription className="text-sm break-words">{plan.description}</CardDescription>
+                <CardDescription className="text-sm break-words">
+                  {plan.description}
+                </CardDescription>
               </CardHeader>
               <CardContent className="p-4 md:p-6">
                 <div className="mb-4 md:mb-6">
                   <span className="text-3xl md:text-4xl font-bold">${plan.price}</span>
                   <span className="text-gray-600">/month</span>
+                </div>
+                <div className="mb-4 p-3 bg-secondary/10 rounded-lg">
+                  <p className="text-secondary-foreground font-semibold">{plan.vehicle}</p>
                 </div>
                 <ul className="space-y-2 md:space-y-3">
                   {plan.features.map((feature) => (
