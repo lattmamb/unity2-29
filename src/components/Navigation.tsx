@@ -5,10 +5,13 @@ import { Link } from "react-router-dom";
 
 export const Navigation = () => {
   return (
-    <div className="border-b">
+    <div className="border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
       <div className="flex h-16 items-center px-4 container mx-auto">
         <div className="mr-8 flex items-center space-x-2">
-          <Link to="/" className="text-2xl font-bold text-primary">Unity Fleet</Link>
+          <Link to="/" className="flex items-center space-x-2">
+            <img src="/lovable-uploads/f927bb84-ef36-4762-8d10-ade9a41f18ce.png" alt="Unity Fleet Logo" className="h-8 w-8" />
+            <span className="text-2xl font-bold text-primary">Unity Fleet</span>
+          </Link>
         </div>
         <NavigationMenu>
           <NavigationMenuList>
