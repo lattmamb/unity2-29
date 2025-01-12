@@ -13,11 +13,13 @@ interface PageLayoutProps {
     icon: any;
     description: string;
     action?: () => void;
+    component?: React.ReactNode;
   }>;
 }
 
 export const PageLayout = ({ children, title, menuItems }: PageLayoutProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeComponent, setActiveComponent] = useState<React.ReactNode | null>(null);
 
   return (
     <div className="min-h-screen bg-background">
@@ -36,35 +38,54 @@ export const PageLayout = ({ children, title, menuItems }: PageLayoutProps) => {
           </SheetTrigger>
           <SheetContent side="left" className="w-[300px] sm:w-[400px]">
             <SheetHeader>
-              <SheetTitle>Quick Actions</SheetTitle>
+              <SheetTitle>
+                {activeComponent ? (
+                  <Button 
+                    variant="ghost" 
+                    className="px-0" 
+                    onClick={() => setActiveComponent(null)}
+                  >
+                    <ChevronRight className="h-4 w-4 rotate-180 mr-2" />
+                    Back to Quick Actions
+                  </Button>
+                ) : (
+                  "Quick Actions"
+                )}
+              </SheetTitle>
             </SheetHeader>
             <ScrollArea className="h-[calc(100vh-4rem)] mt-4">
-              <div className="space-y-2">
-                {menuItems.map((item, index) => (
-                  <Button
-                    key={index}
-                    variant="ghost"
-                    className="w-full justify-start h-auto py-4"
-                    onClick={() => {
-                      if (item.action) {
-                        item.action();
-                        setIsOpen(false);
-                      }
-                    }}
-                  >
-                    <div className="flex items-start space-x-4">
-                      <item.icon className="h-5 w-5 mt-0.5 flex-shrink-0" />
-                      <div className="flex-1 min-w-0">
-                        <div className="font-medium truncate">{item.title}</div>
-                        <p className="text-sm text-muted-foreground line-clamp-2">
-                          {item.description}
-                        </p>
+              {activeComponent ? (
+                activeComponent
+              ) : (
+                <div className="space-y-2">
+                  {menuItems.map((item, index) => (
+                    <Button
+                      key={index}
+                      variant="ghost"
+                      className="w-full justify-start h-auto py-4"
+                      onClick={() => {
+                        if (item.component) {
+                          setActiveComponent(item.component);
+                        } else if (item.action) {
+                          item.action();
+                          setIsOpen(false);
+                        }
+                      }}
+                    >
+                      <div className="flex items-start space-x-4">
+                        <item.icon className="h-5 w-5 mt-0.5 flex-shrink-0" />
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium truncate">{item.title}</div>
+                          <p className="text-sm text-muted-foreground line-clamp-2">
+                            {item.description}
+                          </p>
+                        </div>
+                        <ChevronRight className="h-5 w-5 opacity-60 flex-shrink-0" />
                       </div>
-                      <ChevronRight className="h-5 w-5 opacity-60 flex-shrink-0" />
-                    </div>
-                  </Button>
-                ))}
-              </div>
+                    </Button>
+                  ))}
+                </div>
+              )}
             </ScrollArea>
           </SheetContent>
         </Sheet>

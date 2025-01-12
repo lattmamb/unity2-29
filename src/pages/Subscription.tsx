@@ -1,9 +1,19 @@
 import { SubscriptionPlans } from "@/components/SubscriptionPlans";
 import { PageLayout } from "@/components/PageLayout";
-import { CreditCard, Gift, HelpCircle, Settings, Zap } from "lucide-react";
+import { Car, CreditCard, Gift, HelpCircle, Settings, Zap } from "lucide-react";
+import { VehicleOverview } from "@/components/VehicleOverview";
 
 export default function Subscription() {
   const menuItems = [
+    {
+      title: "Vehicle Overview",
+      icon: Car,
+      description: "Browse available vehicles and their subscription tiers",
+      action: () => {
+        // The action will be handled by the Sheet component
+      },
+      component: <VehicleOverview />
+    },
     {
       title: "Quick Subscribe",
       icon: Zap,
