@@ -47,6 +47,11 @@ const plans = [
 ];
 
 export const SubscriptionPlans = () => {
+  const handleSubscribe = (planName: string) => {
+    // TODO: Implement subscription logic
+    console.log(`Subscribing to ${planName}`);
+  };
+
   return (
     <section className="py-16 bg-accent">
       <div className="container mx-auto px-4">
@@ -97,6 +102,7 @@ export const SubscriptionPlans = () => {
                   className={`w-full ${
                     plan.popular ? "bg-secondary hover:bg-secondary/90" : ""
                   }`}
+                  onClick={() => handleSubscribe(plan.name)}
                 >
                   Subscribe Now
                 </Button>

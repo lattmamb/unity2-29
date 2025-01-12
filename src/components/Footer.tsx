@@ -1,4 +1,5 @@
 import { Facebook, Twitter, Instagram, Youtube } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const Footer = () => {
   return (
@@ -14,27 +15,35 @@ export const Footer = () => {
           <div>
             <h4 className="font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
-              <li><a href="#" className="text-white/80 hover:text-white">About Us</a></li>
-              <li><a href="#" className="text-white/80 hover:text-white">How It Works</a></li>
-              <li><a href="#" className="text-white/80 hover:text-white">Pricing</a></li>
-              <li><a href="#" className="text-white/80 hover:text-white">Support</a></li>
+              <li><Link to="/about" className="text-white/80 hover:text-white">About Us</Link></li>
+              <li><Link to="/subscription" className="text-white/80 hover:text-white">How It Works</Link></li>
+              <li><Link to="/subscription" className="text-white/80 hover:text-white">Pricing</Link></li>
+              <li><Link to="/support" className="text-white/80 hover:text-white">Support</Link></li>
             </ul>
           </div>
           <div>
             <h4 className="font-semibold mb-4">Legal</h4>
             <ul className="space-y-2">
-              <li><a href="#" className="text-white/80 hover:text-white">Privacy Policy</a></li>
-              <li><a href="#" className="text-white/80 hover:text-white">Terms of Service</a></li>
-              <li><a href="#" className="text-white/80 hover:text-white">Cookie Policy</a></li>
+              <li><Link to="/privacy" className="text-white/80 hover:text-white">Privacy Policy</Link></li>
+              <li><Link to="/terms" className="text-white/80 hover:text-white">Terms of Service</Link></li>
+              <li><Link to="/cookies" className="text-white/80 hover:text-white">Cookie Policy</Link></li>
             </ul>
           </div>
           <div>
             <h4 className="font-semibold mb-4">Connect With Us</h4>
             <div className="flex space-x-4">
-              <a href="#" className="hover:text-secondary"><Facebook className="w-6 h-6" /></a>
-              <a href="#" className="hover:text-secondary"><Twitter className="w-6 h-6" /></a>
-              <a href="#" className="hover:text-secondary"><Instagram className="w-6 h-6" /></a>
-              <a href="#" className="hover:text-secondary"><Youtube className="w-6 h-6" /></a>
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-secondary">
+                <Facebook className="w-6 h-6" />
+              </a>
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-secondary">
+                <Twitter className="w-6 h-6" />
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-secondary">
+                <Instagram className="w-6 h-6" />
+              </a>
+              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="hover:text-secondary">
+                <Youtube className="w-6 h-6" />
+              </a>
             </div>
           </div>
         </div>
