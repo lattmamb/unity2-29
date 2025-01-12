@@ -15,33 +15,33 @@ export const Footer = () => {
           <div>
             <h4 className="font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
-              <li><Link to="/about" className="text-white/80 hover:text-white">About Us</Link></li>
-              <li><Link to="/subscription" className="text-white/80 hover:text-white">How It Works</Link></li>
-              <li><Link to="/subscription" className="text-white/80 hover:text-white">Pricing</Link></li>
-              <li><Link to="/support" className="text-white/80 hover:text-white">Support</Link></li>
+              <li><Link to="/about" className="text-white/80 hover:text-white transition-colors">About Us</Link></li>
+              <li><Link to="/subscription" className="text-white/80 hover:text-white transition-colors">How It Works</Link></li>
+              <li><Link to="/subscription" className="text-white/80 hover:text-white transition-colors">Pricing</Link></li>
+              <li><Link to="/support" className="text-white/80 hover:text-white transition-colors">Support</Link></li>
             </ul>
           </div>
           <div>
             <h4 className="font-semibold mb-4">Legal</h4>
             <ul className="space-y-2">
-              <li><Link to="/privacy" className="text-white/80 hover:text-white">Privacy Policy</Link></li>
-              <li><Link to="/terms" className="text-white/80 hover:text-white">Terms of Service</Link></li>
-              <li><Link to="/cookies" className="text-white/80 hover:text-white">Cookie Policy</Link></li>
+              <li><Link to="/privacy" className="text-white/80 hover:text-white transition-colors">Privacy Policy</Link></li>
+              <li><Link to="/terms" className="text-white/80 hover:text-white transition-colors">Terms of Service</Link></li>
+              <li><Link to="/cookies" className="text-white/80 hover:text-white transition-colors">Cookie Policy</Link></li>
             </ul>
           </div>
           <div>
             <h4 className="font-semibold mb-4">Connect With Us</h4>
             <div className="flex space-x-4">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-secondary">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-secondary transition-colors">
                 <Facebook className="w-6 h-6" />
               </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-secondary">
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-secondary transition-colors">
                 <Twitter className="w-6 h-6" />
               </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-secondary">
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-secondary transition-colors">
                 <Instagram className="w-6 h-6" />
               </a>
-              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="hover:text-secondary">
+              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="hover:text-secondary transition-colors">
                 <Youtube className="w-6 h-6" />
               </a>
             </div>
