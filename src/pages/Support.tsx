@@ -1,15 +1,38 @@
-import { Navigation } from "@/components/Navigation";
-import { Footer } from "@/components/Footer";
+import { PageLayout } from "@/components/PageLayout";
+import { MessageCircle, Phone, Mail, FileText, HelpCircle } from "lucide-react";
 
 export default function Support() {
+  const menuItems = [
+    {
+      title: "Live Chat",
+      icon: MessageCircle,
+      description: "Chat with our support team",
+    },
+    {
+      title: "Phone Support",
+      icon: Phone,
+      description: "Call our support hotline",
+    },
+    {
+      title: "Email Support",
+      icon: Mail,
+      description: "Send us an email",
+    },
+    {
+      title: "FAQs",
+      icon: HelpCircle,
+      description: "Browse frequently asked questions",
+    },
+    {
+      title: "Submit Ticket",
+      icon: FileText,
+      description: "Create a new support ticket",
+    },
+  ];
+
   return (
-    <div className="min-h-screen">
-      <Navigation />
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold mb-8">Support</h1>
-        <p>Support content coming soon...</p>
-      </div>
-      <Footer />
-    </div>
+    <PageLayout title="Support" menuItems={menuItems}>
+      <p>Support content coming soon...</p>
+    </PageLayout>
   );
 }
