@@ -4,7 +4,7 @@ import { FleetStats } from "@/components/fleet/FleetStats";
 import { MaintenanceAlerts } from "@/components/fleet/MaintenanceAlerts";
 import { UsageReports } from "@/components/fleet/UsageReports";
 import { SupportSection } from "@/components/fleet/SupportSection";
-import { Car, Tool, Battery, Map, AlertTriangle } from "lucide-react";
+import { Car, Wrench, Battery, Map, AlertTriangle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function Fleet() {
@@ -18,7 +18,7 @@ export default function Fleet() {
     },
     {
       title: "Maintenance Schedule",
-      icon: Tool,
+      icon: Wrench,
       description: "View and manage maintenance tasks",
     },
     {
