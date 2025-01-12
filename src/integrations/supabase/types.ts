@@ -9,6 +9,50 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      bookings: {
+        Row: {
+          created_at: string
+          end_time: string
+          id: string
+          pickup_location: unknown
+          start_time: string
+          status: string | null
+          updated_at: string
+          user_id: string
+          vehicle_id: string
+        }
+        Insert: {
+          created_at?: string
+          end_time: string
+          id?: string
+          pickup_location: unknown
+          start_time: string
+          status?: string | null
+          updated_at?: string
+          user_id: string
+          vehicle_id: string
+        }
+        Update: {
+          created_at?: string
+          end_time?: string
+          id?: string
+          pickup_location?: unknown
+          start_time?: string
+          status?: string | null
+          updated_at?: string
+          user_id?: string
+          vehicle_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_vehicle_id_fkey"
+            columns: ["vehicle_id"]
+            isOneToOne: false
+            referencedRelation: "vehicles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -30,6 +74,42 @@ export type Database = {
         }
         Relationships: []
       }
+      vehicles: {
+        Row: {
+          battery_level: number | null
+          created_at: string
+          current_location: unknown | null
+          id: string
+          image_url: string | null
+          name: string
+          status: Database["public"]["Enums"]["vehicle_status"] | null
+          type: Database["public"]["Enums"]["vehicle_type"]
+          updated_at: string
+        }
+        Insert: {
+          battery_level?: number | null
+          created_at?: string
+          current_location?: unknown | null
+          id?: string
+          image_url?: string | null
+          name: string
+          status?: Database["public"]["Enums"]["vehicle_status"] | null
+          type: Database["public"]["Enums"]["vehicle_type"]
+          updated_at?: string
+        }
+        Update: {
+          battery_level?: number | null
+          created_at?: string
+          current_location?: unknown | null
+          id?: string
+          image_url?: string | null
+          name?: string
+          status?: Database["public"]["Enums"]["vehicle_status"] | null
+          type?: Database["public"]["Enums"]["vehicle_type"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -38,7 +118,8 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      vehicle_status: "available" | "booked" | "maintenance"
+      vehicle_type: "autonomous" | "driver"
     }
     CompositeTypes: {
       [_ in never]: never
