@@ -7,6 +7,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { addHours, setHours, setMinutes, format } from "date-fns";
+import { useToast } from "@/components/ui/use-toast";
 
 type DateTimeSelectorProps = {
   startTime?: Date;
@@ -19,9 +20,12 @@ export function DateTimeSelector({
   endTime,
   onSelect,
 }: DateTimeSelectorProps) {
+  const { toast } = useToast();
+
   const generateTimeSlots = () => {
     const slots = [];
-    for (let hour = 0; hour < 24; hour++) {
+    // Generate time slots from 6 AM to 10 PM
+    for (let hour = 6; hour <= 22; hour++) {
       for (let minute = 0; minute < 60; minute += 30) {
         const time = new Date();
         time.setHours(hour, minute, 0, 0);
@@ -34,34 +38,90 @@ export function DateTimeSelector({
   const handleDateSelect = (date: Date | undefined) => {
     if (!date) return;
     
+    // Set default start time to 9 AM
     const newStartTime = setHours(
       setMinutes(date, 0),
       9
     );
+    
+    // Set default duration to 4 hours
     const newEndTime = addHours(newStartTime, 4);
+    
+    // Validate if the selected date is not in the past
+    if (newStartTime < new Date()) {
+      toast({
+        title: "Invalid Date Selection",
+        description: "Please select a future date for your booking.",
+        variant: "destructive",
+      });
+      return;
+    }
     
     onSelect(newStartTime, newEndTime);
   };
 
   const handleStartTimeSelect = (time: string) => {
-    if (!startTime) return;
+    if (!startTime) {
+      toast({
+        title: "Select Date First",
+        description: "Please select a date before choosing a time.",
+        variant: "destructive",
+      });
+      return;
+    }
     
     const [hours, minutes] = time.split(":").map(Number);
     const newStartTime = setHours(setMinutes(startTime, minutes), hours);
-    const newEndTime = addHours(newStartTime, 4);
     
+    // Ensure start time is not in the past
+    if (newStartTime < new Date()) {
+      toast({
+        title: "Invalid Time Selection",
+        description: "Please select a future time for your booking.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    const newEndTime = addHours(newStartTime, 4);
     onSelect(newStartTime, newEndTime);
   };
 
   const handleEndTimeSelect = (time: string) => {
-    if (!startTime || !endTime) return;
+    if (!startTime || !endTime) {
+      toast({
+        title: "Select Start Time First",
+        description: "Please select a start time before choosing an end time.",
+        variant: "destructive",
+      });
+      return;
+    }
     
     const [hours, minutes] = time.split(":").map(Number);
     const newEndTime = setHours(setMinutes(endTime, minutes), hours);
     
-    if (newEndTime > startTime) {
-      onSelect(startTime, newEndTime);
+    // Ensure end time is after start time
+    if (newEndTime <= startTime) {
+      toast({
+        title: "Invalid Time Selection",
+        description: "End time must be after start time.",
+        variant: "destructive",
+      });
+      return;
     }
+    
+    // Ensure minimum booking duration of 1 hour
+    const hoursDiff = (newEndTime.getTime() - startTime.getTime()) / (1000 * 60 * 60);
+    if (hoursDiff < 1) {
+      toast({
+        title: "Invalid Duration",
+        description: "Minimum booking duration is 1 hour.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    onSelect(startTime, newEndTime);
   };
 
   return (
