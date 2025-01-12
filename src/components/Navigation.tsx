@@ -112,14 +112,14 @@ export const Navigation = () => {
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-[300px] sm:w-[400px]">
+            <SheetContent side="left" className="w-[300px] sm:w-[400px] overflow-y-auto">
               <SheetHeader>
                 <SheetTitle>Menu</SheetTitle>
               </SheetHeader>
               <div className="py-4">
                 {menuItems.map((section, index) => (
                   <div key={index} className="mb-6">
-                    <h3 className="font-medium text-lg mb-2">{section.title}</h3>
+                    <h3 className="font-medium text-lg mb-2 truncate">{section.title}</h3>
                     <div className="space-y-2">
                       {section.items.map((item, itemIndex) => (
                         <Button
@@ -129,14 +129,14 @@ export const Navigation = () => {
                           asChild
                         >
                           <Link to={item.link}>
-                            <div className="flex items-start space-x-4">
-                              <div className="flex-1 text-left">
-                                <div className="font-medium">{item.title}</div>
-                                <p className="text-sm text-muted-foreground">
+                            <div className="flex items-start space-x-4 w-full">
+                              <div className="flex-1 min-w-0">
+                                <div className="font-medium truncate">{item.title}</div>
+                                <p className="text-sm text-muted-foreground line-clamp-2">
                                   {item.description}
                                 </p>
                               </div>
-                              <ChevronRight className="h-5 w-5 opacity-60" />
+                              <ChevronRight className="h-5 w-5 opacity-60 flex-shrink-0" />
                             </div>
                           </Link>
                         </Button>
@@ -150,10 +150,10 @@ export const Navigation = () => {
         </div>
 
         <div className="ml-auto flex items-center space-x-4">
-          <Button asChild variant="secondary">
+          <Button asChild variant="secondary" className="whitespace-nowrap">
             <Link to="/booking">Book a Ride</Link>
           </Button>
-          <Button asChild variant="ghost">
+          <Button asChild variant="ghost" className="whitespace-nowrap">
             <Link to="/profile">Profile</Link>
           </Button>
         </div>
