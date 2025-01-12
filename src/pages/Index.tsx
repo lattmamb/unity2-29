@@ -7,6 +7,7 @@ import { AvailableVehicles } from "@/components/AvailableVehicles";
 import { ActiveRentals } from "@/components/ActiveRentals";
 import { PromotionsBanner } from "@/components/PromotionsBanner";
 import { useEffect } from "react";
+import { toast } from "@/components/ui/use-toast";
 
 const Index = () => {
   // Add error boundary for postMessage errors
@@ -14,12 +15,21 @@ const Index = () => {
     const handleError = (error: ErrorEvent) => {
       if (error.message.includes('postMessage')) {
         console.error('PostMessage Error:', error);
-        // Implement any necessary error recovery here
+        // Show a toast notification for better user feedback
+        toast({
+          title: "Connection Issue",
+          description: "We're experiencing some technical difficulties. Please try refreshing the page.",
+          variant: "destructive",
+        });
       }
     };
 
     window.addEventListener('error', handleError);
-    return () => window.removeEventListener('error', handleError);
+    
+    // Cleanup function
+    return () => {
+      window.removeEventListener('error', handleError);
+    };
   }, []);
 
   return (
