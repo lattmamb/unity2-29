@@ -11,6 +11,7 @@ export const FleetMap = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const markers = useRef<{ [key: string]: mapboxgl.Marker }>({});
+  const isMounted = useRef(false);
 
   const { data: vehicles } = useQuery({
     queryKey: ["vehicles"],
@@ -23,27 +24,37 @@ export const FleetMap = () => {
     },
   });
 
+  // Initialize map
   useEffect(() => {
-    if (!mapContainer.current) return;
+    if (!mapContainer.current || map.current) return;
 
     mapboxgl.accessToken = "pk.eyJ1IjoibG92YWJsZSIsImEiOiJjbHRwbXB5YmkwMXB4MmltbGVtN3J4ZHJ4In0.a9EvQY0dVsxU2YPqZRXXdg";
 
-    map.current = new mapboxgl.Map({
+    const mapInstance = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/streets-v12",
       center: [-122.4194, 37.7749], // Default to San Francisco
       zoom: 12,
     });
 
-    map.current.addControl(new mapboxgl.NavigationControl(), "top-right");
+    mapInstance.addControl(new mapboxgl.NavigationControl(), "top-right");
+    map.current = mapInstance;
+    isMounted.current = true;
 
     return () => {
-      map.current?.remove();
+      Object.values(markers.current).forEach(marker => marker.remove());
+      markers.current = {};
+      if (map.current) {
+        map.current.remove();
+        map.current = null;
+      }
+      isMounted.current = false;
     };
   }, []);
 
+  // Update markers when vehicles data changes
   useEffect(() => {
-    if (!map.current || !vehicles) return;
+    if (!map.current || !vehicles || !isMounted.current) return;
 
     // Clear existing markers
     Object.values(markers.current).forEach(marker => marker.remove());
@@ -85,6 +96,8 @@ export const FleetMap = () => {
         return;
       }
 
+      if (!isMounted.current) return;
+
       const el = document.createElement("div");
       el.className = "w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white cursor-pointer hover:bg-primary/90 transition-colors";
       el.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>`;
@@ -106,7 +119,7 @@ export const FleetMap = () => {
     });
 
     // Fit bounds to show all markers
-    if (Object.keys(markers.current).length > 0) {
+    if (Object.keys(markers.current).length > 0 && isMounted.current) {
       const bounds = new mapboxgl.LngLatBounds();
       Object.values(markers.current).forEach(marker => {
         bounds.extend(marker.getLngLat());
