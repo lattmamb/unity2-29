@@ -13,6 +13,7 @@ import Locations from "./pages/Locations";
 import Support from "./pages/Support";
 import Profile from "./pages/Profile";
 import Booking from "./pages/Booking";
+import ChargingStations from "./pages/ChargingStations";
 
 const queryClient = new QueryClient();
 
@@ -78,6 +79,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <Booking />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/charging-stations"
+              element={
+                <ProtectedRoute>
+                  <ChargingStations />
                 </ProtectedRoute>
               }
             />
