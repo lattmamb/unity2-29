@@ -53,11 +53,24 @@ export default function Booking() {
     }
 
     try {
+      // Get the current user
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        toast({
+          title: "Authentication Required",
+          description: "Please sign in to make a booking.",
+          variant: "destructive",
+        });
+        return;
+      }
+
       const { error } = await supabase.from("bookings").insert({
         vehicle_id: bookingData.vehicle.id,
+        user_id: user.id,
         start_time: bookingData.startTime.toISOString(),
         end_time: bookingData.endTime.toISOString(),
-        pickup_location: `(${bookingData.pickupLocation.lng},${bookingData.pickupLocation.lat})`,
+        pickup_location: `(${bookingData.pickupLocation.lng},${bookingData.pickupLocation.lat})` as unknown,
         status: "pending",
       });
 
