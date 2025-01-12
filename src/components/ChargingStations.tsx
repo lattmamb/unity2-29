@@ -36,7 +36,14 @@ export const ChargingStations = () => {
   return (
     <section className="py-16 bg-accent">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-12">Unity Link Charging Station Hubs</h2>
+        <div className="flex flex-col items-center mb-12">
+          <img 
+            src="/lovable-uploads/e00776b3-1f80-47c3-bccc-d21f9cd40dd6.png" 
+            alt="Unity Link Logo" 
+            className="w-32 h-32 mb-6 animate-float"
+          />
+          <h2 className="text-4xl font-bold text-center text-primary">Unity Link Charging Hub</h2>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {stations.map((station) => (
             <Card key={station.id} className="overflow-hidden hover:shadow-lg transition-shadow">
