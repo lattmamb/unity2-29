@@ -51,6 +51,7 @@ export const PlanCustomizer = ({
   const [savings, setSavings] = useState(0);
 
   useEffect(() => {
+    // Calculate bulk discount savings
     const totalAddOns = addOns.reduce((acc, addon) => acc + addon.price * addon.value, 0);
     const bulkDiscount = totalAddOns > 500 ? totalAddOns * 0.1 : 0;
     setSavings(bulkDiscount);
@@ -71,9 +72,9 @@ export const PlanCustomizer = ({
   };
 
   return (
-    <Card className="glass-card overflow-hidden border border-secondary/20">
-      <CardHeader className="p-4 md:p-6 bg-secondary/5">
-        <CardTitle className="text-xl md:text-2xl flex items-center justify-between text-white">
+    <Card className="overflow-hidden">
+      <CardHeader className="p-4 md:p-6 bg-accent/50">
+        <CardTitle className="text-xl md:text-2xl break-words flex items-center justify-between">
           Customize Your {basePlan}
           {savings > 0 && (
             <Badge variant="secondary" className="ml-2">
@@ -87,10 +88,10 @@ export const PlanCustomizer = ({
           {addOns.map((addon, index) => (
             <div key={addon.name} className="space-y-2">
               <div className="flex justify-between items-center">
-                <Label className="text-base text-gray-300">
+                <Label className="text-base break-words">
                   {addon.name}
                 </Label>
-                <div className="text-sm text-secondary">
+                <div className="text-sm text-muted-foreground">
                   +${addon.price * addon.value}
                 </div>
               </div>
@@ -104,7 +105,7 @@ export const PlanCustomizer = ({
                     className="w-full"
                   />
                 </div>
-                <div className="w-24 text-right text-sm text-gray-400">
+                <div className="w-16 text-right text-sm">
                   {addon.value} {addon.unit}
                 </div>
               </div>
@@ -112,19 +113,19 @@ export const PlanCustomizer = ({
           ))}
         </div>
 
-        <div className="pt-4 border-t border-secondary/20 space-y-4">
+        <div className="pt-4 border-t space-y-4">
           <div className="space-y-2">
-            <div className="flex justify-between text-sm text-gray-400">
+            <div className="flex justify-between text-sm text-muted-foreground">
               <span>Base Price</span>
               <span>${basePrice}</span>
             </div>
             {savings > 0 && (
-              <div className="flex justify-between text-sm text-secondary">
+              <div className="flex justify-between text-sm text-green-600">
                 <span>Bulk Discount</span>
                 <span>-${savings.toFixed(0)}</span>
               </div>
             )}
-            <div className="flex justify-between font-bold text-lg text-white">
+            <div className="flex justify-between font-bold text-lg">
               <span>Total Price</span>
               <span>${totalPrice.toFixed(0)}</span>
             </div>
@@ -132,10 +133,10 @@ export const PlanCustomizer = ({
 
           <Progress 
             value={(totalPrice / 2000) * 100} 
-            className="h-2 bg-secondary/20"
+            className="h-2"
           />
           
-          <p className="text-sm text-gray-400 text-center">
+          <p className="text-sm text-muted-foreground text-center">
             {totalPrice > 1500 
               ? "Maximum plan value reached" 
               : "Adjust add-ons to customize your plan"}

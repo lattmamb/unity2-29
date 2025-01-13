@@ -20,20 +20,20 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#1E293B",
-          foreground: "#E2E8F0",
+          DEFAULT: "#1a365d",
+          foreground: "#ffffff",
         },
         secondary: {
-          DEFAULT: "#60A5FA",
-          foreground: "#1E293B",
+          DEFAULT: "#00f0ff",
+          foreground: "#1a365d",
         },
         accent: {
-          DEFAULT: "#F0F9FF",
-          foreground: "#1E293B",
+          DEFAULT: "#f0f9ff",
+          foreground: "#1a365d",
         },
         eco: {
           DEFAULT: "#4ade80",
-          foreground: "#1E293B",
+          foreground: "#1a365d",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
@@ -92,36 +92,6 @@ export default {
             opacity: "0.8",
           },
         },
-        "slide-in": {
-          "0%": {
-            transform: "translateX(-100%)",
-            opacity: "0",
-          },
-          "100%": {
-            transform: "translateX(0)",
-            opacity: "1",
-          },
-        },
-        "scale-in": {
-          "0%": {
-            transform: "scale(0.95)",
-            opacity: "0",
-          },
-          "100%": {
-            transform: "scale(1)",
-            opacity: "1",
-          },
-        },
-        "glow": {
-          "0%, 100%": {
-            opacity: "1",
-            filter: "brightness(100%)",
-          },
-          "50%": {
-            opacity: "0.8",
-            filter: "brightness(150%)",
-          },
-        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -129,15 +99,11 @@ export default {
         "fade-up": "fade-up 0.5s ease-out forwards",
         "float": "float 3s ease-in-out infinite",
         "pulse-soft": "pulse-soft 2s ease-in-out infinite",
-        "slide-in": "slide-in 0.3s ease-out",
-        "scale-in": "scale-in 0.2s ease-out",
-        "glow": "glow 2s ease-in-out infinite",
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-        'hero-pattern': 'linear-gradient(to right, rgba(30, 41, 59, 0.9), rgba(30, 41, 59, 0.8)), url("/hero-bg.jpg")',
-        'circuit-pattern': 'url("/lovable-uploads/ceb8bbc9-bf28-495a-85d3-9d6517dd5736.png")',
+        'hero-pattern': 'linear-gradient(to right, rgba(26, 54, 93, 0.9), rgba(26, 54, 93, 0.8)), url("/hero-bg.jpg")',
       },
     },
   },

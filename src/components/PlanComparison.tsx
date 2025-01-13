@@ -49,59 +49,56 @@ const features = [
 export const PlanComparison = () => {
   return (
     <div className="mt-8 md:mt-16">
-      <h2 className="text-xl md:text-2xl font-bold text-white mb-6 md:mb-8 text-center">
+      <h2 className="text-xl md:text-2xl font-bold text-primary mb-6 md:mb-8 text-center break-words">
         Detailed Plan Comparison
       </h2>
       <div className="overflow-x-auto -mx-4 md:mx-0">
         <div className="min-w-full inline-block align-middle">
-          <div className="overflow-hidden glass-card rounded-lg border border-secondary/20">
+          <div className="overflow-hidden">
             <Table>
               <TableHeader>
-                <TableRow className="border-b border-secondary/20">
-                  <TableHead className="text-secondary">Features</TableHead>
-                  <TableHead className="text-secondary">Essential</TableHead>
-                  <TableHead className="text-secondary">Premium</TableHead>
-                  <TableHead className="text-secondary">Elite</TableHead>
+                <TableRow>
+                  <TableHead className="whitespace-nowrap">Features</TableHead>
+                  <TableHead className="whitespace-nowrap">Essential</TableHead>
+                  <TableHead className="whitespace-nowrap">Premium</TableHead>
+                  <TableHead className="whitespace-nowrap">Elite</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {features.map((feature) => (
-                  <TableRow 
-                    key={feature.name}
-                    className="border-b border-secondary/20 hover:bg-secondary/5 transition-colors"
-                  >
-                    <TableCell className="font-medium text-gray-300">{feature.name}</TableCell>
-                    <TableCell>
+                  <TableRow key={feature.name}>
+                    <TableCell className="font-medium break-words">{feature.name}</TableCell>
+                    <TableCell className="whitespace-nowrap">
                       {typeof feature.essential === "boolean" ? (
                         feature.essential ? (
-                          <Check className="h-5 w-5 text-secondary" />
+                          <Check className="h-5 w-5 text-green-500" />
                         ) : (
-                          <X className="h-5 w-5 text-gray-500" />
+                          <X className="h-5 w-5 text-red-500" />
                         )
                       ) : (
-                        <span className="text-gray-300">{feature.essential}</span>
+                        feature.essential
                       )}
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="whitespace-nowrap">
                       {typeof feature.premium === "boolean" ? (
                         feature.premium ? (
-                          <Check className="h-5 w-5 text-secondary" />
+                          <Check className="h-5 w-5 text-green-500" />
                         ) : (
-                          <X className="h-5 w-5 text-gray-500" />
+                          <X className="h-5 w-5 text-red-500" />
                         )
                       ) : (
-                        <span className="text-gray-300">{feature.premium}</span>
+                        feature.premium
                       )}
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="whitespace-nowrap">
                       {typeof feature.elite === "boolean" ? (
                         feature.elite ? (
-                          <Check className="h-5 w-5 text-secondary" />
+                          <Check className="h-5 w-5 text-green-500" />
                         ) : (
-                          <X className="h-5 w-5 text-gray-500" />
+                          <X className="h-5 w-5 text-red-500" />
                         )
                       ) : (
-                        <span className="text-gray-300">{feature.elite}</span>
+                        feature.elite
                       )}
                     </TableCell>
                   </TableRow>
