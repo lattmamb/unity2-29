@@ -13,8 +13,8 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 217.2 32.6% 17.5%;
+    --primary-foreground: 210 40% 98%;
 
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
@@ -73,6 +73,10 @@
 
   body {
     @apply bg-gradient-to-b from-background to-background/80 text-foreground min-h-screen;
+    background-image: linear-gradient(to bottom, rgba(30, 41, 59, 0.95), rgba(30, 41, 59, 0.9)), url('/lovable-uploads/ceb8bbc9-bf28-495a-85d3-9d6517dd5736.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
   }
 
   /* Custom scrollbar styles */
@@ -103,7 +107,7 @@
 /* Custom utility classes */
 @layer utilities {
   .glass-card {
-    @apply bg-white/10 backdrop-blur-md border border-white/20 shadow-xl;
+    @apply bg-white/5 backdrop-blur-md border border-white/10 shadow-xl;
   }
 
   .neo-blur {
@@ -111,10 +115,30 @@
     -webkit-backdrop-filter: blur(10px);
   }
 
+  .text-glow {
+    text-shadow: 0 0 10px rgba(96, 165, 250, 0.5);
+  }
+
+  .glow-effect {
+    box-shadow: 0 0 15px rgba(96, 165, 250, 0.3);
+  }
+
   .circuit-pattern {
-    background-image: url('/lovable-uploads/242c57aa-fa61-4248-8056-5fec85a67360.png');
+    background-image: url('/lovable-uploads/ceb8bbc9-bf28-495a-85d3-9d6517dd5736.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600;
+  }
+
+  .hover-glow {
+    @apply transition-all duration-300;
+  }
+
+  .hover-glow:hover {
+    @apply glow-effect;
   }
 }
