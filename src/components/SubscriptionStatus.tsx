@@ -22,9 +22,9 @@ export const SubscriptionStatus = () => {
   });
 
   return (
-    <Card>
+    <Card className="glass-card animate-fade-up">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-secondary">
           <CreditCard className="h-5 w-5" />
           Subscription Status
         </CardTitle>
@@ -32,16 +32,16 @@ export const SubscriptionStatus = () => {
       <CardContent className="space-y-4">
         <div className="space-y-2">
           <p className="text-sm text-muted-foreground">Current Plan</p>
-          <p className="text-lg font-semibold">{subscription?.plan}</p>
+          <p className="text-lg font-semibold glow-text">{subscription?.plan}</p>
         </div>
         <div className="space-y-2">
           <p className="text-sm text-muted-foreground">Renewal Date</p>
-          <p className="flex items-center gap-2">
+          <p className="flex items-center gap-2 text-secondary">
             <Calendar className="h-4 w-4" />
             {subscription?.renewalDate}
           </p>
         </div>
-        <Button className="w-full" variant="outline">
+        <Button className="w-full glass-button">
           Manage Subscription
         </Button>
       </CardContent>
