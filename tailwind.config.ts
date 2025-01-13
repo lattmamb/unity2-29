@@ -92,6 +92,14 @@ export default {
             opacity: "0.8",
           },
         },
+        "glow": {
+          "0%, 100%": {
+            boxShadow: "0 0 5px rgba(0, 240, 255, 0.5), 0 0 20px rgba(0, 240, 255, 0.2)",
+          },
+          "50%": {
+            boxShadow: "0 0 10px rgba(0, 240, 255, 0.8), 0 0 30px rgba(0, 240, 255, 0.4)",
+          },
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -99,11 +107,13 @@ export default {
         "fade-up": "fade-up 0.5s ease-out forwards",
         "float": "float 3s ease-in-out infinite",
         "pulse-soft": "pulse-soft 2s ease-in-out infinite",
+        "glow": "glow 2s ease-in-out infinite",
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         'hero-pattern': 'linear-gradient(to right, rgba(26, 54, 93, 0.9), rgba(26, 54, 93, 0.8)), url("/hero-bg.jpg")',
+        'circuit-pattern': 'url("/circuit-pattern.svg")',
       },
     },
   },
