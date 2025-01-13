@@ -5,9 +5,14 @@ import { supabase } from "@/integrations/supabase/client";
 type AuthContextType = {
   user: User | null;
   session: Session | null;
+  signOut: () => Promise<void>;
 };
 
-const AuthContext = createContext<AuthContextType>({ user: null, session: null });
+const AuthContext = createContext<AuthContextType>({ 
+  user: null, 
+  session: null,
+  signOut: async () => {} 
+});
 
 export const useAuth = () => {
   return useContext(AuthContext);
@@ -33,6 +38,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return () => subscription.unsubscribe();
   }, []);
 
+  const signOut = async () => {
+    await supabase.auth.signOut();
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -42,7 +51,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user, session }}>
+    <AuthContext.Provider value={{ user, session, signOut }}>
       {children}
     </AuthContext.Provider>
   );
