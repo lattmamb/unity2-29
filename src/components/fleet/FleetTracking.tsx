@@ -74,7 +74,7 @@ export const FleetTracking = () => {
             </div>
           </div>
           
-          <Badge variant="warning" className="mb-4">
+          <Badge variant="destructive" className="mb-4">
             <AlertCircle className="w-4 h-4 mr-1" />
             License not checked for 6 months
           </Badge>

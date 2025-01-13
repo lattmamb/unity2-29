@@ -62,7 +62,7 @@ const TimelineItem = ({
     <div className="flex-1">
       <div className="font-medium">{title}</div>
       {status && (
-        <Badge variant={warning ? "warning" : "default"} className="mt-1">
+        <Badge variant={warning ? "destructive" : "default"} className="mt-1">
           {warning && <AlertTriangle className="w-3 h-3 mr-1" />}
           {status}
         </Badge>
