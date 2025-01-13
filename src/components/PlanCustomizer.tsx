@@ -71,9 +71,9 @@ export const PlanCustomizer = ({
   };
 
   return (
-    <Card className="glass-card overflow-hidden">
+    <Card className="glass-card overflow-hidden border border-secondary/20">
       <CardHeader className="p-4 md:p-6 bg-secondary/5">
-        <CardTitle className="text-xl md:text-2xl break-words flex items-center justify-between text-white">
+        <CardTitle className="text-xl md:text-2xl flex items-center justify-between text-white">
           Customize Your {basePlan}
           {savings > 0 && (
             <Badge variant="secondary" className="ml-2">
@@ -87,10 +87,10 @@ export const PlanCustomizer = ({
           {addOns.map((addon, index) => (
             <div key={addon.name} className="space-y-2">
               <div className="flex justify-between items-center">
-                <Label className="text-base break-words text-gray-300">
+                <Label className="text-base text-gray-300">
                   {addon.name}
                 </Label>
-                <div className="text-sm text-gray-400">
+                <div className="text-sm text-secondary">
                   +${addon.price * addon.value}
                 </div>
               </div>
@@ -104,7 +104,7 @@ export const PlanCustomizer = ({
                     className="w-full"
                   />
                 </div>
-                <div className="w-16 text-right text-sm text-gray-400">
+                <div className="w-24 text-right text-sm text-gray-400">
                   {addon.value} {addon.unit}
                 </div>
               </div>
@@ -112,7 +112,7 @@ export const PlanCustomizer = ({
           ))}
         </div>
 
-        <div className="pt-4 border-t border-gray-700 space-y-4">
+        <div className="pt-4 border-t border-secondary/20 space-y-4">
           <div className="space-y-2">
             <div className="flex justify-between text-sm text-gray-400">
               <span>Base Price</span>
@@ -132,7 +132,7 @@ export const PlanCustomizer = ({
 
           <Progress 
             value={(totalPrice / 2000) * 100} 
-            className="h-2 bg-gray-700"
+            className="h-2 bg-secondary/20"
           />
           
           <p className="text-sm text-gray-400 text-center">

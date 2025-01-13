@@ -49,26 +49,26 @@ const features = [
 export const PlanComparison = () => {
   return (
     <div className="mt-8 md:mt-16">
-      <h2 className="text-xl md:text-2xl font-bold text-white mb-6 md:mb-8 text-center break-words">
+      <h2 className="text-xl md:text-2xl font-bold text-white mb-6 md:mb-8 text-center">
         Detailed Plan Comparison
       </h2>
       <div className="overflow-x-auto -mx-4 md:mx-0">
         <div className="min-w-full inline-block align-middle">
-          <div className="overflow-hidden glass-card rounded-lg">
+          <div className="overflow-hidden glass-card rounded-lg border border-secondary/20">
             <Table>
               <TableHeader>
-                <TableRow className="border-b border-gray-700">
-                  <TableHead className="text-gray-300">Features</TableHead>
-                  <TableHead className="text-gray-300">Essential</TableHead>
-                  <TableHead className="text-gray-300">Premium</TableHead>
-                  <TableHead className="text-gray-300">Elite</TableHead>
+                <TableRow className="border-b border-secondary/20">
+                  <TableHead className="text-secondary">Features</TableHead>
+                  <TableHead className="text-secondary">Essential</TableHead>
+                  <TableHead className="text-secondary">Premium</TableHead>
+                  <TableHead className="text-secondary">Elite</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {features.map((feature) => (
                   <TableRow 
                     key={feature.name}
-                    className="border-b border-gray-700 hover:bg-secondary/5 transition-colors"
+                    className="border-b border-secondary/20 hover:bg-secondary/5 transition-colors"
                   >
                     <TableCell className="font-medium text-gray-300">{feature.name}</TableCell>
                     <TableCell>
