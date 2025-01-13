@@ -120,35 +120,50 @@ export type Database = {
       }
       vehicles: {
         Row: {
+          acceleration_0_60: number | null
           battery_level: number | null
           created_at: string
           current_location: unknown | null
+          horsepower: number | null
           id: string
           image_url: string | null
+          model_3d_url: string | null
           name: string
+          range_miles: number | null
           status: Database["public"]["Enums"]["vehicle_status"] | null
+          top_speed: number | null
           type: Database["public"]["Enums"]["vehicle_type"]
           updated_at: string
         }
         Insert: {
+          acceleration_0_60?: number | null
           battery_level?: number | null
           created_at?: string
           current_location?: unknown | null
+          horsepower?: number | null
           id?: string
           image_url?: string | null
+          model_3d_url?: string | null
           name: string
+          range_miles?: number | null
           status?: Database["public"]["Enums"]["vehicle_status"] | null
+          top_speed?: number | null
           type: Database["public"]["Enums"]["vehicle_type"]
           updated_at?: string
         }
         Update: {
+          acceleration_0_60?: number | null
           battery_level?: number | null
           created_at?: string
           current_location?: unknown | null
+          horsepower?: number | null
           id?: string
           image_url?: string | null
+          model_3d_url?: string | null
           name?: string
+          range_miles?: number | null
           status?: Database["public"]["Enums"]["vehicle_status"] | null
+          top_speed?: number | null
           type?: Database["public"]["Enums"]["vehicle_type"]
           updated_at?: string
         }
