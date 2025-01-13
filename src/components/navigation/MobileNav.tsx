@@ -23,6 +23,16 @@ export const MobileNav = () => {
           title: "Subscribe Now",
           description: "Choose your perfect plan and start your electric journey today.",
           link: "/subscription"
+        },
+        {
+          title: "Rentals",
+          description: "Flexible vehicle rentals for your needs",
+          link: "/rentals"
+        },
+        {
+          title: "On-Demand Rides",
+          description: "Book a ride whenever you need it",
+          link: "/on-demand"
         }
       ]
     },

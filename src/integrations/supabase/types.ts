@@ -74,6 +74,50 @@ export type Database = {
         }
         Relationships: []
       }
+      rentals: {
+        Row: {
+          created_at: string
+          end_date: string
+          id: string
+          start_date: string
+          status: Database["public"]["Enums"]["rental_status"] | null
+          total_price: number
+          updated_at: string
+          user_id: string
+          vehicle_id: string
+        }
+        Insert: {
+          created_at?: string
+          end_date: string
+          id?: string
+          start_date: string
+          status?: Database["public"]["Enums"]["rental_status"] | null
+          total_price: number
+          updated_at?: string
+          user_id: string
+          vehicle_id: string
+        }
+        Update: {
+          created_at?: string
+          end_date?: string
+          id?: string
+          start_date?: string
+          status?: Database["public"]["Enums"]["rental_status"] | null
+          total_price?: number
+          updated_at?: string
+          user_id?: string
+          vehicle_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rentals_vehicle_id_fkey"
+            columns: ["vehicle_id"]
+            isOneToOne: false
+            referencedRelation: "vehicles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       vehicles: {
         Row: {
           battery_level: number | null
@@ -118,6 +162,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
+      rental_status: "pending" | "active" | "completed" | "cancelled"
       vehicle_status: "available" | "booked" | "maintenance"
       vehicle_type: "autonomous" | "driver"
     }

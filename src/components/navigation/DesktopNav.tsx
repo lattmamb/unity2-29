@@ -9,8 +9,8 @@ export const DesktopNav = () => {
           <NavigationMenuItem>
             <NavigationMenuTrigger>Services</NavigationMenuTrigger>
             <NavigationMenuContent>
-              <ul className="grid gap-3 p-6 w-[400px]">
-                <li className="row-span-3">
+              <div className="grid gap-3 p-6 w-[400px]">
+                <div className="row-span-3">
                   <NavigationMenuLink asChild>
                     <Link
                       className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-primary/50 to-primary p-6 no-underline outline-none focus:shadow-md"
@@ -24,8 +24,32 @@ export const DesktopNav = () => {
                       </p>
                     </Link>
                   </NavigationMenuLink>
-                </li>
-              </ul>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <NavigationMenuLink asChild>
+                    <Link
+                      to="/rentals"
+                      className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                    >
+                      <div className="text-sm font-medium leading-none">Rentals</div>
+                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                        Flexible vehicle rentals for your needs
+                      </p>
+                    </Link>
+                  </NavigationMenuLink>
+                  <NavigationMenuLink asChild>
+                    <Link
+                      to="/on-demand"
+                      className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                    >
+                      <div className="text-sm font-medium leading-none">On-Demand Rides</div>
+                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                        Book a ride whenever you need it
+                      </p>
+                    </Link>
+                  </NavigationMenuLink>
+                </div>
+              </div>
             </NavigationMenuContent>
           </NavigationMenuItem>
           <NavigationMenuItem>

@@ -14,6 +14,8 @@ import Support from "./pages/Support";
 import Profile from "./pages/Profile";
 import Booking from "./pages/Booking";
 import ChargingStations from "./pages/ChargingStations";
+import Rentals from "./pages/Rentals";
+import OnDemand from "./pages/OnDemand";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -95,6 +97,22 @@ const App = () => (
                 element={
                   <ProtectedRoute>
                     <ChargingStations />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/rentals"
+                element={
+                  <ProtectedRoute>
+                    <Rentals />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/on-demand"
+                element={
+                  <ProtectedRoute>
+                    <OnDemand />
                   </ProtectedRoute>
                 }
               />
