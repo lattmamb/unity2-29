@@ -24,19 +24,19 @@ export const PageLayout = ({ children, title, menuItems }: PageLayoutProps) => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      <div className="container mx-auto px-4 relative">
+      <div className="container mx-auto px-4 sm:px-6 relative">
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
             <Button 
               variant="ghost" 
               size="icon" 
-              className="absolute left-4 top-4 md:left-8 md:top-8"
+              className="fixed left-4 top-20 z-50 md:left-8 md:top-24 bg-background/80 backdrop-blur-sm shadow-md"
             >
               <Menu className="h-5 w-5" />
               <span className="sr-only">Toggle quick actions</span>
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-[300px] sm:w-[400px]">
+          <SheetContent side="left" className="w-[90%] sm:w-[400px]">
             <SheetHeader>
               <SheetTitle>
                 {activeComponent ? (
@@ -62,7 +62,7 @@ export const PageLayout = ({ children, title, menuItems }: PageLayoutProps) => {
                     <Button
                       key={index}
                       variant="ghost"
-                      className="w-full justify-start h-auto py-4"
+                      className="w-full justify-start h-auto py-4 text-left"
                       onClick={() => {
                         if (item.component) {
                           setActiveComponent(item.component);
@@ -90,8 +90,8 @@ export const PageLayout = ({ children, title, menuItems }: PageLayoutProps) => {
           </SheetContent>
         </Sheet>
         
-        <div className="pt-20 md:pt-24">
-          <h1 className="text-4xl font-bold mb-8">{title}</h1>
+        <div className="pt-16 md:pt-20">
+          <h1 className="text-3xl md:text-4xl font-bold mb-6 md:mb-8 break-words">{title}</h1>
           {children}
         </div>
       </div>
