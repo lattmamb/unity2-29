@@ -206,15 +206,10 @@ export type Database = {
           model_3d_url: string | null
           name: string
           range_miles: number | null
-          status: "available" | "maintenance" | "autonomous" | "driver_on_demand" | "charging" | "idle"
+          status: Database["public"]["Enums"]["vehicle_status"] | null
           top_speed: number | null
-          type: "autonomous" | "driver"
+          type: Database["public"]["Enums"]["vehicle_type"]
           updated_at: string
-          driver_name: string | null
-          safety_monitor: string | null
-          route_from: string | null
-          route_to: string | null
-          eta: string | null
         }
         Insert: {
           acceleration_0_60?: number | null
@@ -227,15 +222,10 @@ export type Database = {
           model_3d_url?: string | null
           name: string
           range_miles?: number | null
-          status?: "available" | "maintenance" | "autonomous" | "driver_on_demand" | "charging" | "idle" | null
+          status?: Database["public"]["Enums"]["vehicle_status"] | null
           top_speed?: number | null
-          type: "autonomous" | "driver"
+          type: Database["public"]["Enums"]["vehicle_type"]
           updated_at?: string
-          driver_name?: string | null
-          safety_monitor?: string | null
-          route_from?: string | null
-          route_to?: string | null
-          eta?: string | null
         }
         Update: {
           acceleration_0_60?: number | null
@@ -248,15 +238,10 @@ export type Database = {
           model_3d_url?: string | null
           name?: string
           range_miles?: number | null
-          status?: "available" | "maintenance" | "autonomous" | "driver_on_demand" | "charging" | "idle" | null
+          status?: Database["public"]["Enums"]["vehicle_status"] | null
           top_speed?: number | null
-          type?: "autonomous" | "driver"
+          type?: Database["public"]["Enums"]["vehicle_type"]
           updated_at?: string
-          driver_name?: string | null
-          safety_monitor?: string | null
-          route_from?: string | null
-          route_to?: string | null
-          eta?: string | null
         }
         Relationships: []
       }
@@ -467,7 +452,7 @@ export type Database = {
     }
     Enums: {
       rental_status: "pending" | "active" | "completed" | "cancelled"
-      vehicle_status: "available" | "booked" | "maintenance" | "autonomous" | "driver_on_demand" | "charging" | "idle"
+      vehicle_status: "available" | "booked" | "maintenance"
       vehicle_type: "autonomous" | "driver"
     }
     CompositeTypes: {
@@ -485,7 +470,7 @@ export type Tables<
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
         Database[PublicTableNameOrOptions["schema"]]["Views"])
-    : never,
+    : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
       Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
@@ -518,10 +503,10 @@ export type TablesInsert<
     : never
   : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
     ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-      Insert: infer I
-    }
-    ? I
-    : never
+        Insert: infer I
+      }
+      ? I
+      : never
     : never
 
 export type TablesUpdate<
@@ -539,10 +524,10 @@ export type TablesUpdate<
     : never
   : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
     ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-      Update: infer U
-    }
-    ? U
-    : never
+        Update: infer U
+      }
+      ? U
+      : never
     : never
 
 export type Enums<
@@ -566,7 +551,7 @@ export type CompositeTypes<
     schema: keyof Database
   }
     ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never,
+    : never = never,
 > = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
   ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
   : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { Card } from "@/components/ui/card";
@@ -10,10 +10,12 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from "@/components/ui/use-toast";
 
+// Keep map instance outside component to avoid serialization issues
+let mapInstance: mapboxgl.Map | null = null;
+
 export const FleetTracking = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
-  const [date, setDate] = useState(new Date());
-  const [map, setMap] = useState<mapboxgl.Map | null>(null);
+  const dateRef = useRef(new Date());
   const { toast } = useToast();
 
   useEffect(() => {
@@ -21,18 +23,17 @@ export const FleetTracking = () => {
 
     mapboxgl.accessToken = 'pk.eyJ1IjoibG92YWJsZSIsImEiOiJjbHNxOXB2NWIwMzZqMmpxdDV5ZjBnY3ZtIn0.JMIOnYw3qP4ZgCd_Y_4Xbg';
     
-    const mapInstance = new mapboxgl.Map({
+    mapInstance = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/dark-v11',
       center: [-89.6501, 39.7817], // Springfield, IL coordinates
       zoom: 7
     });
 
-    setMap(mapInstance);
-
     return () => {
       if (mapInstance) {
         mapInstance.remove();
+        mapInstance = null;
       }
     };
   }, []);
@@ -45,9 +46,9 @@ export const FleetTracking = () => {
   };
 
   const handleDateChange = (increment: boolean) => {
-    const newDate = new Date(date);
-    newDate.setDate(date.getDate() + (increment ? 1 : -1));
-    setDate(newDate);
+    const newDate = new Date(dateRef.current);
+    newDate.setDate(dateRef.current.getDate() + (increment ? 1 : -1));
+    dateRef.current = newDate;
   };
 
   return (
@@ -99,7 +100,7 @@ export const FleetTracking = () => {
                         <ChevronLeft className="w-4 h-4" />
                       </Button>
                       <Button variant="outline" className="mx-1">
-                        {date.toLocaleDateString()}
+                        {dateRef.current.toLocaleDateString()}
                       </Button>
                       <Button variant="outline" size="icon" onClick={() => handleDateChange(true)}>
                         <ChevronRight className="w-4 h-4" />
