@@ -1,69 +1,71 @@
 import { Button } from "@/components/ui/button";
-import { ChevronRight, Info, Shield, Zap } from "lucide-react";
+import { ChevronRight, Download, Shield, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Vehicle3DViewer } from "@/components/fleet/Vehicle3DViewer";
 
 export const Hero = () => {
   return (
-    <div className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-r from-accent to-white">
-      <div className="absolute inset-0 bg-[url('/lovable-uploads/9a7951c8-5fac-4e5d-9c41-4517db1e9f87.png')] bg-cover bg-center opacity-5" />
-      <div className="absolute inset-0 bg-gradient-radial from-transparent via-accent/20 to-accent/90" />
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0B1F3B]">
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#0B1F3B]/90" />
+      
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-5xl mx-auto text-center space-y-8">
           <div className="flex justify-center">
             <img 
               src="/lovable-uploads/e00776b3-1f80-47c3-bccc-d21f9cd40dd6.png" 
-              alt="Unity Link Logo" 
+              alt="Unity Fleet Logo" 
               className="w-32 h-32 mb-6 animate-float"
             />
           </div>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-primary mb-6 animate-fade-up [animation-delay:200ms] leading-tight">
-            Experience Premium Electric Vehicle{" "}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-secondary via-primary to-eco">
-              Subscriptions
+          
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 animate-fade-up [animation-delay:200ms] leading-tight">
+            Join the EV Revolution with{" "}
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#00FFC6] to-[#C4FF00]">
+              Unity Fleet
             </span>
           </h1>
-          <p className="text-lg md:text-xl text-primary/80 mb-8 animate-fade-up [animation-delay:400ms] max-w-2xl mx-auto">
-            Join Unity Fleet for a flexible, all-inclusive electric vehicle experience. 
-            No long-term commitments, just pure driving pleasure.
+          
+          <p className="text-lg md:text-xl text-white/80 mb-8 animate-fade-up [animation-delay:400ms] max-w-2xl mx-auto">
+            Flexible Tesla Subscriptions, Immersive 3D Previews, and a Greener Future—All in One App
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 animate-fade-up [animation-delay:600ms]">
-            <div className="p-6 rounded-xl bg-white/80 backdrop-blur-sm border border-primary/10 hover:border-secondary/20 transition-all duration-300">
-              <Zap className="w-10 h-10 text-secondary mb-4 mx-auto" />
-              <h3 className="text-lg font-semibold text-primary mb-2">Instant Access</h3>
-              <p className="text-primary/70">Get your vehicle delivered within 24 hours</p>
+            <div className="p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-[#00FFC6]/20 transition-all duration-300">
+              <Zap className="w-10 h-10 text-[#00FFC6] mb-4 mx-auto" />
+              <h3 className="text-lg font-semibold text-white mb-2">Flexible Subscriptions</h3>
+              <p className="text-white/70">From $350/mo (Model 3) up to $2,500/mo (Model X Plaid)</p>
             </div>
-            <div className="p-6 rounded-xl bg-white/80 backdrop-blur-sm border border-primary/10 hover:border-secondary/20 transition-all duration-300">
-              <Shield className="w-10 h-10 text-secondary mb-4 mx-auto" />
-              <h3 className="text-lg font-semibold text-primary mb-2">All-Inclusive</h3>
-              <p className="text-primary/70">Insurance, maintenance, and charging included</p>
+            <div className="p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-[#00FFC6]/20 transition-all duration-300">
+              <Shield className="w-10 h-10 text-[#00FFC6] mb-4 mx-auto" />
+              <h3 className="text-lg font-semibold text-white mb-2">High-End Electric Vehicles</h3>
+              <p className="text-white/70">Drive Tesla's latest models—Model 3, Model Y, Model S, and Model X</p>
             </div>
-            <div className="p-6 rounded-xl bg-white/80 backdrop-blur-sm border border-primary/10 hover:border-secondary/20 transition-all duration-300">
-              <Info className="w-10 h-10 text-secondary mb-4 mx-auto" />
-              <h3 className="text-lg font-semibold text-primary mb-2">Flexible Terms</h3>
-              <p className="text-primary/70">Switch vehicles or cancel anytime</p>
+            <div className="p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-[#00FFC6]/20 transition-all duration-300">
+              <Download className="w-10 h-10 text-[#00FFC6] mb-4 mx-auto" />
+              <h3 className="text-lg font-semibold text-white mb-2">Seamless Technology</h3>
+              <p className="text-white/70">Manage your fleet from our intuitive mobile app</p>
             </div>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up [animation-delay:800ms]">
             <Button 
               size="lg" 
-              className="bg-secondary text-primary hover:bg-secondary/90 group transition-all duration-300"
+              className="bg-[#00FFC6] text-[#0B1F3B] hover:bg-[#00FFC6]/90 group transition-all duration-300"
               asChild
             >
               <Link to="/subscription">
-                View Subscription Plans
+                View Plans
                 <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </Button>
             <Button 
               size="lg" 
               variant="outline" 
-              className="border-primary/20 hover:bg-primary/5"
+              className="border-[#00FFC6]/20 text-white hover:bg-[#00FFC6]/10"
               asChild
             >
               <Link to="/fleet">
-                Explore Our Fleet
+                Get the App
               </Link>
             </Button>
           </div>
@@ -76,17 +78,18 @@ export const Hero = () => {
             ].map((stat) => (
               <div 
                 key={stat.title} 
-                className="p-4 rounded-lg bg-white/60 backdrop-blur-sm border border-primary/10 
-                  hover:border-secondary/20 transition-all duration-300"
+                className="p-4 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 
+                  hover:border-[#00FFC6]/20 transition-all duration-300"
               >
-                <h3 className="text-2xl font-bold text-secondary">{stat.value}</h3>
-                <p className="text-primary/70 mt-1">{stat.title}</p>
+                <h3 className="text-2xl font-bold text-[#00FFC6]">{stat.value}</h3>
+                <p className="text-white/70 mt-1">{stat.title}</p>
               </div>
             ))}
           </div>
         </div>
       </div>
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-accent to-transparent" />
+      
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#0B1F3B] to-transparent" />
     </div>
   );
 };

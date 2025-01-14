@@ -36,13 +36,13 @@ const benefits = [
 
 export const Benefits = () => {
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-b from-accent to-white">
+    <section className="py-16 md:py-24 bg-[#0B1F3B]">
       <div className="container mx-auto px-4">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
             Why Choose Unity Fleet?
           </h2>
-          <p className="text-lg text-primary/70">
+          <p className="text-lg text-white/70">
             Experience the future of mobility with our comprehensive electric vehicle 
             subscription service designed for modern drivers
           </p>
@@ -53,20 +53,20 @@ export const Benefits = () => {
             <Card 
               key={benefit.title} 
               className="group hover:shadow-lg transition-all duration-300 border-none 
-                bg-white/80 backdrop-blur hover:bg-gradient-to-br hover:from-secondary/10 
+                bg-white/5 backdrop-blur hover:bg-gradient-to-br hover:from-[#00FFC6]/10 
                 hover:to-transparent"
             >
               <CardHeader>
-                <div className="mb-4 p-3 rounded-lg bg-secondary/10 w-fit 
-                  group-hover:bg-secondary/20 transition-colors">
-                  <benefit.icon className="w-6 h-6 text-primary" />
+                <div className="mb-4 p-3 rounded-lg bg-[#00FFC6]/10 w-fit 
+                  group-hover:bg-[#00FFC6]/20 transition-colors">
+                  <benefit.icon className="w-6 h-6 text-[#00FFC6]" />
                 </div>
-                <CardTitle className="text-xl group-hover:text-secondary transition-colors">
+                <CardTitle className="text-xl text-white group-hover:text-[#00FFC6] transition-colors">
                   {benefit.title}
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-primary/70 group-hover:text-primary/80 transition-colors">
+                <p className="text-white/70 group-hover:text-white/80 transition-colors">
                   {benefit.description}
                 </p>
               </CardContent>
