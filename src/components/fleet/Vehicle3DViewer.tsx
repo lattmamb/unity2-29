@@ -12,6 +12,8 @@ interface Vehicle3DViewerProps {
 export const Vehicle3DViewer = ({ modelUrl }: Vehicle3DViewerProps) => {
   const mountRef = useRef<HTMLDivElement>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
+  
+  // Keep refs separate to avoid circular references
   const sceneRef = useRef<THREE.Scene | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
