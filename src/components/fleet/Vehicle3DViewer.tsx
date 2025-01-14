@@ -12,16 +12,22 @@ interface Vehicle3DViewerProps {
 export const Vehicle3DViewer = ({ modelUrl }: Vehicle3DViewerProps) => {
   const mountRef = useRef<HTMLDivElement>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const sceneRef = useRef<THREE.Scene | null>(null);
+  const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
+  const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
+  const controlsRef = useRef<OrbitControls | null>(null);
+  const frameIdRef = useRef<number | null>(null);
+  const modelRef = useRef<THREE.Group | null>(null);
 
   useEffect(() => {
     if (!mountRef.current) return;
 
     let mounted = true;
-    let animationFrameId: number;
     
     // Scene setup
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x1a1b1e);
+    sceneRef.current = scene;
 
     // Camera setup
     const camera = new THREE.PerspectiveCamera(
@@ -31,6 +37,7 @@ export const Vehicle3DViewer = ({ modelUrl }: Vehicle3DViewerProps) => {
       1000
     );
     camera.position.z = 5;
+    cameraRef.current = camera;
 
     // Renderer setup
     const renderer = new THREE.WebGLRenderer({ 
@@ -39,6 +46,7 @@ export const Vehicle3DViewer = ({ modelUrl }: Vehicle3DViewerProps) => {
     });
     renderer.setSize(mountRef.current.clientWidth, mountRef.current.clientHeight);
     mountRef.current.appendChild(renderer.domElement);
+    rendererRef.current = renderer;
 
     // Lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -55,6 +63,7 @@ export const Vehicle3DViewer = ({ modelUrl }: Vehicle3DViewerProps) => {
     controls.enableZoom = true;
     controls.autoRotate = true;
     controls.autoRotateSpeed = 2.0;
+    controlsRef.current = controls;
 
     // Load 3D model
     const loader = new GLTFLoader();
@@ -66,6 +75,11 @@ export const Vehicle3DViewer = ({ modelUrl }: Vehicle3DViewerProps) => {
           if (!mounted) return;
           
           try {
+            if (modelRef.current) {
+              scene.remove(modelRef.current);
+            }
+            
+            modelRef.current = gltf.scene;
             scene.add(gltf.scene);
             
             // Center and scale the model
@@ -85,8 +99,10 @@ export const Vehicle3DViewer = ({ modelUrl }: Vehicle3DViewerProps) => {
         },
         undefined,
         (error) => {
-          console.error('Error loading model:', error);
-          setLoadError('Error loading 3D model');
+          if (mounted) {
+            console.error('Error loading model:', error);
+            setLoadError('Error loading 3D model');
+          }
         }
       );
     }
@@ -95,19 +111,23 @@ export const Vehicle3DViewer = ({ modelUrl }: Vehicle3DViewerProps) => {
     const animate = () => {
       if (!mounted) return;
       
-      animationFrameId = requestAnimationFrame(animate);
-      controls.update();
-      renderer.render(scene, camera);
+      frameIdRef.current = requestAnimationFrame(animate);
+      if (controlsRef.current) {
+        controlsRef.current.update();
+      }
+      if (rendererRef.current && sceneRef.current && cameraRef.current) {
+        rendererRef.current.render(sceneRef.current, cameraRef.current);
+      }
     };
     animate();
 
     // Handle window resize
     const handleResize = () => {
-      if (!mountRef.current || !mounted) return;
+      if (!mountRef.current || !mounted || !cameraRef.current || !rendererRef.current) return;
       
-      camera.aspect = mountRef.current.clientWidth / mountRef.current.clientHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(mountRef.current.clientWidth, mountRef.current.clientHeight);
+      cameraRef.current.aspect = mountRef.current.clientWidth / mountRef.current.clientHeight;
+      cameraRef.current.updateProjectionMatrix();
+      rendererRef.current.setSize(mountRef.current.clientWidth, mountRef.current.clientHeight);
     };
     window.addEventListener('resize', handleResize);
 
@@ -115,25 +135,47 @@ export const Vehicle3DViewer = ({ modelUrl }: Vehicle3DViewerProps) => {
     return () => {
       mounted = false;
       window.removeEventListener('resize', handleResize);
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
+      
+      if (frameIdRef.current) {
+        cancelAnimationFrame(frameIdRef.current);
       }
-      controls.dispose();
-      renderer.dispose();
-      // Clear all meshes from memory
-      scene.traverse((object) => {
-        if (object instanceof THREE.Mesh) {
-          object.geometry.dispose();
-          if (object.material instanceof THREE.Material) {
-            object.material.dispose();
-          } else if (Array.isArray(object.material)) {
-            object.material.forEach((material) => material.dispose());
-          }
+      
+      if (controlsRef.current) {
+        controlsRef.current.dispose();
+      }
+      
+      if (rendererRef.current) {
+        rendererRef.current.dispose();
+        if (mountRef.current?.contains(rendererRef.current.domElement)) {
+          mountRef.current.removeChild(rendererRef.current.domElement);
         }
-      });
-      if (mountRef.current?.contains(renderer.domElement)) {
-        mountRef.current.removeChild(renderer.domElement);
       }
+      
+      // Clear scene
+      if (sceneRef.current) {
+        sceneRef.current.traverse((object) => {
+          if (object instanceof THREE.Mesh) {
+            if (object.geometry) {
+              object.geometry.dispose();
+            }
+            if (object.material) {
+              if (Array.isArray(object.material)) {
+                object.material.forEach(material => material.dispose());
+              } else {
+                object.material.dispose();
+              }
+            }
+          }
+        });
+      }
+      
+      // Clear refs
+      sceneRef.current = null;
+      rendererRef.current = null;
+      cameraRef.current = null;
+      controlsRef.current = null;
+      frameIdRef.current = null;
+      modelRef.current = null;
     };
   }, [modelUrl]);
 
