@@ -11,23 +11,27 @@ import { Badge } from '@/components/ui/badge';
 
 export const FleetTracking = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<mapboxgl.Map | null>(null);
   const [date, setDate] = useState(new Date());
+  const [map, setMap] = useState<mapboxgl.Map | null>(null);
 
   useEffect(() => {
     if (!mapContainer.current) return;
 
     mapboxgl.accessToken = 'pk.eyJ1IjoibG92YWJsZSIsImEiOiJjbHNxOXB2NWIwMzZqMmpxdDV5ZjBnY3ZtIn0.JMIOnYw3qP4ZgCd_Y_4Xbg';
     
-    map.current = new mapboxgl.Map({
+    const mapInstance = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/dark-v11',
       center: [-0.1276, 51.5074], // London coordinates
       zoom: 12
     });
 
+    setMap(mapInstance);
+
     return () => {
-      map.current?.remove();
+      if (mapInstance) {
+        mapInstance.remove();
+      }
     };
   }, []);
 
