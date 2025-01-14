@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Battery, Car, Navigation, User, Shield, Clock } from "lucide-react";
+import { Battery, Car, Gauge, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export const VehicleList = () => {
@@ -51,9 +51,9 @@ export const VehicleList = () => {
                 <h3 className="font-medium truncate">{vehicle.name}</h3>
                 <div className={cn(
                   "px-2 py-1 rounded-full text-xs font-medium",
-                  getStatusColor(vehicle.status)
+                  getStatusColor(vehicle.status || 'available')
                 )}>
-                  {vehicle.status.replace('_', ' ')}
+                  {(vehicle.status || 'available').replace('_', ' ')}
                 </div>
               </div>
               
@@ -63,33 +63,20 @@ export const VehicleList = () => {
                   <span>{vehicle.battery_level}%</span>
                 </div>
                 
-                {vehicle.route_from && vehicle.route_to && (
-                  <div className="flex items-center gap-2">
-                    <Navigation className="h-4 w-4" />
-                    <span>{vehicle.route_from} → {vehicle.route_to}</span>
-                  </div>
-                )}
+                <div className="flex items-center gap-2">
+                  <Zap className="h-4 w-4" />
+                  <span>{vehicle.horsepower} HP</span>
+                </div>
                 
-                {vehicle.driver_name && (
-                  <div className="flex items-center gap-2">
-                    <User className="h-4 w-4" />
-                    <span>{vehicle.driver_name}</span>
-                  </div>
-                )}
+                <div className="flex items-center gap-2">
+                  <Gauge className="h-4 w-4" />
+                  <span>{vehicle.range_miles} mi range</span>
+                </div>
                 
-                {vehicle.safety_monitor && (
-                  <div className="flex items-center gap-2">
-                    <Shield className="h-4 w-4" />
-                    <span>{vehicle.safety_monitor}</span>
-                  </div>
-                )}
-                
-                {vehicle.eta && (
-                  <div className="flex items-center gap-2">
-                    <Clock className="h-4 w-4" />
-                    <span>ETA: {vehicle.eta}</span>
-                  </div>
-                )}
+                <div className="flex items-center gap-2">
+                  <Car className="h-4 w-4" />
+                  <span>{vehicle.type}</span>
+                </div>
               </div>
             </div>
           </div>
