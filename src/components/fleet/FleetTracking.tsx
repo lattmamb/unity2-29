@@ -10,11 +10,9 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from "@/components/ui/use-toast";
 
-// Keep map instance outside component to avoid serialization issues
-let mapInstance: mapboxgl.Map | null = null;
-
 export const FleetTracking = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
+  const map = useRef<mapboxgl.Map | null>(null);
   const dateRef = useRef(new Date());
   const { toast } = useToast();
 
@@ -23,7 +21,7 @@ export const FleetTracking = () => {
 
     mapboxgl.accessToken = 'pk.eyJ1IjoibG92YWJsZSIsImEiOiJjbHNxOXB2NWIwMzZqMmpxdDV5ZjBnY3ZtIn0.JMIOnYw3qP4ZgCd_Y_4Xbg';
     
-    mapInstance = new mapboxgl.Map({
+    map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/dark-v11',
       center: [-89.6501, 39.7817], // Springfield, IL coordinates
@@ -31,9 +29,9 @@ export const FleetTracking = () => {
     });
 
     return () => {
-      if (mapInstance) {
-        mapInstance.remove();
-        mapInstance = null;
+      if (map.current) {
+        map.current.remove();
+        map.current = null;
       }
     };
   }, []);
