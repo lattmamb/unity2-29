@@ -8,6 +8,7 @@ import { Car, Shield, Zap, Clock, Battery, CreditCard, Check } from "lucide-reac
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 
+// Move plans data outside component to avoid serialization issues
 const plans = [
   {
     name: "Base Plan",
