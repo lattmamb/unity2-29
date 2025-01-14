@@ -9,7 +9,7 @@ export const FleetDashboard = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="p-6">
           <h2 className="text-2xl font-bold mb-4">Vehicle Model</h2>
-          <Vehicle3DViewer modelUrl="/models/tesla_model_3.glb" />
+          <Vehicle3DViewer modelUrl="https://market-assets.fra1.cdn.digitaloceanspaces.com/market-assets/models/tesla-model-3/model.gltf" />
         </Card>
       </div>
       <FleetTracking />
