@@ -12,8 +12,8 @@ const plans = [
   {
     name: "Base Plan",
     description: "Perfect for occasional drivers",
-    price: "350",
-    maxPrice: "500",
+    price: 350,
+    maxPrice: 500,
     vehicle: "Tesla Model 3",
     image: "/lovable-uploads/9a7951c8-5fac-4e5d-9c41-4517db1e9f87.png",
     features: [
@@ -33,17 +33,17 @@ const plans = [
     trims: [
       {
         name: "Model 3 RWD",
-        price: "350",
+        price: 350,
         features: ["Standard Range", "Basic Autopilot", "Standard interior"],
       },
       {
         name: "Model 3 Long Range",
-        price: "400",
+        price: 400,
         features: ["Dual Motor AWD", "Partial Premium interior", "Extended Range"],
       },
       {
         name: "Model 3 Performance",
-        price: "500",
+        price: 500,
         features: ["Performance wheels & suspension", "Premium interior", "Maximum performance"],
       },
     ],
@@ -51,8 +51,8 @@ const plans = [
   {
     name: "Premium Plan",
     description: "Ideal for regular commuters",
-    price: "750",
-    maxPrice: "1000",
+    price: 750,
+    maxPrice: 1000,
     vehicle: "Tesla Model Y",
     image: "/lovable-uploads/e7208ea9-864c-4d4c-a5b4-341b0a6cc04d.png",
     popular: true,
@@ -73,12 +73,12 @@ const plans = [
     trims: [
       {
         name: "Model Y Long Range",
-        price: "750",
+        price: 750,
         features: ["Dual Motor AWD", "7-seat option", "Priority maintenance"],
       },
       {
         name: "Model Y Performance",
-        price: "1000",
+        price: 1000,
         features: ["Performance tuning", "Premium interior & audio", "Priority roadside assist"],
       },
     ],
@@ -86,8 +86,8 @@ const plans = [
   {
     name: "Exclusive Plan",
     description: "Ultimate flexibility and luxury",
-    price: "1500",
-    maxPrice: "2500",
+    price: 1500,
+    maxPrice: 2500,
     vehicle: "Tesla Model S & X",
     image: "/lovable-uploads/f927bb84-ef36-4762-8d10-ade9a41f18ce.png",
     features: [
@@ -107,22 +107,22 @@ const plans = [
     trims: [
       {
         name: "Model S Long Range",
-        price: "1500",
+        price: 1500,
         features: ["Dual Motor AWD", "Premium interior", "24/7 support"],
       },
       {
         name: "Model S Plaid",
-        price: "2000",
+        price: 2000,
         features: ["Tri Motor AWD", "Advanced infotainment", "Concierge service"],
       },
       {
         name: "Model X Long Range",
-        price: "1800",
+        price: 1800,
         features: ["Premium SUV", "Falcon Wing doors", "Seating up to 7"],
       },
       {
         name: "Model X Plaid",
-        price: "2500",
+        price: 2500,
         features: ["Tri Motor AWD", "Luxury interior", "White-glove service"],
       },
     ],
@@ -259,7 +259,7 @@ export const SubscriptionPlans = () => {
           <div className="mt-8">
             <PlanCustomizer
               basePlan={selectedPlan}
-              basePrice={plans.find((p) => p.name === selectedPlan)?.price || 0}
+              basePrice={Number(plans.find((p) => p.name === selectedPlan)?.price) || 0}
             />
           </div>
         )}
