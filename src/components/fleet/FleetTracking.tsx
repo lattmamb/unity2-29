@@ -1,52 +1,15 @@
-import { useEffect, useRef, useCallback } from 'react';
-import mapboxgl from 'mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
+import { useRef } from 'react';
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DriverStats } from './DriverStats';
 import { VehicleTimeline } from './VehicleTimeline';
-import { AlertCircle, Download, ChevronLeft, ChevronRight, Car, Truck, Shield } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { useToast } from "@/components/ui/use-toast";
+import { FleetMap } from './FleetMap';
+import { TrackingControls } from './TrackingControls';
+import { Badge } from "@/components/ui/badge";
+import { AlertCircle } from "lucide-react";
 
 export const FleetTracking = () => {
-  const mapContainer = useRef<HTMLDivElement>(null);
-  const mapInstance = useRef<mapboxgl.Map | null>(null);
   const dateRef = useRef(new Date());
-  const { toast } = useToast();
-
-  const initializeMap = useCallback(() => {
-    if (!mapContainer.current || mapInstance.current) return;
-
-    mapboxgl.accessToken = 'pk.eyJ1IjoibG92YWJsZSIsImEiOiJjbHNxOXB2NWIwMzZqMmpxdDV5ZjBnY3ZtIn0.JMIOnYw3qP4ZgCd_Y_4Xbg';
-    
-    mapInstance.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/dark-v11',
-      center: [-89.6501, 39.7817], // Springfield, IL coordinates
-      zoom: 7
-    });
-  }, []);
-
-  const cleanupMap = useCallback(() => {
-    if (mapInstance.current) {
-      mapInstance.current.remove();
-      mapInstance.current = null;
-    }
-  }, []);
-
-  useEffect(() => {
-    initializeMap();
-    return cleanupMap;
-  }, [initializeMap, cleanupMap]);
-
-  const handleDownload = () => {
-    toast({
-      title: "Report Downloaded",
-      description: "The fleet tracking report has been downloaded successfully.",
-    });
-  };
 
   const handleDateChange = (increment: boolean) => {
     const newDate = new Date(dateRef.current);
@@ -63,15 +26,12 @@ export const FleetTracking = () => {
               <h2 className="text-2xl font-bold">Fleet Overview</h2>
               <div className="flex flex-wrap gap-2 mt-2">
                 <Badge variant="outline" className="flex items-center gap-1">
-                  <Car className="w-4 h-4" />
                   <span>3 Autonomous</span>
                 </Badge>
                 <Badge variant="outline" className="flex items-center gap-1">
-                  <Truck className="w-4 h-4" />
                   <span>2 Driver On Demand</span>
                 </Badge>
                 <Badge variant="outline" className="flex items-center gap-1">
-                  <Shield className="w-4 h-4" />
                   <span>2 Driver Assigned</span>
                 </Badge>
               </div>
@@ -91,26 +51,10 @@ export const FleetTracking = () => {
             </TabsList>
             <TabsContent value="tracking">
               <div className="space-y-4 mt-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Last updated 09:05</span>
-                  <div className="flex items-center gap-2">
-                    <Button variant="outline" size="sm" onClick={handleDownload}>
-                      <Download className="w-4 h-4 mr-1" />
-                      Download
-                    </Button>
-                    <div className="flex items-center">
-                      <Button variant="outline" size="icon" onClick={() => handleDateChange(false)}>
-                        <ChevronLeft className="w-4 h-4" />
-                      </Button>
-                      <Button variant="outline" className="mx-1">
-                        {dateRef.current.toLocaleDateString()}
-                      </Button>
-                      <Button variant="outline" size="icon" onClick={() => handleDateChange(true)}>
-                        <ChevronRight className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  </div>
-                </div>
+                <TrackingControls 
+                  date={dateRef.current} 
+                  onDateChange={handleDateChange}
+                />
                 <VehicleTimeline />
               </div>
             </TabsContent>
@@ -127,7 +71,7 @@ export const FleetTracking = () => {
       </div>
       
       <div className="lg:col-span-2 h-[800px]">
-        <div ref={mapContainer} className="w-full h-full rounded-lg overflow-hidden" />
+        <FleetMap />
       </div>
     </div>
   );
