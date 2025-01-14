@@ -8,11 +8,13 @@ import { VehicleTimeline } from './VehicleTimeline';
 import { AlertCircle, Download, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { useToast } from "@/components/ui/use-toast";
 
 export const FleetTracking = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const [date, setDate] = useState(new Date());
   const [map, setMap] = useState<mapboxgl.Map | null>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     if (!mapContainer.current) return;
@@ -34,6 +36,19 @@ export const FleetTracking = () => {
       }
     };
   }, []);
+
+  const handleDownload = () => {
+    toast({
+      title: "Report Downloaded",
+      description: "The fleet tracking report has been downloaded successfully.",
+    });
+  };
+
+  const handleDateChange = (increment: boolean) => {
+    const newDate = new Date(date);
+    newDate.setDate(date.getDate() + (increment ? 1 : -1));
+    setDate(newDate);
+  };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -94,16 +109,18 @@ export const FleetTracking = () => {
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-muted-foreground">Last updated 09:05</span>
                   <div className="flex items-center gap-2">
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" onClick={handleDownload}>
                       <Download className="w-4 h-4 mr-1" />
                       Download
                     </Button>
                     <div className="flex items-center">
-                      <Button variant="outline" size="icon">
+                      <Button variant="outline" size="icon" onClick={() => handleDateChange(false)}>
                         <ChevronLeft className="w-4 h-4" />
                       </Button>
-                      <Button variant="outline" className="mx-1">Today</Button>
-                      <Button variant="outline" size="icon">
+                      <Button variant="outline" className="mx-1">
+                        {date.toLocaleDateString()}
+                      </Button>
+                      <Button variant="outline" size="icon" onClick={() => handleDateChange(true)}>
                         <ChevronRight className="w-4 h-4" />
                       </Button>
                     </div>

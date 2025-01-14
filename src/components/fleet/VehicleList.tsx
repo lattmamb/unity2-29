@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Battery, Calendar } from "lucide-react";
+import { Battery, Calendar, Car } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 
 export const VehicleList = () => {
@@ -30,7 +30,7 @@ export const VehicleList = () => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Vehicle Name</TableHead>
+            <TableHead>Vehicle</TableHead>
             <TableHead>Type</TableHead>
             <TableHead>Status</TableHead>
             <TableHead>Battery</TableHead>
@@ -40,15 +40,30 @@ export const VehicleList = () => {
         <TableBody>
           {vehicles?.map((vehicle) => (
             <TableRow key={vehicle.id}>
-              <TableCell className="font-medium">{vehicle.name}</TableCell>
+              <TableCell>
+                <div className="flex items-center gap-3">
+                  {vehicle.image_url ? (
+                    <img
+                      src={vehicle.image_url}
+                      alt={vehicle.name}
+                      className="w-10 h-10 rounded-lg object-cover"
+                    />
+                  ) : (
+                    <div className="w-10 h-10 bg-accent/10 rounded-lg flex items-center justify-center">
+                      <Car className="h-6 w-6 text-muted-foreground" />
+                    </div>
+                  )}
+                  <span className="font-medium">{vehicle.name}</span>
+                </div>
+              </TableCell>
               <TableCell className="capitalize">{vehicle.type}</TableCell>
               <TableCell>
                 <div className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                   vehicle.status === 'available' 
-                    ? 'bg-green-100 text-green-800'
+                    ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
                     : vehicle.status === 'maintenance'
-                    ? 'bg-yellow-100 text-yellow-800'
-                    : 'bg-red-100 text-red-800'
+                    ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400'
+                    : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
                 }`}>
                   {vehicle.status}
                 </div>

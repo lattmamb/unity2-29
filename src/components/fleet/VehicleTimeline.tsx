@@ -9,7 +9,7 @@ export const VehicleTimeline = () => {
         <img
           src="/lovable-uploads/e7208ea9-864c-4d4c-a5b4-341b0a6cc04d.png"
           alt="Mercedes Arocs"
-          className="w-12 h-12 rounded"
+          className="w-12 h-12 rounded object-cover"
         />
         <div>
           <h3 className="font-semibold">FD63 VCW</h3>
