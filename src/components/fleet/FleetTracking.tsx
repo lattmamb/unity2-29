@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DriverStats } from './DriverStats';
 import { VehicleTimeline } from './VehicleTimeline';
-import { AlertCircle, Download, ChevronLeft, ChevronRight } from 'lucide-react';
+import { AlertCircle, Download, ChevronLeft, ChevronRight, Car, Truck, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from "@/components/ui/use-toast";
@@ -24,8 +24,8 @@ export const FleetTracking = () => {
     const mapInstance = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/dark-v11',
-      center: [-0.1276, 51.5074], // London coordinates
-      zoom: 12
+      center: [-89.6501, 39.7817], // Springfield, IL coordinates
+      zoom: 7
     });
 
     setMap(mapInstance);
@@ -56,46 +56,27 @@ export const FleetTracking = () => {
         <Card className="p-6 bg-accent/10">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-2xl font-bold">Alex Williams</h2>
-              <p className="text-muted-foreground">BedFord Group • Amey Rail</p>
-              <p className="text-sm text-muted-foreground">HGV Class 1 • C+E</p>
-            </div>
-            <div className="text-right">
-              <div className="text-xl font-bold">37,548 km</div>
-              <div className="flex items-center justify-end gap-2">
-                <span className="text-sm text-muted-foreground">Driver score</span>
-                <div className="relative w-12 h-12">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-lg font-bold">4.69</span>
-                  </div>
-                  <svg className="w-12 h-12 transform -rotate-90">
-                    <circle
-                      className="text-muted stroke-current"
-                      strokeWidth="2"
-                      fill="transparent"
-                      r="20"
-                      cx="24"
-                      cy="24"
-                    />
-                    <circle
-                      className="text-eco stroke-current"
-                      strokeWidth="2"
-                      fill="transparent"
-                      r="20"
-                      cx="24"
-                      cy="24"
-                      strokeDasharray={`${(4.69 / 5) * 125.6} 125.6`}
-                    />
-                  </svg>
-                </div>
+              <h2 className="text-2xl font-bold">Fleet Overview</h2>
+              <div className="flex flex-wrap gap-2 mt-2">
+                <Badge variant="outline" className="flex items-center gap-1">
+                  <Car className="w-4 h-4" />
+                  <span>3 Autonomous</span>
+                </Badge>
+                <Badge variant="outline" className="flex items-center gap-1">
+                  <Truck className="w-4 h-4" />
+                  <span>2 Driver On Demand</span>
+                </Badge>
+                <Badge variant="outline" className="flex items-center gap-1">
+                  <Shield className="w-4 h-4" />
+                  <span>2 Driver Assigned</span>
+                </Badge>
               </div>
-              <div className="text-eco text-sm">+0.28</div>
             </div>
           </div>
           
           <Badge variant="destructive" className="mb-4">
             <AlertCircle className="w-4 h-4 mr-1" />
-            License not checked for 6 months
+            Low battery alert: Vehicle #UF-2014
           </Badge>
 
           <Tabs defaultValue="tracking">
