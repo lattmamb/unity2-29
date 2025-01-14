@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { Card } from "@/components/ui/card";
@@ -12,29 +12,34 @@ import { useToast } from "@/components/ui/use-toast";
 
 export const FleetTracking = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<mapboxgl.Map | null>(null);
+  const mapInstance = useRef<mapboxgl.Map | null>(null);
   const dateRef = useRef(new Date());
   const { toast } = useToast();
 
-  useEffect(() => {
-    if (!mapContainer.current) return;
+  const initializeMap = useCallback(() => {
+    if (!mapContainer.current || mapInstance.current) return;
 
     mapboxgl.accessToken = 'pk.eyJ1IjoibG92YWJsZSIsImEiOiJjbHNxOXB2NWIwMzZqMmpxdDV5ZjBnY3ZtIn0.JMIOnYw3qP4ZgCd_Y_4Xbg';
     
-    map.current = new mapboxgl.Map({
+    mapInstance.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/dark-v11',
       center: [-89.6501, 39.7817], // Springfield, IL coordinates
       zoom: 7
     });
-
-    return () => {
-      if (map.current) {
-        map.current.remove();
-        map.current = null;
-      }
-    };
   }, []);
+
+  const cleanupMap = useCallback(() => {
+    if (mapInstance.current) {
+      mapInstance.current.remove();
+      mapInstance.current = null;
+    }
+  }, []);
+
+  useEffect(() => {
+    initializeMap();
+    return cleanupMap;
+  }, [initializeMap, cleanupMap]);
 
   const handleDownload = () => {
     toast({
