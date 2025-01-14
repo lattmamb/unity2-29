@@ -1,12 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { Battery, Calendar, Car } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
+import { Battery, Car } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export const VehicleList = () => {
-  const { toast } = useToast();
   const { data: vehicles } = useQuery({
     queryKey: ["vehicles"],
     queryFn: async () => {
@@ -18,77 +15,43 @@ export const VehicleList = () => {
     },
   });
 
-  const handleScheduleMaintenance = (vehicleId: string) => {
-    toast({
-      title: "Maintenance Scheduled",
-      description: `Maintenance has been scheduled for vehicle ${vehicleId}`,
-    });
-  };
-
   return (
-    <div className="rounded-md border">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Vehicle</TableHead>
-            <TableHead>Type</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Battery</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {vehicles?.map((vehicle) => (
-            <TableRow key={vehicle.id}>
-              <TableCell>
-                <div className="flex items-center gap-3">
-                  {vehicle.image_url ? (
-                    <img
-                      src={vehicle.image_url}
-                      alt={vehicle.name}
-                      className="w-10 h-10 rounded-lg object-cover"
-                    />
-                  ) : (
-                    <div className="w-10 h-10 bg-accent/10 rounded-lg flex items-center justify-center">
-                      <Car className="h-6 w-6 text-muted-foreground" />
-                    </div>
-                  )}
-                  <span className="font-medium">{vehicle.name}</span>
-                </div>
-              </TableCell>
-              <TableCell className="capitalize">{vehicle.type}</TableCell>
-              <TableCell>
-                <div className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                  vehicle.status === 'available' 
-                    ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
-                    : vehicle.status === 'maintenance'
-                    ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400'
-                    : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
-                }`}>
-                  {vehicle.status}
-                </div>
-              </TableCell>
-              <TableCell>
-                <div className="flex items-center gap-2">
-                  <Battery className="h-4 w-4" />
-                  {vehicle.battery_level}%
-                </div>
-              </TableCell>
-              <TableCell className="text-right">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="inline-flex items-center gap-2"
-                  onClick={() => handleScheduleMaintenance(vehicle.id)}
-                >
-                  <Calendar className="h-4 w-4" />
-                  Schedule Maintenance
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+    <div className="space-y-4">
+      {vehicles?.map((vehicle) => (
+        <div
+          key={vehicle.id}
+          className="bg-background/5 hover:bg-background/10 transition-colors rounded-lg p-4 cursor-pointer"
+        >
+          <div className="flex items-center gap-4">
+            {vehicle.image_url ? (
+              <img
+                src={vehicle.image_url}
+                alt={vehicle.name}
+                className="w-12 h-12 rounded-lg object-cover"
+              />
+            ) : (
+              <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center">
+                <Car className="h-6 w-6 text-muted-foreground" />
+              </div>
+            )}
+            <div className="flex-1 min-w-0">
+              <h3 className="font-medium truncate">{vehicle.name}</h3>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Battery className="h-4 w-4" />
+                <span>{vehicle.battery_level}%</span>
+              </div>
+            </div>
+            <div className={cn(
+              "px-2 py-1 rounded-full text-xs font-medium",
+              vehicle.status === 'available' && "bg-eco/20 text-eco",
+              vehicle.status === 'maintenance' && "bg-yellow-500/20 text-yellow-500",
+              vehicle.status === 'in_use' && "bg-secondary/20 text-secondary"
+            )}>
+              {vehicle.status}
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
   );
-};
+}

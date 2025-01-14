@@ -1,35 +1,55 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-
-const data = [
-  { name: 'Mon', miles: 65 },
-  { name: 'Tue', miles: 59 },
-  { name: 'Wed', miles: 80 },
-  { name: 'Thu', miles: 81 },
-  { name: 'Fri', miles: 56 },
-  { name: 'Sat', miles: 55 },
-  { name: 'Sun', miles: 40 },
-];
+import { Battery, Truck, Clock } from "lucide-react";
 
 export const FleetStats = () => {
   return (
-    <Card>
+    <Card className="bg-accent/10 border-0">
       <CardHeader>
-        <CardTitle>Usage Statistics</CardTitle>
+        <CardTitle className="text-lg">Fleet Statistics</CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="h-[200px]">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={data}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Line type="monotone" dataKey="miles" stroke="#2563eb" />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
+      <CardContent className="grid grid-cols-3 gap-4">
+        <StatCard
+          icon={Battery}
+          title="Average Battery"
+          value="75%"
+          trend="+5%"
+        />
+        <StatCard
+          icon={Truck}
+          title="Active Vehicles"
+          value="12"
+          trend="+2"
+        />
+        <StatCard
+          icon={Clock}
+          title="Avg. Trip Time"
+          value="2.5h"
+          trend="-10min"
+        />
       </CardContent>
     </Card>
   );
 };
+
+const StatCard = ({ 
+  icon: Icon, 
+  title, 
+  value, 
+  trend 
+}: { 
+  icon: any;
+  title: string;
+  value: string;
+  trend: string;
+}) => (
+  <div className="p-4 bg-background/5 rounded-lg">
+    <div className="flex items-center gap-2 mb-2">
+      <Icon className="h-4 w-4 text-secondary" />
+      <span className="text-sm text-muted-foreground">{title}</span>
+    </div>
+    <div className="flex items-baseline justify-between">
+      <span className="text-2xl font-bold">{value}</span>
+      <span className="text-sm text-eco">{trend}</span>
+    </div>
+  </div>
+);
