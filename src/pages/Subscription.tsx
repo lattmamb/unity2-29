@@ -2,6 +2,7 @@ import { SubscriptionPlans } from "@/components/SubscriptionPlans";
 import { PageLayout } from "@/components/PageLayout";
 import { Car, CreditCard, Gift, HelpCircle, Settings, Zap } from "lucide-react";
 import { VehicleOverview } from "@/components/VehicleOverview";
+import { Jarvis } from "@/components/Jarvis";
 
 export default function Subscription() {
   const menuItems = [
@@ -44,6 +45,7 @@ export default function Subscription() {
   return (
     <PageLayout title="Subscription" menuItems={menuItems}>
       <SubscriptionPlans />
+      <Jarvis context="subscription" />
     </PageLayout>
   );
 }
