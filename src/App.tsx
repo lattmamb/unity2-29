@@ -8,7 +8,6 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Subscription from "./pages/Subscription";
-import Fleet from "./pages/Fleet";
 import Locations from "./pages/Locations";
 import Support from "./pages/Support";
 import Profile from "./pages/Profile";
@@ -50,14 +49,6 @@ const App = () => (
                 element={
                   <ProtectedRoute>
                     <Subscription />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/fleet"
-                element={
-                  <ProtectedRoute>
-                    <Fleet />
                   </ProtectedRoute>
                 }
               />
