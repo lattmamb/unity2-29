@@ -35,12 +35,12 @@ export const ChargingStations = () => {
             alt="Unity Fleet Charging Station" 
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 flex flex-col items-center justify-end pb-12">
             <img 
               src="/lovable-uploads/e00776b3-1f80-47c3-bccc-d21f9cd40dd6.png" 
               alt="Unity Link Logo" 
-              className="w-32 h-32 mb-6 animate-float"
+              className="w-24 h-24 mb-6 animate-float"
             />
             <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">
               Unity Link Charging Hub
