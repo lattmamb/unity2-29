@@ -1,34 +1,46 @@
 import { PageLayout } from "@/components/PageLayout";
-import { VehicleAdvertising } from "@/components/subscription/VehicleAdvertising";
-import { Megaphone, Image, Target, Layers } from "lucide-react";
+import { AdHero } from "@/components/advertising/AdHero";
+import { AdOptions } from "@/components/advertising/AdOptions";
+import { CarModelViewer } from "@/components/advertising/CarModelViewer";
+import { Monitor, Palette, Target, BarChart3 } from "lucide-react";
 
 export default function Advertising() {
   const menuItems = [
     {
-      title: "Upload Ad Design",
-      icon: Image,
-      description: "Upload your digital ads or wrap designs",
+      title: "Digital Display Ads",
+      icon: Monitor,
+      description: "Create and manage digital advertising campaigns",
+    },
+    {
+      title: "Vehicle Wraps",
+      icon: Palette,
+      description: "Design and order custom vehicle wraps",
     },
     {
       title: "Campaign Targeting",
       icon: Target,
-      description: "Set your campaign parameters and audience",
+      description: "Set location and audience preferences",
     },
     {
-      title: "Ad Formats",
-      icon: Layers,
-      description: "Choose between digital displays and vehicle wraps",
-    },
-    {
-      title: "Campaign Analytics",
-      icon: Megaphone,
-      description: "Track your advertising performance",
+      title: "Analytics",
+      icon: BarChart3,
+      description: "View campaign performance metrics",
     },
   ];
 
   return (
-    <PageLayout title="Vehicle Advertising" menuItems={menuItems}>
-      <VehicleAdvertising />
+    <PageLayout title="" menuItems={menuItems}>
+      <div className="space-y-16 -mt-16">
+        <AdHero />
+        <section className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-8">Advertising Options</h2>
+          <AdOptions />
+        </section>
+        <section className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-8">Interactive Vehicle Preview</h2>
+          <CarModelViewer />
+        </section>
+      </div>
     </PageLayout>
   );
 }
