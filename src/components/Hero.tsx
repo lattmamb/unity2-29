@@ -7,8 +7,8 @@ export const Hero = () => {
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0B1F3B]">
       <div className="absolute inset-0">
         <img 
-          src="/lovable-uploads/fffbc4a7-1bff-48ee-b0eb-d56a7429a02a.png"
-          alt="Tesla Fleet at Night"
+          src="/lovable-uploads/ec960a52-1e70-4d52-b6c3-d8e1af41e121.png"
+          alt="Tesla Fleet Lineup"
           className="w-full h-full object-cover opacity-40"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0B1F3B]/80 via-[#0B1F3B]/70 to-[#0B1F3B]/90" />
