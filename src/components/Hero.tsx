@@ -5,7 +5,14 @@ import { Link } from "react-router-dom";
 export const Hero = () => {
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0B1F3B]">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#0B1F3B]/90" />
+      <div className="absolute inset-0">
+        <img 
+          src="/lovable-uploads/fffbc4a7-1bff-48ee-b0eb-d56a7429a02a.png"
+          alt="Tesla Fleet at Night"
+          className="w-full h-full object-cover opacity-40"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0B1F3B]/80 via-[#0B1F3B]/70 to-[#0B1F3B]/90" />
+      </div>
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-5xl mx-auto text-center space-y-8">
