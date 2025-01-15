@@ -15,10 +15,7 @@ interface Point {
   y: number;
 }
 
-export function FleetMap({ vehicles, selectedVehicleId, onVehicleSelect }: FleetMapProps & {
-  selectedVehicleId?: string | null;
-  onVehicleSelect?: (id: string) => void;
-}) {
+export function FleetMap({ vehicles, selectedVehicleId, onVehicleSelect }: FleetMapProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const markers = useRef<mapboxgl.Marker[]>([]);
@@ -27,11 +24,11 @@ export function FleetMap({ vehicles, selectedVehicleId, onVehicleSelect }: Fleet
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
 
-    mapboxgl.accessToken = "pk.eyJ1IjoibG92YWJsZSIsImEiOiJjbHRwbXB5YmkwMXB4MmltbGVtN3J4ZHJ4In0.a9EvQY0dVsxU2YPqZRXXdg";
+    mapboxgl.accessToken = "pk.eyJ1IjoidW5pdHlmbGVldCIsImEiOiJjbTV0bjBuMnEweWV2MmxxNjY3NWk5OGhlIn0.fVzbEBvxSWr1yt7iU1Uj0w";
 
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: "mapbox://styles/mapbox/dark-v11", // Changed to dark theme
+      style: "mapbox://styles/mapbox/dark-v11",
       center: [-122.4194, 37.7749],
       zoom: 12
     });
