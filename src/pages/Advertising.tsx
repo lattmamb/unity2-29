@@ -32,12 +32,20 @@ export default function Advertising() {
     <PageLayout title="" menuItems={menuItems}>
       <div className="space-y-16 -mt-16">
         <AdHero />
-        <section className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-8">Advertising Options</h2>
+        
+        <section className="container mx-auto px-4 py-16 bg-[#0B1F3B]">
+          <h2 className="text-3xl font-bold text-center mb-4 text-white">Advertising Options</h2>
+          <p className="text-white/70 text-center mb-12 max-w-2xl mx-auto">
+            Choose between dynamic digital displays or premium vehicle wraps to showcase your brand
+          </p>
           <AdOptions />
         </section>
-        <section className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-8">Interactive Vehicle Preview</h2>
+        
+        <section className="container mx-auto px-4 py-16">
+          <h2 className="text-3xl font-bold text-center mb-4">Interactive Preview</h2>
+          <p className="text-muted-foreground text-center mb-12 max-w-2xl mx-auto">
+            Visualize your campaign with our interactive 3D model viewer
+          </p>
           <CarModelViewer />
         </section>
       </div>
