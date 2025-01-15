@@ -6,14 +6,14 @@ interface Location {
   name: string;
   address: string;
   isUnityCharger: boolean;
-  status: string;
+  coordinates: [number, number];
 }
 
 interface MapProps {
   locations: Location[];
 }
 
-const Map: React.FC<MapProps> = ({ locations }) => {
+const LocationMap = ({ locations }: MapProps) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
 
@@ -21,13 +21,13 @@ const Map: React.FC<MapProps> = ({ locations }) => {
     if (!mapContainer.current) return;
 
     // Initialize map
-    mapboxgl.accessToken = 'YOUR_MAPBOX_TOKEN'; // Replace with your Mapbox token
+    mapboxgl.accessToken = 'pk.eyJ1IjoidW5pdHlmbGVldCIsImEiOiJjbTV0bjBuMnEweWV2MmxxNjY3NWk5OGhlIn0.fVzbEBvxSWr1yt7iU1Uj0w';
     
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/dark-v11',
-      center: [-118.2437, 34.0522], // Los Angeles coordinates
-      zoom: 10
+      center: [-122.4194, 37.7749], // San Francisco coordinates
+      zoom: 11
     });
 
     // Add navigation controls
@@ -61,34 +61,40 @@ const Map: React.FC<MapProps> = ({ locations }) => {
 
       // Add marker to map
       new mapboxgl.Marker(el)
-        .setLngLat([-118.2437, 34.0522]) // Replace with actual coordinates
+        .setLngLat(location.coordinates)
         .setPopup(popup)
-        .addTo(map.current);
+        .addTo(map.current!);
     });
+
+    // Add legend
+    const legend = document.createElement('div');
+    legend.className = 'absolute bottom-4 left-4 bg-background/80 backdrop-blur-sm p-4 rounded-lg shadow-lg';
+    legend.innerHTML = `
+      <div class="flex flex-col gap-2">
+        <div class="flex items-center gap-2">
+          <div class="w-4 h-4 rounded-full bg-blue-500 border-2 border-white"></div>
+          <span class="text-sm">Unity Charger</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="w-4 h-4 rounded-full bg-gray-500 border-2 border-white"></div>
+          <span class="text-sm">Other Charger</span>
+        </div>
+      </div>
+    `;
+    mapContainer.current.appendChild(legend);
 
     // Cleanup
     return () => {
       map.current?.remove();
+      legend.remove();
     };
   }, [locations]);
 
   return (
     <div className="relative w-full h-full">
-      <div ref={mapContainer} className="absolute inset-0" />
-      <div className="absolute bottom-4 left-4 bg-background/80 backdrop-blur-sm p-4 rounded-lg shadow-lg">
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-full bg-blue-500 border-2 border-white" />
-            <span className="text-sm">Unity Charger</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-full bg-gray-500 border-2 border-white" />
-            <span className="text-sm">Other Charger</span>
-          </div>
-        </div>
-      </div>
+      <div ref={mapContainer} className="absolute inset-0 rounded-lg" />
     </div>
   );
 };
 
-export default Map;
+export default LocationMap;
