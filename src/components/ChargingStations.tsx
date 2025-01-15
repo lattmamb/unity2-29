@@ -27,39 +27,36 @@ const stations = [
 
 export const ChargingStations = () => {
   return (
-    <section className="py-16 bg-accent">
-      <div className="container mx-auto px-4">
-        <div className="relative h-[600px] mb-16 rounded-xl overflow-hidden">
+    <section className="min-h-screen bg-accent">
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center gap-4 bg-black/10 px-6 py-3 rounded-full backdrop-blur-sm mb-6">
+            <div className="text-[#4ade80] font-semibold">STACKCHARGE</div>
+            <div className="w-px h-6 bg-primary/20" />
+            <div className="text-primary">Universal Charging Hub</div>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">
+            Unity Link Charging Hub
+          </h2>
+          <p className="text-lg md:text-xl text-center max-w-2xl mx-auto">
+            Experience our state-of-the-art charging stations with integrated amenities and eco-friendly design
+          </p>
+        </div>
+
+        <div className="relative h-[80vh] mb-16 rounded-xl overflow-hidden">
           <img 
             src="/lovable-uploads/2f3ebc7e-63b4-418f-abbf-b878a891738f.png" 
             alt="Unity Fleet Charging Station" 
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 flex flex-col items-center justify-end pb-12">
-            <img 
-              src="/lovable-uploads/e00776b3-1f80-47c3-bccc-d21f9cd40dd6.png" 
-              alt="Unity Link Logo" 
-              className="w-24 h-24 mb-6 animate-float"
-            />
-            <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">
-              Unity Link Charging Hub
-            </h2>
-            <p className="text-lg md:text-xl text-center max-w-2xl px-4">
-              Experience our state-of-the-art charging stations with integrated amenities and eco-friendly design
-            </p>
-            <div className="mt-8 flex items-center gap-4 bg-black/30 px-6 py-3 rounded-full backdrop-blur-sm">
-              <div className="text-[#4ade80] font-semibold">STACKCHARGE</div>
-              <div className="w-px h-6 bg-white/20" />
-              <div className="text-white/90">Universal Charging Hub</div>
-            </div>
-          </div>
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-accent/50" />
         </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {stations.map((station) => (
             <Card 
               key={station.id} 
-              className="overflow-hidden hover:shadow-lg transition-shadow duration-300 group"
+              className="overflow-hidden hover:shadow-lg transition-shadow duration-300 group bg-white/80 backdrop-blur-sm"
             >
               <div className="h-48 overflow-hidden relative">
                 <img
