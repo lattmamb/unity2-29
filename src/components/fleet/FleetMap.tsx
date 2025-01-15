@@ -18,8 +18,9 @@ export function FleetMap({ vehicles }: FleetMapProps) {
   const map = useRef<mapboxgl.Map | null>(null);
   const markers = useRef<mapboxgl.Marker[]>([]);
 
+  // Initialize map
   useEffect(() => {
-    if (!mapContainer.current) return;
+    if (!mapContainer.current || map.current) return;
 
     mapboxgl.accessToken = "pk.eyJ1IjoibG92YWJsZSIsImEiOiJjbHRwbXB5YmkwMXB4MmltbGVtN3J4ZHJ4In0.a9EvQY0dVsxU2YPqZRXXdg";
 
@@ -32,12 +33,17 @@ export function FleetMap({ vehicles }: FleetMapProps) {
 
     map.current.addControl(new mapboxgl.NavigationControl(), "top-right");
 
+    // Clean up on unmount
     return () => {
       markers.current.forEach(marker => marker.remove());
-      map.current?.remove();
+      if (map.current) {
+        map.current.remove();
+        map.current = null;
+      }
     };
   }, []);
 
+  // Update markers when vehicles change
   useEffect(() => {
     if (!map.current) return;
 
@@ -45,24 +51,20 @@ export function FleetMap({ vehicles }: FleetMapProps) {
     markers.current.forEach(marker => marker.remove());
     markers.current = [];
 
-    // Add markers for each vehicle
-    vehicles.forEach(vehicle => {
-      if (!vehicle.current_location) return;
-      
-      // Safely type cast the current_location to Point
+    const validVehicles = vehicles.filter(vehicle => {
+      if (!vehicle.current_location) return false;
+      const location = vehicle.current_location as unknown as Point;
+      return (
+        typeof location?.x === 'number' &&
+        typeof location?.y === 'number' &&
+        isValidCoordinate(location.x, location.y)
+      );
+    });
+
+    // Add markers for valid vehicles
+    validVehicles.forEach(vehicle => {
       const location = vehicle.current_location as unknown as Point;
       
-      // Verify coordinates are valid numbers
-      if (typeof location.x !== 'number' || typeof location.y !== 'number') return;
-
-      const coordinates = {
-        lng: location.x,
-        lat: location.y
-      };
-
-      // Verify coordinates are within valid ranges
-      if (!isValidCoordinate(coordinates.lng, coordinates.lat)) return;
-
       const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(`
         <div class="p-2">
           <h3 class="font-semibold">${vehicle.name}</h3>
@@ -71,23 +73,19 @@ export function FleetMap({ vehicles }: FleetMapProps) {
       `);
 
       const marker = new mapboxgl.Marker()
-        .setLngLat(coordinates)
+        .setLngLat([location.x, location.y])
         .setPopup(popup)
         .addTo(map.current!);
 
       markers.current.push(marker);
     });
 
-    // Fit bounds to show all markers if there are any
-    if (markers.current.length > 0) {
+    // Fit bounds if there are valid vehicles
+    if (validVehicles.length > 0) {
       const bounds = new mapboxgl.LngLatBounds();
-      vehicles.forEach(vehicle => {
-        if (vehicle.current_location) {
-          const location = vehicle.current_location as unknown as Point;
-          if (isValidCoordinate(location.x, location.y)) {
-            bounds.extend([location.x, location.y]);
-          }
-        }
+      validVehicles.forEach(vehicle => {
+        const location = vehicle.current_location as unknown as Point;
+        bounds.extend([location.x, location.y]);
       });
       map.current.fitBounds(bounds, { padding: 50 });
     }
