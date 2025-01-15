@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ChevronRight, Download, Shield, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Vehicle3DViewer } from "@/components/fleet/Vehicle3DViewer";
 
 export const Hero = () => {
   return (
@@ -64,8 +63,8 @@ export const Hero = () => {
               className="border-[#00FFC6]/20 text-white hover:bg-[#00FFC6]/10"
               asChild
             >
-              <Link to="/fleet">
-                Get the App
+              <Link to="/subscription">
+                Get Started
               </Link>
             </Button>
           </div>
