@@ -6,7 +6,11 @@ interface Location {
   name: string;
   address: string;
   isUnityCharger: boolean;
-  coordinates: [number, number];
+  coordinates: [number, number];  // Explicitly typed as tuple
+  status: string;
+  availableVehicles: number;
+  hours: string;
+  image: string;
 }
 
 interface MapProps {

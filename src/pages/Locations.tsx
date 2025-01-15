@@ -29,7 +29,7 @@ const locations = [
     availableVehicles: 5,
     hours: "9 AM - 9 PM",
     image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
-    coordinates: [-122.4194, 37.7749],
+    coordinates: [-122.4194, 37.7749] as [number, number],
     isUnityCharger: true
   },
   {
@@ -39,7 +39,7 @@ const locations = [
     availableVehicles: 8,
     hours: "24/7",
     image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
-    coordinates: [-122.3892, 37.6213],
+    coordinates: [-122.3892, 37.6213] as [number, number],
     isUnityCharger: true
   },
   {
@@ -49,7 +49,7 @@ const locations = [
     availableVehicles: 3,
     hours: "10 AM - 8 PM",
     image: "https://images.unsplash.com/photo-1518770660439-4636190af475",
-    coordinates: [-122.4014, 37.7899],
+    coordinates: [-122.4014, 37.7899] as [number, number],
     isUnityCharger: false
   }
 ];
