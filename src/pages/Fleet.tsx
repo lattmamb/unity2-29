@@ -15,30 +15,47 @@ export default function Fleet() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gray-50">
       <Navigation />
       <div className="container mx-auto p-4 space-y-6">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white rounded-xl p-6 shadow-sm">
           <div>
-            <h1 className="text-3xl font-bold">Fleet Dashboard</h1>
-            <p className="text-muted-foreground mt-1">
+            <h1 className="text-3xl font-bold text-gray-900">Fleet Dashboard</h1>
+            <p className="text-gray-600 mt-1">
               Track and manage your electric vehicle fleet
             </p>
           </div>
-          <div className="flex flex-wrap gap-2">
-            <Button variant="outline" size="sm" className="gap-2" onClick={handleRefresh}>
+          <div className="flex flex-wrap gap-3">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="gap-2 text-ev-dark border-ev-light hover:bg-ev-light"
+              onClick={handleRefresh}
+            >
               <RefreshCw className="h-4 w-4" />
               Refresh
             </Button>
-            <Button variant="outline" size="sm" className="gap-2">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="gap-2 text-ev-dark border-ev-light hover:bg-ev-light"
+            >
               <Wallet className="h-4 w-4" />
               Add Balance
             </Button>
-            <Button variant="outline" size="sm" className="gap-2">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="gap-2 text-ev-dark border-ev-light hover:bg-ev-light"
+            >
               <Plus className="h-4 w-4" />
               Add Vehicle
             </Button>
-            <Button variant="outline" size="sm" className="gap-2">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="gap-2 text-ev-dark border-ev-light hover:bg-ev-light"
+            >
               <FileText className="h-4 w-4" />
               Report
             </Button>

@@ -7,8 +7,8 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/h
 import { Car, Shield, Zap, Clock, Battery, CreditCard, Check } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { useToast } from "@/components/ui/use-toast";
 
-// Move plans data outside component to avoid serialization issues
 const plans = [
   {
     name: "Base Plan",
@@ -133,6 +133,7 @@ const plans = [
 export const SubscriptionPlans = () => {
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<string | null>(null);
+  const { toast } = useToast();
 
   const handleSubscribe = async (planName: string) => {
     setIsLoading(planName);
@@ -140,18 +141,21 @@ export const SubscriptionPlans = () => {
     await new Promise((resolve) => setTimeout(resolve, 1500));
     setSelectedPlan(planName);
     setIsLoading(null);
+    toast({
+      title: "Plan Selected",
+      description: `You've selected the ${planName}. Customize it below.`,
+    });
   };
 
   return (
-    <section className="py-8 md:py-16 bg-accent">
+    <section className="py-8 md:py-16 bg-white">
       <div className="container mx-auto px-4 max-w-7xl">
-        <div className="text-center mb-8 md:mb-12">
-          <h1 className="text-3xl md:text-4xl font-bold text-primary mb-3 md:mb-4">
-            Unity Fleet Subscriptions
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4 bg-clip-text text-transparent bg-gradient-to-r from-ev-dark via-ev-DEFAULT to-ev-light">
+            Choose Your Perfect Tesla
           </h1>
-          <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
-            Choose your perfect Tesla experience with our flexible subscription plans.
-            All plans include insurance, maintenance, and charging access.
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Select a subscription plan that fits your lifestyle. All plans include insurance, maintenance, and charging access.
           </p>
         </div>
 
@@ -159,67 +163,69 @@ export const SubscriptionPlans = () => {
           {plans.map((plan) => (
             <HoverCard key={plan.name}>
               <HoverCardTrigger asChild>
-                <Card className={`relative overflow-hidden transition-all duration-300 hover:shadow-xl ${
-                  plan.popular ? "border-2 border-secondary shadow-lg md:scale-105" : "border border-gray-200"
-                }`}>
+                <Card className={`relative overflow-hidden transition-all duration-300 hover:shadow-xl bg-white border-2 
+                  ${plan.popular ? "border-ev-DEFAULT shadow-lg md:scale-105" : "border-gray-100"}
+                  hover:border-ev-DEFAULT group`}>
                   {plan.popular && (
                     <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                      <Badge className="bg-secondary text-secondary-foreground px-4 py-1 rounded-full">
+                      <Badge className="bg-ev-DEFAULT text-white px-4 py-1 rounded-full">
                         Most Popular
                       </Badge>
                     </div>
                   )}
-                  <CardHeader className="text-center">
-                    <CardTitle className="text-2xl">{plan.name}</CardTitle>
-                    <CardDescription>{plan.description}</CardDescription>
-                    <div className="mt-4 text-3xl font-bold">
+                  <CardHeader className="text-center pt-8">
+                    <CardTitle className="text-2xl font-bold text-gray-900">{plan.name}</CardTitle>
+                    <CardDescription className="text-gray-600">{plan.description}</CardDescription>
+                    <div className="mt-4 text-4xl font-bold text-ev-dark">
                       ${plan.price}
-                      <span className="text-sm font-normal text-gray-600">
-                        - ${plan.maxPrice}/mo
+                      <span className="text-base font-normal text-gray-500">
+                        /mo
                       </span>
                     </div>
                   </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="aspect-video relative bg-muted rounded-lg overflow-hidden">
+                  <CardContent className="space-y-6">
+                    <div className="aspect-video relative bg-ev-light rounded-xl overflow-hidden p-4">
                       <img
                         src={plan.image}
                         alt={plan.vehicle}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-contain transform group-hover:scale-105 transition-transform duration-300"
                       />
                     </div>
-                    <div className="space-y-2">
-                      <h3 className="font-semibold text-lg">{plan.vehicle}</h3>
-                      <ul className="space-y-2">
+                    <div className="space-y-4">
+                      <h3 className="font-semibold text-lg text-gray-900">{plan.vehicle}</h3>
+                      <ul className="space-y-3">
                         {plan.features.map((feature) => (
-                          <li key={feature} className="flex items-start gap-2">
-                            <Check className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                            <span className="text-sm text-gray-600">{feature}</span>
+                          <li key={feature} className="flex items-start gap-3">
+                            <Check className="h-5 w-5 text-ev-DEFAULT flex-shrink-0 mt-0.5" />
+                            <span className="text-gray-600 text-sm">{feature}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
-                    <Separator />
-                    <div>
-                      <h4 className="font-semibold mb-2">Available Add-ons:</h4>
-                      <ul className="space-y-1">
+                    <Separator className="my-6" />
+                    <div className="space-y-3">
+                      <h4 className="font-semibold text-gray-900">Available Add-ons:</h4>
+                      <ul className="space-y-2">
                         {plan.addOns.map((addon) => (
-                          <li key={addon.name} className="text-sm text-gray-600 flex justify-between">
+                          <li key={addon.name} className="text-sm text-gray-600 flex justify-between items-center">
                             <span>{addon.name}</span>
-                            <span>+${addon.price}/mo</span>
+                            <Badge variant="outline" className="text-ev-dark">
+                              +${addon.price}/mo
+                            </Badge>
                           </li>
                         ))}
                       </ul>
                     </div>
                   </CardContent>
-                  <CardFooter>
+                  <CardFooter className="pb-8">
                     <Button
-                      className="w-full"
+                      className="w-full bg-ev-DEFAULT hover:bg-ev-dark text-white transition-all duration-300 py-6"
                       onClick={() => handleSubscribe(plan.name)}
                       disabled={isLoading === plan.name}
                     >
                       {isLoading === plan.name ? (
                         <>
-                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
+                          <div className="animate-spin rounded-full h-4 w-4 border-2 border-white/50 border-t-white mr-2" />
                           Processing...
                         </>
                       ) : (
@@ -229,20 +235,20 @@ export const SubscriptionPlans = () => {
                   </CardFooter>
                 </Card>
               </HoverCardTrigger>
-              <HoverCardContent className="w-80">
+              <HoverCardContent className="w-80 p-4">
                 <div className="space-y-4">
-                  <h3 className="font-semibold">Available Trims</h3>
-                  <div className="space-y-3">
+                  <h3 className="font-semibold text-gray-900">Available Trims</h3>
+                  <div className="space-y-4">
                     {plan.trims.map((trim) => (
                       <div key={trim.name} className="space-y-2">
                         <div className="flex justify-between items-center">
-                          <span className="font-medium">{trim.name}</span>
-                          <span className="text-sm text-gray-600">${trim.price}/mo</span>
+                          <span className="font-medium text-gray-900">{trim.name}</span>
+                          <span className="text-sm text-ev-dark">${trim.price}/mo</span>
                         </div>
-                        <ul className="text-sm text-gray-600">
+                        <ul className="space-y-1">
                           {trim.features.map((feature) => (
-                            <li key={feature} className="flex items-center gap-2">
-                              <Check className="h-3 w-3 text-green-500" />
+                            <li key={feature} className="flex items-center gap-2 text-sm text-gray-600">
+                              <Check className="h-3 w-3 text-ev-DEFAULT" />
                               {feature}
                             </li>
                           ))}
@@ -257,7 +263,7 @@ export const SubscriptionPlans = () => {
         </div>
 
         {selectedPlan && (
-          <div className="mt-8">
+          <div className="mt-12">
             <PlanCustomizer
               basePlan={selectedPlan}
               basePrice={Number(plans.find((p) => p.name === selectedPlan)?.price) || 0}
@@ -265,7 +271,9 @@ export const SubscriptionPlans = () => {
           </div>
         )}
 
-        <PlanComparison />
+        <div className="mt-16">
+          <PlanComparison />
+        </div>
       </div>
     </section>
   );

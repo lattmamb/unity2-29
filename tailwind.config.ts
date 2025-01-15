@@ -24,7 +24,7 @@ export default {
           foreground: "#ffffff",
         },
         secondary: {
-          DEFAULT: "#00f0ff",
+          DEFAULT: "#00B2FF",
           foreground: "#1a365d",
         },
         accent: {
@@ -34,6 +34,11 @@ export default {
         eco: {
           DEFAULT: "#4ade80",
           foreground: "#1a365d",
+        },
+        ev: {
+          DEFAULT: "#00B2FF",
+          light: "#E6F6FF",
+          dark: "#0077B6",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
