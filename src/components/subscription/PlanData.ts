@@ -5,7 +5,7 @@ export const plans = [
     price: 350,
     maxPrice: 500,
     vehicle: "Tesla Model 3",
-    image: "/lovable-uploads/9a7951c8-5fac-4e5d-9c41-4517db1e9f87.png",
+    image: "/lovable-uploads/b22e2ae2-a6a3-4f1d-88dc-2f68f8831208.png",
     features: [
       "Model 3 (RWD - Standard Range)",
       "1,000-2,000 miles/month included",
