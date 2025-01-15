@@ -8,6 +8,11 @@ interface FleetMapProps {
   vehicles: Tables<"vehicles">[];
 }
 
+interface Point {
+  x: number;
+  y: number;
+}
+
 export function FleetMap({ vehicles }: FleetMapProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
@@ -21,7 +26,7 @@ export function FleetMap({ vehicles }: FleetMapProps) {
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/light-v11",
-      center: [-122.4194, 37.7749],
+      center: [-122.4194, 37.7749], // Default to San Francisco
       zoom: 12
     });
 
@@ -43,11 +48,20 @@ export function FleetMap({ vehicles }: FleetMapProps) {
     // Add markers for each vehicle
     vehicles.forEach(vehicle => {
       if (!vehicle.current_location) return;
+      
+      // Safely type cast the current_location to Point
+      const location = vehicle.current_location as unknown as Point;
+      
+      // Verify coordinates are valid numbers
+      if (typeof location.x !== 'number' || typeof location.y !== 'number') return;
 
       const coordinates = {
-        lng: vehicle.current_location.x,
-        lat: vehicle.current_location.y
+        lng: location.x,
+        lat: location.y
       };
+
+      // Verify coordinates are within valid ranges
+      if (!isValidCoordinate(coordinates.lng, coordinates.lat)) return;
 
       const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(`
         <div class="p-2">
@@ -69,7 +83,10 @@ export function FleetMap({ vehicles }: FleetMapProps) {
       const bounds = new mapboxgl.LngLatBounds();
       vehicles.forEach(vehicle => {
         if (vehicle.current_location) {
-          bounds.extend([vehicle.current_location.x, vehicle.current_location.y]);
+          const location = vehicle.current_location as unknown as Point;
+          if (isValidCoordinate(location.x, location.y)) {
+            bounds.extend([location.x, location.y]);
+          }
         }
       });
       map.current.fitBounds(bounds, { padding: 50 });
@@ -81,4 +98,14 @@ export function FleetMap({ vehicles }: FleetMapProps) {
       <div ref={mapContainer} className="w-full h-[600px]" />
     </Card>
   );
+}
+
+// Helper function to validate coordinates
+function isValidCoordinate(lng: number, lat: number): boolean {
+  return !isNaN(lng) && 
+         !isNaN(lat) && 
+         lng >= -180 && 
+         lng <= 180 && 
+         lat >= -90 && 
+         lat <= 90;
 }
