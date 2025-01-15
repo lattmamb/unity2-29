@@ -4,127 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Map from "@/components/Map";
-
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1
-    }
-  }
-};
-
-const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0 }
-};
-
-const locationImages = {
-  "Downtown Hub": "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
-  "Airport Terminal": "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
-  "Shopping Center": "https://images.unsplash.com/photo-1518770660439-4636190af475"
-};
-
-export default function Locations() {
-  const menuItems = [
-    {
-      title: "Find Nearest",
-      icon: MapPin,
-      description: "Locate the closest vehicle to you",
-    },
-    {
-      title: "Navigation",
-      icon: Navigation,
-      description: "Get directions to pickup locations",
-    },
-    {
-      title: "Search Areas",
-      icon: Search,
-      description: "Search for vehicles in specific areas",
-    },
-    {
-      title: "Operating Hours",
-      icon: Clock,
-      description: "View location operating hours",
-    },
-    {
-      title: "Filter Options",
-      icon: Filter,
-      description: "Filter locations by availability",
-    },
-  ];
-
-  const locations = [
-    {
-      name: "Downtown Hub",
-      address: "123 Main Street",
-      status: "Open",
-      availableVehicles: 5,
-      hours: "9 AM - 9 PM",
-      coordinates: [-122.4194, 37.7749],
-      isUnityCharger: true
-    },
-    {
-      name: "Airport Terminal",
-      address: "456 Airport Road",
-      status: "Open",
-      availableVehicles: 8,
-      hours: "24/7",
-      coordinates: [-122.3892, 37.6213],
-      isUnityCharger: true
-    },
-    {
-      name: "Shopping Center",
-      address: "789 Market Avenue",
-      status: "Open",
-      availableVehicles: 3,
-      hours: "10 AM - 8 PM",
-      coordinates: [-122.4014, 37.7899],
-      isUnityCharger: false
-    },
-  ];
-
-  return (
-    <PageLayout title="Locations" menuItems={menuItems}>
-      <div className="space-y-8">
-        {/* Hero Section */}
-        <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 p-8">
-          <div className="absolute inset-0 bg-grid-white/10 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.5))]" />
-          <div className="relative">
-            <h1 className="text-3xl font-bold mb-4 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
-              Find Your Nearest Location
-            </h1>
-            <p className="text-muted-foreground max-w-2xl">
-              Discover our convenient pickup locations across the city. Each hub is equipped
-              with charging stations and secure parking facilities.
-            </p>
-          </div>
-        </div>
-
-        {/* Tabs for List/Map View */}
-        <Tabs defaultValue="list" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 max-w-[400px] mx-auto mb-8">
-            <TabsTrigger value="list">List View</TabsTrigger>
-            <TabsTrigger value="map">Map View</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="list">
-
-Let's enhance the Locations page by adding location images and a map view with charger locations.
-
-<lov-code>
-We'll update the Locations page to include images and a map component:
-
-<lov-write file_path="src/pages/Locations.tsx">
-import { PageLayout } from "@/components/PageLayout";
-import { MapPin, Navigation, Search, Clock, Filter } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
-import { motion } from "framer-motion";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Map from "./LocationMap";
+import LocationMap from "./LocationMap";
 
 const container = {
   hidden: { opacity: 0 },
@@ -149,6 +29,7 @@ const locations = [
     availableVehicles: 5,
     hours: "9 AM - 9 PM",
     image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
+    coordinates: [-122.4194, 37.7749],
     isUnityCharger: true
   },
   {
@@ -158,6 +39,7 @@ const locations = [
     availableVehicles: 8,
     hours: "24/7",
     image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
+    coordinates: [-122.3892, 37.6213],
     isUnityCharger: true
   },
   {
@@ -167,6 +49,7 @@ const locations = [
     availableVehicles: 3,
     hours: "10 AM - 8 PM",
     image: "https://images.unsplash.com/photo-1518770660439-4636190af475",
+    coordinates: [-122.4014, 37.7899],
     isUnityCharger: false
   }
 ];
@@ -203,7 +86,6 @@ export default function Locations() {
   return (
     <PageLayout title="Locations" menuItems={menuItems}>
       <div className="space-y-8">
-        {/* Hero Section */}
         <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 p-8">
           <div className="absolute inset-0 bg-grid-white/10 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.5))]" />
           <div className="relative">
@@ -289,7 +171,7 @@ export default function Locations() {
           </TabsContent>
           
           <TabsContent value="map" className="h-[600px] rounded-lg overflow-hidden">
-            <Map locations={locations} />
+            <LocationMap locations={locations} />
           </TabsContent>
         </Tabs>
       </div>

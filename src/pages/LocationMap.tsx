@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
@@ -20,7 +20,6 @@ const LocationMap = ({ locations }: MapProps) => {
   useEffect(() => {
     if (!mapContainer.current) return;
 
-    // Initialize map
     mapboxgl.accessToken = 'pk.eyJ1IjoidW5pdHlmbGVldCIsImEiOiJjbTV0bjBuMnEweWV2MmxxNjY3NWk5OGhlIn0.fVzbEBvxSWr1yt7iU1Uj0w';
     
     map.current = new mapboxgl.Map({
@@ -30,43 +29,31 @@ const LocationMap = ({ locations }: MapProps) => {
       zoom: 11
     });
 
-    // Add navigation controls
     map.current.addControl(
-      new mapboxgl.NavigationControl(),
-      'top-right'
+      new mapboxgl.NavigationControl({
+        visualizePitch: true,
+      })
     );
 
-    // Add markers for each location
-    locations.forEach(location => {
-      // Create custom marker element
+    locations.forEach((location) => {
       const el = document.createElement('div');
-      el.className = 'marker';
-      el.style.width = '24px';
-      el.style.height = '24px';
-      el.style.borderRadius = '50%';
-      el.style.backgroundColor = location.isUnityCharger ? '#3b82f6' : '#6b7280';
-      el.style.border = '2px solid white';
-      el.style.boxShadow = '0 2px 4px rgba(0,0,0,0.2)';
-      el.style.cursor = 'pointer';
+      el.className = 'flex items-center justify-center w-8 h-8 rounded-full border-2 border-white shadow-lg';
+      el.style.backgroundColor = location.isUnityCharger ? '#3B82F6' : '#6B7280';
+      
+      const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(`
+        <div class="p-2">
+          <h3 class="font-semibold">${location.name}</h3>
+          <p class="text-sm text-gray-600">${location.address}</p>
+          ${location.isUnityCharger ? '<span class="text-xs text-blue-500 font-medium">Unity Charger</span>' : ''}
+        </div>
+      `);
 
-      // Add popup
-      const popup = new mapboxgl.Popup({ offset: 25 })
-        .setHTML(`
-          <div class="p-2">
-            <h3 class="font-bold">${location.name}</h3>
-            <p class="text-sm text-gray-600">${location.address}</p>
-            ${location.isUnityCharger ? '<span class="text-xs text-blue-500 font-medium">Unity Charger</span>' : ''}
-          </div>
-        `);
-
-      // Add marker to map
       new mapboxgl.Marker(el)
         .setLngLat(location.coordinates)
         .setPopup(popup)
         .addTo(map.current!);
     });
 
-    // Add legend
     const legend = document.createElement('div');
     legend.className = 'absolute bottom-4 left-4 bg-background/80 backdrop-blur-sm p-4 rounded-lg shadow-lg';
     legend.innerHTML = `
@@ -83,7 +70,6 @@ const LocationMap = ({ locations }: MapProps) => {
     `;
     mapContainer.current.appendChild(legend);
 
-    // Cleanup
     return () => {
       map.current?.remove();
       legend.remove();
