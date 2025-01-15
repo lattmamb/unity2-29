@@ -29,10 +29,10 @@ export const ChargingStations = () => {
   return (
     <section className="py-16 bg-accent">
       <div className="container mx-auto px-4">
-        <div className="relative h-[400px] mb-16 rounded-xl overflow-hidden">
+        <div className="relative h-[600px] mb-16 rounded-xl overflow-hidden">
           <img 
-            src="/lovable-uploads/9a7951c8-5fac-4e5d-9c41-4517db1e9f87.png" 
-            alt="Georgia Station Hub" 
+            src="/lovable-uploads/2f3ebc7e-63b4-418f-abbf-b878a891738f.png" 
+            alt="Unity Fleet Charging Station" 
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
@@ -42,10 +42,17 @@ export const ChargingStations = () => {
               alt="Unity Link Logo" 
               className="w-32 h-32 mb-6 animate-float"
             />
-            <h2 className="text-4xl font-bold text-center mb-4">Unity Link Charging Hub</h2>
-            <p className="text-lg text-center max-w-2xl px-4">
-              Experience our state-of-the-art charging stations with solar integration and eco-friendly design
+            <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">
+              Unity Link Charging Hub
+            </h2>
+            <p className="text-lg md:text-xl text-center max-w-2xl px-4">
+              Experience our state-of-the-art charging stations with integrated amenities and eco-friendly design
             </p>
+            <div className="mt-8 flex items-center gap-4 bg-black/30 px-6 py-3 rounded-full backdrop-blur-sm">
+              <div className="text-[#4ade80] font-semibold">STACKCHARGE</div>
+              <div className="w-px h-6 bg-white/20" />
+              <div className="text-white/90">Universal Charging Hub</div>
+            </div>
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
