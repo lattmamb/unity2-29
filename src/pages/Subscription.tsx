@@ -3,7 +3,6 @@ import { PageLayout } from "@/components/PageLayout";
 import { Car, CreditCard, Gift, HelpCircle, Settings, Zap } from "lucide-react";
 import { VehicleOverview } from "@/components/VehicleOverview";
 import { Jarvis } from "@/components/Jarvis";
-import { VehicleAdvertising } from "@/components/subscription/VehicleAdvertising";
 
 export default function Subscription() {
   const menuItems = [
@@ -44,10 +43,9 @@ export default function Subscription() {
   ];
 
   return (
-    <PageLayout title="Subscription & Advertising" menuItems={menuItems}>
+    <PageLayout title="Subscription Plans" menuItems={menuItems}>
       <div className="space-y-16">
         <SubscriptionPlans />
-        <VehicleAdvertising />
       </div>
       <Jarvis context="subscription" />
     </PageLayout>

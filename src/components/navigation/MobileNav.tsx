@@ -25,6 +25,11 @@ export const MobileNav = () => {
           link: "/subscription"
         },
         {
+          title: "Advertising",
+          description: "Promote your brand on our Tesla fleet",
+          link: "/advertising"
+        },
+        {
           title: "Rentals",
           description: "Flexible vehicle rentals for your needs",
           link: "/rentals"

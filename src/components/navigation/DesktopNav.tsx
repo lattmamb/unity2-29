@@ -28,23 +28,23 @@ export const DesktopNav = () => {
                 <div className="grid grid-cols-2 gap-3">
                   <NavigationMenuLink asChild>
                     <Link
+                      to="/advertising"
+                      className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                    >
+                      <div className="text-sm font-medium leading-none">Advertising</div>
+                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                        Promote your brand on our Tesla fleet
+                      </p>
+                    </Link>
+                  </NavigationMenuLink>
+                  <NavigationMenuLink asChild>
+                    <Link
                       to="/rentals"
                       className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                     >
                       <div className="text-sm font-medium leading-none">Rentals</div>
                       <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                         Flexible vehicle rentals for your needs
-                      </p>
-                    </Link>
-                  </NavigationMenuLink>
-                  <NavigationMenuLink asChild>
-                    <Link
-                      to="/on-demand"
-                      className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                    >
-                      <div className="text-sm font-medium leading-none">On-Demand Rides</div>
-                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Book a ride whenever you need it
                       </p>
                     </Link>
                   </NavigationMenuLink>

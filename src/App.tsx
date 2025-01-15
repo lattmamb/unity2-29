@@ -8,6 +8,7 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Subscription from "./pages/Subscription";
+import Advertising from "./pages/Advertising";
 import Locations from "./pages/Locations";
 import Support from "./pages/Support";
 import Profile from "./pages/Profile";
@@ -50,6 +51,14 @@ const App = () => (
                 element={
                   <ProtectedRoute>
                     <Subscription />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/advertising"
+                element={
+                  <ProtectedRoute>
+                    <Advertising />
                   </ProtectedRoute>
                 }
               />
