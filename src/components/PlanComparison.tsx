@@ -10,9 +10,9 @@ const features = [
   },
   {
     name: "Vehicle Selection",
-    essential: "Basic",
-    premium: "Premium",
-    elite: "Luxury",
+    essential: "Model 3 Standard",
+    premium: "Model S, Model 3 Performance",
+    elite: "All Models (Including Model X, Model S Plaid)",
   },
   {
     name: "FSD Capability",
