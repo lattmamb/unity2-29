@@ -1,0 +1,120 @@
+export const plans = [
+  {
+    name: "Base Plan",
+    description: "Perfect for occasional drivers",
+    price: 350,
+    maxPrice: 500,
+    vehicle: "Tesla Model 3",
+    image: "/lovable-uploads/9a7951c8-5fac-4e5d-9c41-4517db1e9f87.png",
+    features: [
+      "Model 3 (RWD - Standard Range)",
+      "1,000-2,000 miles/month included",
+      "Basic Autopilot",
+      "Standard interior",
+      "Pay-Per-Charge",
+      "Standard support (Business Hours)",
+      "Standard insurance (Higher deductible)",
+    ],
+    addOns: [
+      { name: "Enhanced Autopilot / FSD", price: "50-100" },
+      { name: "Extra Mileage (500 miles)", price: "50" },
+      { name: "Maintenance & Extended Warranty", price: "30" },
+    ],
+    trims: [
+      {
+        name: "Model 3 RWD",
+        price: 350,
+        features: ["Standard Range", "Basic Autopilot", "Standard interior"],
+      },
+      {
+        name: "Model 3 Long Range",
+        price: 400,
+        features: ["Dual Motor AWD", "Partial Premium interior", "Extended Range"],
+      },
+      {
+        name: "Model 3 Performance",
+        price: 500,
+        features: ["Performance wheels & suspension", "Premium interior", "Maximum performance"],
+      },
+    ],
+  },
+  {
+    name: "Premium Plan",
+    description: "Ideal for regular commuters",
+    price: 750,
+    maxPrice: 1000,
+    vehicle: "Tesla Model X",
+    image: "/lovable-uploads/e7208ea9-864c-4d4c-a5b4-341b0a6cc04d.png",
+    popular: true,
+    features: [
+      "Model X (Long Range or Performance)",
+      "2,500-3,000 miles/month included",
+      "Enhanced Autopilot option",
+      "Premium interior",
+      "Priority charging access",
+      "Priority support (Extended Hours)",
+      "Enhanced insurance (Lower deductible)",
+    ],
+    addOns: [
+      { name: "Full Self-Driving", price: "100" },
+      { name: "Unlimited Charging", price: "100-150" },
+      { name: "Fleet Management Software", price: "150", note: "for business clients" },
+    ],
+    trims: [
+      {
+        name: "Model X Long Range",
+        price: 750,
+        features: ["Dual Motor AWD", "7-seat option", "Priority maintenance"],
+      },
+      {
+        name: "Model X Performance",
+        price: 1000,
+        features: ["Performance tuning", "Premium interior & audio", "Priority roadside assist"],
+      },
+    ],
+  },
+  {
+    name: "Exclusive Plan",
+    description: "Ultimate flexibility and luxury",
+    price: 1500,
+    maxPrice: 2500,
+    vehicle: "Tesla Model S",
+    image: "/lovable-uploads/f927bb84-ef36-4762-8d10-ade9a41f18ce.png",
+    features: [
+      "Model S (All variants)",
+      "3,500-4,500 miles/month included",
+      "Full Self-Driving capability",
+      "Premium interior & features",
+      "Unlimited charging",
+      "24/7 Dedicated support + Concierge",
+      "Comprehensive insurance (Lowest deductible)",
+    ],
+    addOns: [
+      { name: "Full Self-Driving", price: "150" },
+      { name: "Advanced Fleet Telematics", price: "200", note: "for corporate" },
+      { name: "White-Glove Service", price: "100" },
+    ],
+    trims: [
+      {
+        name: "Model S Long Range",
+        price: 1500,
+        features: ["Dual Motor AWD", "Premium interior", "24/7 support"],
+      },
+      {
+        name: "Model S Plaid",
+        price: 2000,
+        features: ["Tri Motor AWD", "Advanced infotainment", "Concierge service"],
+      },
+      {
+        name: "Model S Long Range Plus",
+        price: 1800,
+        features: ["Extended Range", "Premium interior", "Enhanced Autopilot"],
+      },
+      {
+        name: "Model S Plaid+",
+        price: 2500,
+        features: ["Maximum Performance", "Luxury interior", "White-glove service"],
+      },
+    ],
+  },
+];
