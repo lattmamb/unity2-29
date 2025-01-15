@@ -1,6 +1,6 @@
 import { Tables } from "@/integrations/supabase/types";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Battery, Gauge, Zap, DollarSign, WrenchScrewdriver } from "lucide-react";
+import { Battery, Gauge, Zap } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface FleetSidebarProps {
@@ -69,7 +69,7 @@ export function FleetSidebar({ vehicles, isLoading, selectedVehicleId, onVehicle
                         {vehicle.horsepower}hp
                       </div>
                       <div className="flex items-center text-muted-foreground">
-                        <WrenchScrewdriver className="h-4 w-4 mr-1" />
+                        <Gauge className="h-4 w-4 mr-1" />
                         OK
                       </div>
                     </div>
