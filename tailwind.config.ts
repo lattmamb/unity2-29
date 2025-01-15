@@ -20,25 +20,12 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#1a365d",
-          foreground: "#ffffff",
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
-          DEFAULT: "#00B2FF",
-          foreground: "#1a365d",
-        },
-        accent: {
-          DEFAULT: "#f0f9ff",
-          foreground: "#1a365d",
-        },
-        eco: {
-          DEFAULT: "#4ade80",
-          foreground: "#1a365d",
-        },
-        ev: {
-          DEFAULT: "#00B2FF",
-          light: "#E6F6FF",
-          dark: "#0077B6",
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
@@ -47,6 +34,10 @@ export default {
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",
@@ -99,12 +90,17 @@ export default {
         },
         "glow": {
           "0%, 100%": {
-            boxShadow: "0 0 5px rgba(0, 240, 255, 0.5), 0 0 20px rgba(0, 240, 255, 0.2)",
+            boxShadow: "0 0 5px rgba(59, 130, 246, 0.5), 0 0 20px rgba(59, 130, 246, 0.2)",
           },
           "50%": {
-            boxShadow: "0 0 10px rgba(0, 240, 255, 0.8), 0 0 30px rgba(0, 240, 255, 0.4)",
+            boxShadow: "0 0 10px rgba(59, 130, 246, 0.8), 0 0 30px rgba(59, 130, 246, 0.4)",
           },
-        }
+        },
+        "shimmer": {
+          "100%": {
+            transform: "translateX(100%)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -113,11 +109,12 @@ export default {
         "float": "float 3s ease-in-out infinite",
         "pulse-soft": "pulse-soft 2s ease-in-out infinite",
         "glow": "glow 2s ease-in-out infinite",
+        "shimmer": "shimmer 2s linear infinite",
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-        'hero-pattern': 'linear-gradient(to right, rgba(26, 54, 93, 0.9), rgba(26, 54, 93, 0.8)), url("/hero-bg.jpg")',
+        'hero-pattern': 'linear-gradient(to right, rgba(29, 78, 216, 0.9), rgba(124, 58, 237, 0.8))',
         'circuit-pattern': 'url("/circuit-pattern.svg")',
       },
     },
