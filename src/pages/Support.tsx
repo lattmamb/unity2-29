@@ -1,5 +1,6 @@
 import { PageLayout } from "@/components/PageLayout";
 import { MessageCircle, Phone, Mail, FileText, HelpCircle } from "lucide-react";
+import { Jarvis } from "@/components/Jarvis";
 
 export default function Support() {
   const menuItems = [
@@ -33,6 +34,7 @@ export default function Support() {
   return (
     <PageLayout title="Support" menuItems={menuItems}>
       <p>Support content coming soon...</p>
+      <Jarvis context="general" className="!fixed !bottom-4 !right-4 cursor-move" />
     </PageLayout>
   );
 }

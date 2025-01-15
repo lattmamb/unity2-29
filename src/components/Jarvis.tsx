@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Bot, Mic, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -13,6 +13,9 @@ interface JarvisProps {
 export const Jarvis = ({ className, context = "general" }: JarvisProps) => {
   const [isListening, setIsListening] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
   const contextualResponses = {
@@ -43,7 +46,47 @@ export const Jarvis = ({ className, context = "general" }: JarvisProps) => {
     return responses[Math.floor(Math.random() * responses.length)];
   };
 
-  const handleMicClick = () => {
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (cardRef.current && !e.defaultPrevented) {
+      setIsDragging(true);
+      const rect = cardRef.current.getBoundingClientRect();
+      setPosition({
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      });
+    }
+  };
+
+  const handleMouseMove = (e: MouseEvent) => {
+    if (isDragging && cardRef.current) {
+      const maxX = window.innerWidth - cardRef.current.offsetWidth;
+      const maxY = window.innerHeight - cardRef.current.offsetHeight;
+      
+      const newX = Math.min(Math.max(0, e.clientX - position.x), maxX);
+      const newY = Math.min(Math.max(0, e.clientY - position.y), maxY);
+      
+      cardRef.current.style.left = `${newX}px`;
+      cardRef.current.style.top = `${newY}px`;
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  useEffect(() => {
+    if (isDragging) {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleMouseUp);
+    }
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isDragging]);
+
+  const handleMicClick = (e: React.MouseEvent) => {
+    e.preventDefault();
     setIsListening(true);
     toast({
       title: "Voice Recognition",
@@ -52,10 +95,10 @@ export const Jarvis = ({ className, context = "general" }: JarvisProps) => {
     setTimeout(() => setIsListening(false), 2000);
   };
 
-  const handleSpeakClick = () => {
+  const handleSpeakClick = (e: React.MouseEvent) => {
+    e.preventDefault();
     setIsSpeaking(true);
     const message = getRandomResponse();
-    // Text-to-speech functionality would go here
     toast({
       title: "JARVIS Says",
       description: message,
@@ -64,7 +107,15 @@ export const Jarvis = ({ className, context = "general" }: JarvisProps) => {
   };
 
   return (
-    <Card className={cn("fixed bottom-4 right-4 w-auto shadow-lg", className)}>
+    <Card 
+      ref={cardRef}
+      className={cn(
+        "fixed w-[calc(100vw/32)] min-w-[200px] shadow-lg transition-transform hover:scale-105",
+        isDragging ? "cursor-grabbing" : "cursor-grab",
+        className
+      )}
+      onMouseDown={handleMouseDown}
+    >
       <CardContent className="p-4 flex items-center gap-2">
         <Bot className="h-6 w-6 text-primary animate-pulse" />
         <div className="flex gap-2">
