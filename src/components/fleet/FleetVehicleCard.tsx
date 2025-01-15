@@ -13,7 +13,11 @@ interface FleetVehicleCardProps {
 export function FleetVehicleCard({ vehicle }: FleetVehicleCardProps) {
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-all duration-500 bg-background/50 backdrop-blur-sm border-accent/20 group">
-      <div className="aspect-[16/9] relative overflow-hidden bg-accent/5">
+      <motion.div 
+        className="aspect-[16/9] relative overflow-hidden bg-accent/5"
+        whileHover={{ scale: 1.05 }}
+        transition={{ duration: 0.3 }}
+      >
         {vehicle.image_url ? (
           <img
             src={vehicle.image_url}
@@ -27,7 +31,7 @@ export function FleetVehicleCard({ vehicle }: FleetVehicleCardProps) {
         >
           {vehicle.type}
         </Badge>
-      </div>
+      </motion.div>
       
       <div className="p-6 space-y-6">
         <h3 className="text-2xl font-semibold bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent">
@@ -35,27 +39,36 @@ export function FleetVehicleCard({ vehicle }: FleetVehicleCardProps) {
         </h3>
         
         <div className="grid grid-cols-3 gap-4">
-          <div className="text-center group/stat">
+          <motion.div 
+            className="text-center group/stat"
+            whileHover={{ scale: 1.05 }}
+          >
             <div className="p-3 rounded-lg bg-accent/5 group-hover/stat:bg-accent/10 transition-colors">
               <Battery className="h-6 w-6 mx-auto mb-2 text-secondary" />
               <div className="text-sm font-medium">{vehicle.battery_level}%</div>
               <div className="text-xs text-muted-foreground">Battery</div>
             </div>
-          </div>
-          <div className="text-center group/stat">
+          </motion.div>
+          <motion.div 
+            className="text-center group/stat"
+            whileHover={{ scale: 1.05 }}
+          >
             <div className="p-3 rounded-lg bg-accent/5 group-hover/stat:bg-accent/10 transition-colors">
               <Zap className="h-6 w-6 mx-auto mb-2 text-secondary" />
               <div className="text-sm font-medium">{vehicle.range_miles}mi</div>
               <div className="text-xs text-muted-foreground">Range</div>
             </div>
-          </div>
-          <div className="text-center group/stat">
+          </motion.div>
+          <motion.div 
+            className="text-center group/stat"
+            whileHover={{ scale: 1.05 }}
+          >
             <div className="p-3 rounded-lg bg-accent/5 group-hover/stat:bg-accent/10 transition-colors">
               <Gauge className="h-6 w-6 mx-auto mb-2 text-secondary" />
               <div className="text-sm font-medium">{vehicle.horsepower}hp</div>
               <div className="text-xs text-muted-foreground">Power</div>
             </div>
-          </div>
+          </motion.div>
         </div>
         
         <Button 

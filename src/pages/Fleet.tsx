@@ -6,9 +6,10 @@ import { FleetMetrics } from "@/components/fleet/FleetMetrics";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Car, MapPin } from "lucide-react";
-import { motion } from "framer-motion";
+import { Car, MapPin, Settings, AlertCircle } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export default function Fleet() {
   const [selectedVehicleId, setSelectedVehicleId] = useState<string | null>(null);
@@ -21,29 +22,38 @@ export default function Fleet() {
         .select("*")
         .eq("status", "available");
       
-      if (error) throw error;
+      if (error) {
+        toast.error("Failed to load vehicles");
+        throw error;
+      }
       return data;
     },
   });
 
   const menuItems = [
     {
-      title: "Book a Vehicle",
-      icon: Car,
-      description: "Reserve your next electric vehicle",
-      action: () => window.location.href = "/booking"
+      title: "Vehicle Settings",
+      icon: Settings,
+      description: "Configure vehicle parameters and maintenance schedules",
+      action: () => toast.info("Vehicle settings coming soon")
     },
     {
-      title: "Find Nearest Location",
-      icon: MapPin,
-      description: "Locate vehicles near you",
+      title: "Maintenance Alerts",
+      icon: AlertCircle,
+      description: "View and manage vehicle maintenance alerts",
+      action: () => toast.info("Maintenance alerts coming soon")
     },
   ];
 
   return (
     <PageLayout title="Fleet Management" menuItems={menuItems}>
       <div className="container mx-auto px-4 py-8 min-h-screen bg-gradient-to-b from-background to-accent/5">
-        <div className="grid grid-cols-1 lg:grid-cols-[350px,1fr] gap-6">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="grid grid-cols-1 lg:grid-cols-[350px,1fr] gap-6"
+        >
           <FleetSidebar 
             vehicles={vehicles || []} 
             isLoading={isLoading}
@@ -72,61 +82,72 @@ export default function Fleet() {
                 </TabsTrigger>
               </TabsList>
               
-              <TabsContent value="map" className="mt-0">
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <FleetMap 
-                    vehicles={vehicles || []} 
-                    selectedVehicleId={selectedVehicleId}
-                    onVehicleSelect={setSelectedVehicleId}
-                  />
-                </motion.div>
-              </TabsContent>
-              
-              <TabsContent value="grid" className="mt-0">
-                <motion.div 
-                  variants={{
-                    hidden: { opacity: 0 },
-                    show: {
-                      opacity: 1,
-                      transition: {
-                        staggerChildren: 0.1
+              <AnimatePresence mode="wait">
+                <TabsContent value="map" className="mt-0">
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <FleetMap 
+                      vehicles={vehicles || []} 
+                      selectedVehicleId={selectedVehicleId}
+                      onVehicleSelect={setSelectedVehicleId}
+                    />
+                  </motion.div>
+                </TabsContent>
+                
+                <TabsContent value="grid" className="mt-0">
+                  <motion.div 
+                    variants={{
+                      hidden: { opacity: 0 },
+                      show: {
+                        opacity: 1,
+                        transition: {
+                          staggerChildren: 0.1
+                        }
                       }
-                    }
-                  }}
-                  initial="hidden"
-                  animate="show"
-                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-                >
-                  {isLoading ? (
-                    Array(6).fill(0).map((_, i) => (
-                      <div key={i} className="animate-pulse">
-                        <div className="h-64 bg-accent/20 rounded-lg mb-4" />
-                        <div className="h-4 bg-accent/20 rounded w-3/4 mb-2" />
-                        <div className="h-4 bg-accent/20 rounded w-1/2" />
-                      </div>
-                    ))
-                  ) : (
-                    vehicles?.map((vehicle) => (
-                      <motion.div
-                        key={vehicle.id}
-                        variants={{
-                          hidden: { opacity: 0, y: 20 },
-                          show: { opacity: 1, y: 0 }
-                        }}
-                      >
-                        <FleetVehicleCard vehicle={vehicle} />
-                      </motion.div>
-                    ))
-                  )}
-                </motion.div>
-              </TabsContent>
+                    }}
+                    initial="hidden"
+                    animate="show"
+                    exit="hidden"
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                  >
+                    {isLoading ? (
+                      Array(6).fill(0).map((_, i) => (
+                        <motion.div
+                          key={i}
+                          variants={{
+                            hidden: { opacity: 0, y: 20 },
+                            show: { opacity: 1, y: 0 }
+                          }}
+                          className="animate-pulse"
+                        >
+                          <div className="h-64 bg-accent/20 rounded-lg mb-4" />
+                          <div className="h-4 bg-accent/20 rounded w-3/4 mb-2" />
+                          <div className="h-4 bg-accent/20 rounded w-1/2" />
+                        </motion.div>
+                      ))
+                    ) : (
+                      vehicles?.map((vehicle) => (
+                        <motion.div
+                          key={vehicle.id}
+                          variants={{
+                            hidden: { opacity: 0, y: 20 },
+                            show: { opacity: 1, y: 0 }
+                          }}
+                        >
+                          <FleetVehicleCard vehicle={vehicle} />
+                        </motion.div>
+                      ))
+                    )}
+                  </motion.div>
+                </TabsContent>
+              </AnimatePresence>
             </Tabs>
           </div>
-        </div>
+        </motion.div>
       </div>
     </PageLayout>
   );
