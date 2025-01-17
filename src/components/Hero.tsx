@@ -41,8 +41,25 @@ export const Hero = () => {
               className="w-32 h-32 mb-6 animate-float"
             />
           </div>
+
+          {/* Additional Subscribe Now Button */}
+          <div className="flex justify-center mb-4">
+            <Button 
+              asChild
+              size="lg"
+              className="glass-button bg-gradient-to-r from-[#8B5CF6] to-[#6366F1] text-white 
+                px-8 py-3 font-semibold tracking-wide shadow-lg hover:shadow-xl
+                border border-white/20 backdrop-blur-sm
+                transition-all duration-300 hover:scale-105 active:scale-95"
+            >
+              <Link to="/subscription" className="flex items-center gap-2">
+                Subscribe Now
+                <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </Button>
+          </div>
           
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 animate-fade-up [animation-delay:200ms] leading-tight">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-6 animate-fade-up [animation-delay:200ms] leading-tight">
             Join the EV Revolution with{" "}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#00FFC6] to-[#C4FF00]">
               Unity Fleet
