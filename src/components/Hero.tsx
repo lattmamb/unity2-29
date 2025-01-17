@@ -10,9 +10,16 @@ export const Hero = () => {
         <Button 
           asChild
           size="lg"
-          className="bg-gradient-to-r from-[#00FFC6] to-[#C4FF00] text-[#0B1F3B] hover:opacity-90 transition-all duration-300"
+          className="glass-button bg-gradient-to-r from-[#8B5CF6] to-[#6366F1] text-white 
+            px-8 py-3 font-semibold tracking-wide shadow-lg hover:shadow-xl
+            border border-white/20 backdrop-blur-sm
+            transition-all duration-300 hover:scale-105 active:scale-95
+            animate-fade-up [animation-delay:200ms]"
         >
-          <Link to="/subscription">Subscribe Now</Link>
+          <Link to="/subscription" className="flex items-center gap-2">
+            Subscribe Now
+            <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          </Link>
         </Button>
       </div>
 
