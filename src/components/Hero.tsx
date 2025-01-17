@@ -5,6 +5,17 @@ import { Link } from "react-router-dom";
 export const Hero = () => {
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0B1F3B]">
+      {/* Subscribe Now Button - Top Left */}
+      <div className="absolute top-4 left-4 z-20">
+        <Button 
+          asChild
+          size="lg"
+          className="bg-gradient-to-r from-[#00FFC6] to-[#C4FF00] text-[#0B1F3B] hover:opacity-90 transition-all duration-300"
+        >
+          <Link to="/subscription">Subscribe Now</Link>
+        </Button>
+      </div>
+
       <div className="absolute inset-0">
         <img 
           src="/lovable-uploads/ec960a52-1e70-4d52-b6c3-d8e1af41e121.png"
@@ -18,7 +29,7 @@ export const Hero = () => {
         <div className="max-w-5xl mx-auto text-center space-y-8">
           <div className="flex justify-center">
             <img 
-              src="/lovable-uploads/e00776b3-1f80-47c3-bccc-d21f9cd40dd6.png" 
+              src="/lovable-uploads/f927bb84-ef36-4762-8d10-ade9a41f18ce.png" 
               alt="Unity Fleet Logo" 
               className="w-32 h-32 mb-6 animate-float"
             />
