@@ -1,18 +1,13 @@
 import { Link } from "react-router-dom";
 import {
-  Activity,
-  Component,
   HomeIcon,
-  Mail,
-  Package,
-  ScrollText,
-  SunMoon,
   Car,
+  Package,
+  Megaphone,
   MapPin,
   Zap,
   UserCircle,
-  LifeBuoy,
-  Megaphone
+  LifeBuoy
 } from 'lucide-react';
 import { Dock, DockIcon, DockItem, DockLabel } from '@/components/ui/dock';
 
@@ -61,8 +56,8 @@ const navigationItems = [
 
 export function DockNav() {
   return (
-    <div className='fixed bottom-2 left-1/2 max-w-full -translate-x-1/2 z-50'>
-      <Dock className='items-end pb-3'>
+    <div className='fixed top-16 left-1/2 max-w-full -translate-x-1/2 z-40'>
+      <Dock className='items-start pt-3 bg-background/80 backdrop-blur-sm'>
         {navigationItems.map((item, idx) => (
           <Link to={item.href} key={idx}>
             <DockItem
