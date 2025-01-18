@@ -5,6 +5,8 @@ import { PlanHeader } from "./subscription/PlanHeader";
 import { PlanComparison } from "./PlanComparison";
 import { PlanCustomizer } from "./PlanCustomizer";
 import { useToast } from "@/components/ui/use-toast";
+import { LampContainer } from "@/components/ui/lamp";
+import { motion } from "framer-motion";
 
 export const SubscriptionPlans = () => {
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
@@ -33,12 +35,32 @@ export const SubscriptionPlans = () => {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-background" />
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center text-white">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">Choose Your Perfect Tesla</h1>
-            <p className="text-xl md:text-2xl text-white/80">
+          <LampContainer className="bg-transparent">
+            <motion.h1
+              initial={{ opacity: 0.5, y: 100 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{
+                delay: 0.3,
+                duration: 0.8,
+                ease: "easeInOut",
+              }}
+              className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent"
+            >
+              Choose Your Perfect Tesla
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{
+                delay: 0.5,
+                duration: 0.8,
+                ease: "easeInOut",
+              }}
+              className="text-xl md:text-2xl text-white/80"
+            >
               Select a subscription plan that fits your lifestyle
-            </p>
-          </div>
+            </motion.p>
+          </LampContainer>
         </div>
       </div>
 
