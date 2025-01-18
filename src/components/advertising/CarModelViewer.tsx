@@ -3,9 +3,18 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export const CarModelViewer = () => {
   const [activeTab, setActiveTab] = useState("digital");
+
+  const handleCustomizeDigitalAd = () => {
+    toast.success("Opening digital ad customization");
+  };
+
+  const handleDesignWrap = () => {
+    toast.success("Opening wrap designer");
+  };
 
   return (
     <Card className="p-6 glass-card">
@@ -21,13 +30,25 @@ export const CarModelViewer = () => {
               <div className="aspect-video bg-black/5 rounded-lg mb-4">
                 <Vehicle3DViewer modelUrl="/models/tesla_model_3.glb" />
               </div>
-              <Button className="w-full" variant="secondary">Customize Digital Ad</Button>
+              <Button 
+                className="w-full" 
+                variant="secondary"
+                onClick={handleCustomizeDigitalAd}
+              >
+                Customize Digital Ad
+              </Button>
             </TabsContent>
             <TabsContent value="wrap" className="mt-4">
               <div className="aspect-video bg-black/5 rounded-lg mb-4">
                 <Vehicle3DViewer modelUrl="/models/tesla_model_y.glb" />
               </div>
-              <Button className="w-full" variant="secondary">Design Wrap</Button>
+              <Button 
+                className="w-full" 
+                variant="secondary"
+                onClick={handleDesignWrap}
+              >
+                Design Wrap
+              </Button>
             </TabsContent>
           </Tabs>
         </div>

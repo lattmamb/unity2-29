@@ -1,8 +1,22 @@
 import { Card } from "@/components/ui/card";
 import { Monitor, Palette, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 export const AdOptions = () => {
+  const navigate = useNavigate();
+
+  const handleLaunchDigitalCampaign = () => {
+    navigate("/advertising/campaign/digital");
+    toast.success("Setting up your digital campaign");
+  };
+
+  const handleGetWrappingQuote = () => {
+    navigate("/advertising/campaign/wrap");
+    toast.success("Generating your wrapping quote");
+  };
+
   const options = [
     {
       title: "Digital Displays",
@@ -15,7 +29,8 @@ export const AdOptions = () => {
         "Flexible scheduling",
       ],
       price: "From $300/month",
-      action: "Launch Digital Campaign"
+      action: "Launch Digital Campaign",
+      onClick: handleLaunchDigitalCampaign
     },
     {
       title: "Custom Wraps",
@@ -28,7 +43,8 @@ export const AdOptions = () => {
         "Premium materials",
       ],
       price: "From $1,500",
-      action: "Get Wrapping Quote"
+      action: "Get Wrapping Quote",
+      onClick: handleGetWrappingQuote
     },
   ];
 
@@ -64,6 +80,7 @@ export const AdOptions = () => {
               <p className="text-lg font-semibold text-[#00FFC6] mb-4">{option.price}</p>
               <Button 
                 className="w-full bg-[#00FFC6]/10 hover:bg-[#00FFC6]/20 text-[#00FFC6] border border-[#00FFC6]/20 group"
+                onClick={option.onClick}
               >
                 {option.action}
                 <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />

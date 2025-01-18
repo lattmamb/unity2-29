@@ -1,7 +1,21 @@
 import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 export const AdHero = () => {
+  const navigate = useNavigate();
+
+  const handleStartDigitalCampaign = () => {
+    navigate("/advertising#digital-campaign");
+    toast.success("Starting new digital campaign setup");
+  };
+
+  const handleDesignVehicleWrap = () => {
+    navigate("/advertising#vehicle-wrap");
+    toast.success("Opening vehicle wrap designer");
+  };
+
   return (
     <div className="relative min-h-[60vh] flex items-center justify-center overflow-hidden bg-[#0B1F3B]">
       <div className="absolute inset-0">
@@ -30,6 +44,7 @@ export const AdHero = () => {
             <Button 
               size="lg" 
               className="bg-[#00FFC6] text-[#0B1F3B] hover:bg-[#00FFC6]/90 group"
+              onClick={handleStartDigitalCampaign}
             >
               Start Digital Campaign
               <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -38,6 +53,7 @@ export const AdHero = () => {
               size="lg" 
               variant="outline" 
               className="border-[#00FFC6]/20 text-white hover:bg-[#00FFC6]/10"
+              onClick={handleDesignVehicleWrap}
             >
               Design Vehicle Wrap
             </Button>
