@@ -5,24 +5,6 @@ import { Link } from "react-router-dom";
 export const Hero = () => {
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0B1F3B]">
-      {/* Subscribe Now Button - Top Left */}
-      <div className="absolute top-4 left-4 z-20">
-        <Button 
-          asChild
-          size="lg"
-          className="glass-button bg-gradient-to-r from-[#8B5CF6] to-[#6366F1] text-white 
-            px-8 py-3 font-semibold tracking-wide shadow-lg hover:shadow-xl
-            border border-white/20 backdrop-blur-sm
-            transition-all duration-300 hover:scale-105 active:scale-95
-            animate-fade-up [animation-delay:200ms]"
-        >
-          <Link to="/subscription" className="flex items-center gap-2">
-            Subscribe Now
-            <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-          </Link>
-        </Button>
-      </div>
-
       <div className="absolute inset-0">
         <img 
           src="/lovable-uploads/ec960a52-1e70-4d52-b6c3-d8e1af41e121.png"
