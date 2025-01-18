@@ -16,6 +16,8 @@ export const Navigation = () => {
             </Link>
           </div>
 
+          <DockNav />
+
           <div className="ml-auto flex items-center space-x-4">
             <Button 
               asChild 
@@ -27,7 +29,6 @@ export const Navigation = () => {
           </div>
         </div>
       </div>
-      <DockNav />
     </div>
   );
 };
