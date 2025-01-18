@@ -27,12 +27,7 @@ export const SubscriptionPlans = () => {
 
   return (
     <section className="relative">
-      <div className="h-[50vh] relative overflow-hidden">
-        <img 
-          src="/lovable-uploads/fffbc4a7-1bff-48ee-b0eb-d56a7429a02a.png"
-          alt="Tesla Fleet at Night"
-          className="w-full h-full object-cover"
-        />
+      <div className="h-[50vh] relative overflow-hidden bg-[#0B1F3B]">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-background" />
         <div className="absolute inset-0 flex items-center justify-center">
           <LampContainer className="bg-transparent">
