@@ -1,8 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ChevronRight, Download, Shield, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { LampContainer } from "@/components/ui/lamp";
 
 export const Hero = () => {
   return (
@@ -35,53 +33,43 @@ export const Hero = () => {
       </div>
       
       <div className="container mx-auto px-4 relative z-10">
-        <LampContainer className="bg-transparent">
-          <motion.div
-            initial={{ opacity: 0.5, y: 100 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{
-              delay: 0.3,
-              duration: 0.8,
-              ease: "easeInOut",
-            }}
-            className="max-w-5xl mx-auto text-center space-y-8"
-          >
-            <div className="flex justify-center">
-              <img 
-                src="/lovable-uploads/f927bb84-ef36-4762-8d10-ade9a41f18ce.png" 
-                alt="Unity Fleet Logo" 
-                className="w-32 h-32 mb-6 animate-float"
-              />
-            </div>
+        <div className="max-w-5xl mx-auto text-center space-y-8">
+          <div className="flex justify-center">
+            <img 
+              src="/lovable-uploads/f927bb84-ef36-4762-8d10-ade9a41f18ce.png" 
+              alt="Unity Fleet Logo" 
+              className="w-32 h-32 mb-6 animate-float"
+            />
+          </div>
 
-            {/* Additional Subscribe Now Button */}
-            <div className="flex justify-center mb-4">
-              <Button 
-                asChild
-                size="lg"
-                className="glass-button bg-gradient-to-r from-[#8B5CF6] to-[#6366F1] text-white 
-                  px-8 py-3 font-semibold tracking-wide shadow-lg hover:shadow-xl
-                  border border-white/20 backdrop-blur-sm
-                  transition-all duration-300 hover:scale-105 active:scale-95"
-              >
-                <Link to="/subscription" className="flex items-center gap-2">
-                  Subscribe Now
-                  <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                </Link>
-              </Button>
-            </div>
-            
-            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-6 animate-fade-up [animation-delay:200ms] leading-tight">
-              Join the EV Revolution with{" "}
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#00FFC6] to-[#C4FF00]">
-                Unity Fleet
-              </span>
-            </h1>
-            
-            <p className="text-lg md:text-xl text-white/80 mb-8 animate-fade-up [animation-delay:400ms] max-w-2xl mx-auto">
-              Flexible Tesla Subscriptions, Immersive 3D Previews, and a Greener Future—All in One App
-            </p>
-            
+          {/* Additional Subscribe Now Button */}
+          <div className="flex justify-center mb-4">
+            <Button 
+              asChild
+              size="lg"
+              className="glass-button bg-gradient-to-r from-[#8B5CF6] to-[#6366F1] text-white 
+                px-8 py-3 font-semibold tracking-wide shadow-lg hover:shadow-xl
+                border border-white/20 backdrop-blur-sm
+                transition-all duration-300 hover:scale-105 active:scale-95"
+            >
+              <Link to="/subscription" className="flex items-center gap-2">
+                Subscribe Now
+                <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </Button>
+          </div>
+          
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-6 animate-fade-up [animation-delay:200ms] leading-tight">
+            Join the EV Revolution with{" "}
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#00FFC6] to-[#C4FF00]">
+              Unity Fleet
+            </span>
+          </h1>
+          
+          <p className="text-lg md:text-xl text-white/80 mb-8 animate-fade-up [animation-delay:400ms] max-w-2xl mx-auto">
+            Flexible Tesla Subscriptions, Immersive 3D Previews, and a Greener Future—All in One App
+          </p>
+          
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 animate-fade-up [animation-delay:600ms]">
             <div className="p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-[#00FFC6]/20 transition-all duration-300">
               <Zap className="w-10 h-10 text-[#00FFC6] mb-4 mx-auto" />
@@ -123,24 +111,23 @@ export const Hero = () => {
             </Button>
           </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-16 animate-fade-up [animation-delay:1000ms]">
-              {[
-                { title: "Premium Fleet", value: "100% Tesla Vehicles" },
-                { title: "Coverage", value: "25+ Charging Stations" },
-                { title: "Community", value: "10k+ Active Members" },
-              ].map((stat) => (
-                <div 
-                  key={stat.title} 
-                  className="p-4 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 
-                    hover:border-[#00FFC6]/20 transition-all duration-300"
-                >
-                  <h3 className="text-2xl font-bold text-[#00FFC6]">{stat.value}</h3>
-                  <p className="text-white/70 mt-1">{stat.title}</p>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        </LampContainer>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-16 animate-fade-up [animation-delay:1000ms]">
+            {[
+              { title: "Premium Fleet", value: "100% Tesla Vehicles" },
+              { title: "Coverage", value: "25+ Charging Stations" },
+              { title: "Community", value: "10k+ Active Members" },
+            ].map((stat) => (
+              <div 
+                key={stat.title} 
+                className="p-4 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 
+                  hover:border-[#00FFC6]/20 transition-all duration-300"
+              >
+                <h3 className="text-2xl font-bold text-[#00FFC6]">{stat.value}</h3>
+                <p className="text-white/70 mt-1">{stat.title}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
       
       <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#0B1F3B] to-transparent" />
