@@ -7,6 +7,8 @@ import { PlanCustomizer } from "./PlanCustomizer";
 import { useToast } from "@/components/ui/use-toast";
 import { LampContainer } from "@/components/ui/lamp";
 import { motion } from "framer-motion";
+import DisplayCards from "@/components/ui/display-cards";
+import { Car, Zap, Crown } from "lucide-react";
 
 export const SubscriptionPlans = () => {
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
@@ -24,6 +26,36 @@ export const SubscriptionPlans = () => {
       description: `You've selected the ${planName}. Customize it below.`,
     });
   };
+
+  const subscriptionCards = [
+    {
+      icon: <Car className="size-4 text-blue-300" />,
+      title: "Essential Plan",
+      description: "Perfect for occasional drivers",
+      date: "$350/month",
+      iconClassName: "text-blue-500",
+      titleClassName: "text-blue-500",
+      className: "[grid-area:stack] hover:-translate-y-10 before:absolute before:w-[100%] before:outline-1 before:rounded-xl before:outline-border before:h-[100%] before:content-[''] before:bg-blend-overlay before:bg-background/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0",
+    },
+    {
+      icon: <Zap className="size-4 text-violet-300" />,
+      title: "Premium Plan",
+      description: "Ideal for regular commuters",
+      date: "$750/month",
+      iconClassName: "text-violet-500",
+      titleClassName: "text-violet-500",
+      className: "[grid-area:stack] translate-x-16 translate-y-10 hover:-translate-y-1 before:absolute before:w-[100%] before:outline-1 before:rounded-xl before:outline-border before:h-[100%] before:content-[''] before:bg-blend-overlay before:bg-background/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0",
+    },
+    {
+      icon: <Crown className="size-4 text-amber-300" />,
+      title: "Elite Plan",
+      description: "Ultimate flexibility and luxury",
+      date: "$1500/month",
+      iconClassName: "text-amber-500",
+      titleClassName: "text-amber-500",
+      className: "[grid-area:stack] translate-x-32 translate-y-20 hover:translate-y-10",
+    },
+  ];
 
   return (
     <section className="relative">
@@ -60,6 +92,10 @@ export const SubscriptionPlans = () => {
       </div>
 
       <div className="container mx-auto px-4 py-16 -mt-24 relative z-10">
+        <div className="mb-16">
+          <DisplayCards cards={subscriptionCards} />
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {plans.map((plan) => (
             <PlanCard
