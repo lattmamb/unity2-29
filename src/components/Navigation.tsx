@@ -4,8 +4,8 @@ import { DockNav } from "./navigation/DockNav";
 
 export const Navigation = () => {
   return (
-    <>
-      <div className="sticky top-0 z-50 w-full border-b border-white/10 bg-background/80 backdrop-blur-lg backdrop-saturate-150 supports-[backdrop-filter]:bg-background/60">
+    <div className="sticky top-0 z-50 w-full">
+      <div className="border-b border-white/10 bg-background/80 backdrop-blur-lg backdrop-saturate-150 supports-[backdrop-filter]:bg-background/60">
         <div className="flex h-16 items-center px-4 container mx-auto">
           <div className="mr-8 flex items-center space-x-2">
             <Link to="/" className="flex items-center space-x-2 transition-opacity hover:opacity-80">
@@ -28,6 +28,6 @@ export const Navigation = () => {
         </div>
       </div>
       <DockNav />
-    </>
+    </div>
   );
 };
