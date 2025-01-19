@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { DockNav } from "./navigation/DockNav";
+import { BreadcrumbNav } from "./navigation/BreadcrumbNav";
 
 export const Navigation = () => {
   return (
@@ -29,6 +30,7 @@ export const Navigation = () => {
           </div>
         </div>
       </div>
+      <BreadcrumbNav />
     </div>
   );
 };
