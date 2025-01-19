@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import React, { useState, createContext, useContext } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, HTMLMotionProps } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
 interface Links {
@@ -66,11 +66,15 @@ export const Sidebar = ({
   );
 };
 
-export const SidebarBody = (props: React.ComponentProps<"div">) => {
+type SidebarBodyProps = Omit<HTMLMotionProps<"div">, "children"> & {
+  children: React.ReactNode;
+};
+
+export const SidebarBody = ({ children, ...props }: SidebarBodyProps) => {
   return (
     <>
-      <DesktopSidebar {...props} />
-      <MobileSidebar {...props} />
+      <DesktopSidebar {...props}>{children}</DesktopSidebar>
+      <MobileSidebar {...props}>{children}</MobileSidebar>
     </>
   );
 };
@@ -79,7 +83,7 @@ export const DesktopSidebar = ({
   className,
   children,
   ...props
-}: React.ComponentProps<"div">) => {
+}: SidebarBodyProps) => {
   const { open, setOpen, animate } = useSidebar();
   return (
     <motion.div
@@ -103,7 +107,9 @@ export const MobileSidebar = ({
   className,
   children,
   ...props
-}: React.ComponentProps<"div">) => {
+}: Omit<HTMLMotionProps<"div">, "children"> & {
+  children: React.ReactNode;
+}) => {
   const { open, setOpen } = useSidebar();
   return (
     <>
@@ -149,15 +155,12 @@ export const MobileSidebar = ({
   );
 };
 
-export const SidebarLink = ({
-  link,
-  className,
-  ...props
-}: {
+interface SidebarLinkProps {
   link: Links;
   className?: string;
-  props?: React.ComponentProps<typeof Link>;
-}) => {
+}
+
+export const SidebarLink = ({ link, className }: SidebarLinkProps) => {
   const { open, animate } = useSidebar();
   return (
     <Link
@@ -166,7 +169,6 @@ export const SidebarLink = ({
         "flex items-center justify-start gap-2 group/sidebar py-2",
         className
       )}
-      {...props}
     >
       {link.icon}
       <motion.span
