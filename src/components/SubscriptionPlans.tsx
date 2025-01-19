@@ -8,6 +8,7 @@ import { LampContainer } from "@/components/ui/lamp";
 import { motion } from "framer-motion";
 import DisplayCards from "@/components/ui/display-cards";
 import { Car, Zap, Crown } from "lucide-react";
+import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 
 export const SubscriptionPlans = () => {
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
@@ -58,40 +59,26 @@ export const SubscriptionPlans = () => {
 
   return (
     <section className="relative">
-      <div className="h-[50vh] relative overflow-hidden bg-[#0B1F3B]">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-background" />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <LampContainer className="bg-transparent">
-            <motion.h1
-              initial={{ opacity: 0.5, y: 100 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{
-                delay: 0.3,
-                duration: 0.8,
-                ease: "easeInOut",
-              }}
-              className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent"
-            >
-              Choose Your Perfect Tesla
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{
-                delay: 0.5,
-                duration: 0.8,
-                ease: "easeInOut",
-              }}
-              className="text-xl md:text-2xl text-white/80"
-            >
-              Select a subscription plan that fits your lifestyle
-            </motion.p>
-            <div className="mt-12 scale-[1.5] transform w-full max-w-6xl mx-auto px-8">
-              <DisplayCards cards={subscriptionCards} />
-            </div>
-          </LampContainer>
+      <ContainerScroll
+        titleComponent={
+          <motion.h1
+            initial={{ opacity: 0.5, y: 100 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{
+              delay: 0.3,
+              duration: 0.8,
+              ease: "easeInOut",
+            }}
+            className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent"
+          >
+            Choose Your Perfect Tesla
+          </motion.h1>
+        }
+      >
+        <div className="mt-12 scale-[1.5] transform w-full max-w-6xl mx-auto px-8">
+          <DisplayCards cards={subscriptionCards} />
         </div>
-      </div>
+      </ContainerScroll>
 
       <div className="container mx-auto px-4 py-16 -mt-24 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
