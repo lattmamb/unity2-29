@@ -3,6 +3,7 @@ import { PageLayout } from "@/components/PageLayout";
 import { Car, CreditCard, Gift, HelpCircle, Settings, Zap } from "lucide-react";
 import { VehicleOverview } from "@/components/VehicleOverview";
 import { Jarvis } from "@/components/Jarvis";
+import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 
 export default function Subscription() {
   const menuItems = [
@@ -44,6 +45,22 @@ export default function Subscription() {
 
   return (
     <PageLayout title="Subscription Plans" menuItems={menuItems}>
+      <ContainerScroll
+        titleComponent={
+          <h1 className="text-4xl font-semibold text-white">
+            Choose Your <br />
+            <span className="text-4xl md:text-[6rem] font-bold mt-1 leading-none bg-clip-text text-transparent bg-gradient-to-r from-[#00FFC6] to-[#C4FF00]">
+              Perfect Plan
+            </span>
+          </h1>
+        }
+      >
+        <img
+          src="/lovable-uploads/ec960a52-1e70-4d52-b6c3-d8e1af41e121.png"
+          alt="Tesla Fleet"
+          className="w-full h-full object-cover"
+        />
+      </ContainerScroll>
       <div className="space-y-16">
         <SubscriptionPlans />
       </div>
