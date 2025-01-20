@@ -1,21 +1,27 @@
 'use client';
 import React, { useRef, useState, useCallback, useEffect } from 'react';
-import { motion, useSpring, useTransform } from 'framer-motion';
+import { motion, useSpring, useTransform, SpringOptions } from 'framer-motion';
 import { cn } from '@/lib/utils';
+
+type SpotlightProps = {
+  className?: string;
+  size?: number;
+  fill?: string;
+  springOptions?: SpringOptions;
+};
 
 export function Spotlight({
   className,
   size = 200,
-}: {
-  className?: string;
-  size?: number;
-}) {
+  fill,
+  springOptions = { bounce: 0 },
+}: SpotlightProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [parentElement, setParentElement] = useState<HTMLElement | null>(null);
 
-  const mouseX = useSpring(0);
-  const mouseY = useSpring(0);
+  const mouseX = useSpring(0, springOptions);
+  const mouseY = useSpring(0, springOptions);
 
   const spotlightLeft = useTransform(mouseX, (x) => `${x - size / 2}px`);
   const spotlightTop = useTransform(mouseY, (y) => `${y - size / 2}px`);
@@ -60,7 +66,7 @@ export function Spotlight({
       ref={containerRef}
       className={cn(
         'pointer-events-none absolute rounded-full bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops),transparent_80%)] blur-xl transition-opacity duration-200',
-        'from-zinc-50 via-zinc-100 to-zinc-200',
+        fill ? `from-${fill}-50 via-${fill}-100 to-${fill}-200` : 'from-zinc-50 via-zinc-100 to-zinc-200',
         isHovered ? 'opacity-100' : 'opacity-0',
         className
       )}
