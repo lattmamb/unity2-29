@@ -24,6 +24,7 @@ export const Jarvis = ({ className, context = "general" }: JarvisProps) => {
   const [size, setSize] = useState({ width: 200, height: 200 });
   const [isResizing, setIsResizing] = useState(false);
   const [isHidden, setIsHidden] = useState<EdgePosition>(null);
+  const [splineError, setSplineError] = useState<string | null>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   const resizeRef = useRef<HTMLDivElement>(null);
@@ -185,6 +186,16 @@ export const Jarvis = ({ className, context = "general" }: JarvisProps) => {
     setIsMinimized(!isMinimized);
   };
 
+  const handleSplineError = (error: Error) => {
+    console.error('Spline loading error:', error);
+    setSplineError('Failed to load 3D model');
+    toast({
+      title: "3D Model Error",
+      description: "Failed to load the Iron Man model. Using fallback display.",
+      variant: "destructive",
+    });
+  };
+
   return (
     <AnimatePresence>
       <motion.div
@@ -226,10 +237,17 @@ export const Jarvis = ({ className, context = "general" }: JarvisProps) => {
             {!isMinimized && (
               <>
                 <div className="w-full h-[calc(100%-60px)] relative">
-                  <SplineScene
-                    scene="https://prod.spline.design/ironman-mark3/scene.splinecode"
-                    className="w-full h-full transform scale-75"
-                  />
+                  {splineError ? (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <Bot className="w-12 h-12 text-muted-foreground" />
+                    </div>
+                  ) : (
+                    <SplineScene
+                      scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+                      className="w-full h-full transform scale-75"
+                      onError={handleSplineError}
+                    />
+                  )}
                 </div>
                 <div className="flex gap-2 mt-auto">
                   <Button
