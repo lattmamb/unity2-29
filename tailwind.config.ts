@@ -47,6 +47,11 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        rental: {
+          blue: "#0066FF",
+          dark: "#1A1B1F",
+          light: "#F5F7FF",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -114,7 +119,7 @@ export default {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-        'hero-pattern': 'linear-gradient(to right, rgba(29, 78, 216, 0.9), rgba(124, 58, 237, 0.8))',
+        'hero-pattern': 'linear-gradient(to right, rgba(0, 102, 255, 0.9), rgba(0, 102, 255, 0.8))',
         'circuit-pattern': 'url("/circuit-pattern.svg")',
       },
     },

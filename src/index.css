@@ -4,25 +4,25 @@
 
 @layer base {
   :root {
-    --background: 222 47% 11%;
+    --background: 225 25% 11%;
     --foreground: 210 40% 98%;
 
-    --card: 222 47% 11%;
+    --card: 225 25% 11%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 222 47% 11%;
+    --popover: 225 25% 11%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 217 91% 60%;
+    --primary: 217 100% 50%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 199 89% 48%;
-    --secondary-foreground: 222 47% 11%;
+    --secondary: 217 100% 50%;
+    --secondary-foreground: 225 25% 11%;
 
     --muted: 215 27.9% 16.9%;
     --muted-foreground: 217.9 10.6% 64.9%;
 
-    --accent: 217 91% 60%;
+    --accent: 217 100% 50%;
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 84.2% 60.2%;
@@ -30,7 +30,7 @@
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 222 47% 11%;
+    --ring: 225 25% 11%;
 
     --radius: 0.75rem;
   }
@@ -44,10 +44,10 @@
   }
 
   body {
-    @apply bg-background text-foreground min-h-screen overflow-x-hidden;
+    @apply bg-rental-dark text-foreground min-h-screen overflow-x-hidden;
     background-image: 
-      radial-gradient(at 50% 0%, rgba(29, 78, 216, 0.15) 0px, transparent 75%),
-      radial-gradient(at 100% 0%, rgba(124, 58, 237, 0.15) 0px, transparent 50%);
+      radial-gradient(at 50% 0%, rgba(0, 102, 255, 0.15) 0px, transparent 75%),
+      radial-gradient(at 100% 0%, rgba(0, 102, 255, 0.15) 0px, transparent 50%);
     background-attachment: fixed;
   }
 
@@ -65,28 +65,28 @@
 
 @layer components {
   .glass-card {
-    @apply bg-card/80 backdrop-blur-md border border-white/10 rounded-xl shadow-lg;
+    @apply bg-rental-dark/80 backdrop-blur-md border border-white/10 rounded-xl shadow-lg;
   }
 
   .glass-button {
-    @apply bg-primary/20 hover:bg-primary/30 backdrop-blur-sm text-primary-foreground border 
-    border-primary/50 rounded-xl shadow-lg transition-all duration-300 
-    hover:shadow-primary/20 hover:scale-105 active:scale-95;
+    @apply bg-rental-blue/90 hover:bg-rental-blue backdrop-blur-sm text-white border 
+    border-rental-blue/50 rounded-xl shadow-lg transition-all duration-300 
+    hover:shadow-rental-blue/20 hover:scale-105 active:scale-95;
   }
 
   .nav-link {
-    @apply px-4 py-2 text-sm font-medium transition-colors hover:text-primary relative
-    after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-primary
+    @apply px-4 py-2 text-sm font-medium transition-colors hover:text-rental-blue relative
+    after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-rental-blue
     after:transform after:scale-x-0 after:transition-transform hover:after:scale-x-100;
   }
 
   .hero-title {
     @apply text-4xl sm:text-5xl md:text-6xl font-bold bg-clip-text text-transparent 
-    bg-gradient-to-r from-blue-500 via-primary to-violet-500;
+    bg-gradient-to-r from-rental-blue via-rental-blue to-white;
   }
 
   .card-hover {
-    @apply transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/20;
+    @apply transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-rental-blue/20;
   }
 
   .container {
@@ -103,8 +103,8 @@
 
   .gradient-border {
     @apply relative rounded-xl bg-background p-[1px] before:absolute before:inset-0 
-    before:-z-10 before:rounded-xl before:bg-gradient-to-r before:from-primary/50 
-    before:via-secondary/50 before:to-accent/50 before:blur-xl;
+    before:-z-10 before:rounded-xl before:bg-gradient-to-r before:from-rental-blue/50 
+    before:via-rental-blue/50 before:to-white/50 before:blur-xl;
   }
 
   .animated-gradient {
