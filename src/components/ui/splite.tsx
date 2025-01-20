@@ -6,9 +6,10 @@ const Spline = lazy(() => import('@splinetool/react-spline'))
 interface SplineSceneProps {
   scene: string
   className?: string
+  onError?: (error: Error) => void
 }
 
-export function SplineScene({ scene, className }: SplineSceneProps) {
+export function SplineScene({ scene, className, onError }: SplineSceneProps) {
   return (
     <Suspense 
       fallback={
@@ -20,6 +21,7 @@ export function SplineScene({ scene, className }: SplineSceneProps) {
       <Spline
         scene={scene}
         className={className}
+        onError={onError}
       />
     </Suspense>
   )

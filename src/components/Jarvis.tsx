@@ -25,6 +25,7 @@ export const Jarvis = ({ className, context = "general" }: JarvisProps) => {
   const [isResizing, setIsResizing] = useState(false);
   const [isHidden, setIsHidden] = useState<EdgePosition>(null);
   const [splineError, setSplineError] = useState<string | null>(null);
+  const [isDocked, setIsDocked] = useState(true);
   const cardRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   const resizeRef = useRef<HTMLDivElement>(null);
@@ -57,6 +58,7 @@ export const Jarvis = ({ className, context = "general" }: JarvisProps) => {
   const handleMouseDown = (e: React.MouseEvent) => {
     if (cardRef.current && !e.defaultPrevented) {
       setIsDragging(true);
+      setIsDocked(false);
       const rect = cardRef.current.getBoundingClientRect();
       startPosRef.current = {
         x: e.clientX - rect.left,
@@ -83,6 +85,14 @@ export const Jarvis = ({ className, context = "general" }: JarvisProps) => {
       else if (newY < threshold) setIsHidden("top");
       else if (newY > maxY - threshold) setIsHidden("bottom");
       else setIsHidden(null);
+
+      // Check if near docking station (bottom-left corner)
+      const dockingThreshold = 50;
+      if (newX < dockingThreshold && newY > maxY - dockingThreshold) {
+        setIsDocked(true);
+        cardRef.current.style.left = "0px";
+        cardRef.current.style.top = `${maxY}px`;
+      }
     }
   };
 
@@ -207,7 +217,7 @@ export const Jarvis = ({ className, context = "general" }: JarvisProps) => {
         } : {
           x: 0,
           y: 0,
-          scale: 1,
+          scale: isDocked ? 0.75 : 1,
         }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
       >
@@ -216,6 +226,7 @@ export const Jarvis = ({ className, context = "general" }: JarvisProps) => {
           className={cn(
             "fixed w-[calc(100vw/32)] min-w-[200px] shadow-lg transition-transform hover:scale-105 backdrop-blur-lg bg-black/40 border-rental-blue/20",
             isDragging ? "cursor-grabbing" : "cursor-grab",
+            isDocked ? "bottom-0 left-0" : "",
             className
           )}
           style={{
