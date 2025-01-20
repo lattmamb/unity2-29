@@ -13,6 +13,8 @@ interface JarvisProps {
   context?: "subscription" | "fleet" | "booking" | "general";
 }
 
+type EdgePosition = "left" | "right" | "top" | "bottom" | null;
+
 export const Jarvis = ({ className, context = "general" }: JarvisProps) => {
   const [isListening, setIsListening] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -21,7 +23,7 @@ export const Jarvis = ({ className, context = "general" }: JarvisProps) => {
   const [isMinimized, setIsMinimized] = useState(false);
   const [size, setSize] = useState({ width: 200, height: 200 });
   const [isResizing, setIsResizing] = useState(false);
-  const [isHidden, setIsHidden] = useState(false);
+  const [isHidden, setIsHidden] = useState<EdgePosition>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   const resizeRef = useRef<HTMLDivElement>(null);
@@ -75,11 +77,11 @@ export const Jarvis = ({ className, context = "general" }: JarvisProps) => {
 
       // Edge detection for hiding
       const threshold = 20;
-      if (newX < threshold) setIsHidden('left');
-      else if (newX > maxX - threshold) setIsHidden('right');
-      else if (newY < threshold) setIsHidden('top');
-      else if (newY > maxY - threshold) setIsHidden('bottom');
-      else setIsHidden(false);
+      if (newX < threshold) setIsHidden("left");
+      else if (newX > maxX - threshold) setIsHidden("right");
+      else if (newY < threshold) setIsHidden("top");
+      else if (newY > maxY - threshold) setIsHidden("bottom");
+      else setIsHidden(null);
     }
   };
 
