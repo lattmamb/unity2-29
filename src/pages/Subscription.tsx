@@ -56,9 +56,9 @@ export default function Subscription() {
         }
       >
         <img
-          src="/lovable-uploads/ec960a52-1e70-4d52-b6c3-d8e1af41e121.png"
-          alt="Tesla Fleet"
-          className="w-full h-full object-cover"
+          src="/lovable-uploads/2de4d0f1-f338-4bbe-ac60-623beab12b7b.png"
+          alt="Tesla Fleet at Night"
+          className="w-full h-full object-cover rounded-lg shadow-2xl"
         />
       </ContainerScroll>
       <div className="space-y-16">
