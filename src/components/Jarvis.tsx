@@ -1,9 +1,12 @@
 import { useState, useEffect, useRef } from "react";
-import { Bot, Mic, Volume2 } from "lucide-react";
+import { Bot, Mic, Volume2, Minimize2, Maximize2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
+import { SplineScene } from "@/components/ui/splite";
+import { motion, AnimatePresence } from "framer-motion";
+import { supabase } from "@/integrations/supabase/client";
 
 interface JarvisProps {
   className?: string;
@@ -15,8 +18,15 @@ export const Jarvis = ({ className, context = "general" }: JarvisProps) => {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(false);
+  const [size, setSize] = useState({ width: 200, height: 200 });
+  const [isResizing, setIsResizing] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+  const resizeRef = useRef<HTMLDivElement>(null);
+  const startPosRef = useRef({ x: 0, y: 0 });
+  const startSizeRef = useRef({ width: 200, height: 200 });
 
   const contextualResponses = {
     subscription: [
@@ -41,19 +51,14 @@ export const Jarvis = ({ className, context = "general" }: JarvisProps) => {
     ],
   };
 
-  const getRandomResponse = () => {
-    const responses = contextualResponses[context];
-    return responses[Math.floor(Math.random() * responses.length)];
-  };
-
   const handleMouseDown = (e: React.MouseEvent) => {
     if (cardRef.current && !e.defaultPrevented) {
       setIsDragging(true);
       const rect = cardRef.current.getBoundingClientRect();
-      setPosition({
+      startPosRef.current = {
         x: e.clientX - rect.left,
         y: e.clientY - rect.top,
-      });
+      };
     }
   };
 
@@ -62,85 +67,201 @@ export const Jarvis = ({ className, context = "general" }: JarvisProps) => {
       const maxX = window.innerWidth - cardRef.current.offsetWidth;
       const maxY = window.innerHeight - cardRef.current.offsetHeight;
       
-      const newX = Math.min(Math.max(0, e.clientX - position.x), maxX);
-      const newY = Math.min(Math.max(0, e.clientY - position.y), maxY);
+      const newX = Math.min(Math.max(0, e.clientX - startPosRef.current.x), maxX);
+      const newY = Math.min(Math.max(0, e.clientY - startPosRef.current.y), maxY);
       
       cardRef.current.style.left = `${newX}px`;
       cardRef.current.style.top = `${newY}px`;
+
+      // Edge detection for hiding
+      const threshold = 20;
+      if (newX < threshold) setIsHidden('left');
+      else if (newX > maxX - threshold) setIsHidden('right');
+      else if (newY < threshold) setIsHidden('top');
+      else if (newY > maxY - threshold) setIsHidden('bottom');
+      else setIsHidden(false);
+    }
+  };
+
+  const handleResizeStart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsResizing(true);
+    if (cardRef.current) {
+      startPosRef.current = { x: e.clientX, y: e.clientY };
+      startSizeRef.current = { width: size.width, height: size.height };
+    }
+  };
+
+  const handleResize = (e: MouseEvent) => {
+    if (isResizing && cardRef.current) {
+      const deltaX = e.clientX - startPosRef.current.x;
+      const deltaY = e.clientY - startPosRef.current.y;
+      
+      const newWidth = Math.max(150, startSizeRef.current.width + deltaX);
+      const newHeight = Math.max(150, startSizeRef.current.height + deltaY);
+      
+      setSize({ width: newWidth, height: newHeight });
     }
   };
 
   const handleMouseUp = () => {
     setIsDragging(false);
+    setIsResizing(false);
   };
 
   useEffect(() => {
-    if (isDragging) {
-      window.addEventListener('mousemove', handleMouseMove);
+    if (isDragging || isResizing) {
+      window.addEventListener('mousemove', isResizing ? handleResize : handleMouseMove);
       window.addEventListener('mouseup', handleMouseUp);
     }
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mousemove', isResizing ? handleResize : handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [isDragging]);
+  }, [isDragging, isResizing]);
 
-  const handleMicClick = (e: React.MouseEvent) => {
+  const handleMicClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     setIsListening(true);
-    toast({
-      title: "Voice Recognition",
-      description: "Coming soon! For now, I'll stick to text. Even JARVIS had to start somewhere.",
-    });
-    setTimeout(() => setIsListening(false), 2000);
+    
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        toast({
+          title: "Authentication Required",
+          description: "Please sign in to use voice features.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      toast({
+        title: "Voice Recognition",
+        description: "Coming soon! For now, I'll stick to text. Even JARVIS had to start somewhere.",
+      });
+    } catch (error) {
+      console.error('Error:', error);
+      toast({
+        title: "Error",
+        description: "Something went wrong with the voice recognition.",
+        variant: "destructive",
+      });
+    } finally {
+      setTimeout(() => setIsListening(false), 2000);
+    }
   };
 
-  const handleSpeakClick = (e: React.MouseEvent) => {
+  const handleSpeakClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     setIsSpeaking(true);
-    const message = getRandomResponse();
-    toast({
-      title: "JARVIS Says",
-      description: message,
-    });
-    setTimeout(() => setIsSpeaking(false), 2000);
+    
+    try {
+      const message = getRandomResponse();
+      toast({
+        title: "JARVIS Says",
+        description: message,
+      });
+    } catch (error) {
+      console.error('Error:', error);
+      toast({
+        title: "Error",
+        description: "Something went wrong with the speech synthesis.",
+        variant: "destructive",
+      });
+    } finally {
+      setTimeout(() => setIsSpeaking(false), 2000);
+    }
+  };
+
+  const getRandomResponse = () => {
+    const responses = contextualResponses[context];
+    return responses[Math.floor(Math.random() * responses.length)];
+  };
+
+  const handleToggleSize = () => {
+    setIsMinimized(!isMinimized);
   };
 
   return (
-    <Card 
-      ref={cardRef}
-      className={cn(
-        "fixed w-[calc(100vw/32)] min-w-[200px] shadow-lg transition-transform hover:scale-105",
-        isDragging ? "cursor-grabbing" : "cursor-grab",
-        className
-      )}
-      onMouseDown={handleMouseDown}
-    >
-      <CardContent className="p-4 flex items-center gap-2">
-        <Bot className="h-6 w-6 text-primary animate-pulse" />
-        <div className="flex gap-2">
-          <Button
-            variant="outline"
-            size="icon"
-            className={cn("transition-all", {
-              "animate-pulse text-red-500": isListening,
-            })}
-            onClick={handleMicClick}
-          >
-            <Mic className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            className={cn("transition-all", {
-              "animate-pulse text-blue-500": isSpeaking,
-            })}
-            onClick={handleSpeakClick}
-          >
-            <Volume2 className="h-4 w-4" />
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
+    <AnimatePresence>
+      <motion.div
+        initial={false}
+        animate={isHidden ? {
+          x: isHidden === 'right' ? '100%' : isHidden === 'left' ? '-100%' : 0,
+          y: isHidden === 'bottom' ? '100%' : isHidden === 'top' ? '-100%' : 0,
+          scale: 0.5,
+        } : {
+          x: 0,
+          y: 0,
+          scale: 1,
+        }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      >
+        <Card 
+          ref={cardRef}
+          className={cn(
+            "fixed w-[calc(100vw/32)] min-w-[200px] shadow-lg transition-transform hover:scale-105 backdrop-blur-lg bg-black/40 border-rental-blue/20",
+            isDragging ? "cursor-grabbing" : "cursor-grab",
+            className
+          )}
+          style={{
+            width: isMinimized ? '60px' : size.width,
+            height: isMinimized ? '60px' : size.height,
+          }}
+          onMouseDown={handleMouseDown}
+        >
+          <CardContent className="p-4 flex flex-col items-center gap-2 relative">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute top-2 right-2 z-10"
+              onClick={handleToggleSize}
+            >
+              {isMinimized ? <Maximize2 className="h-4 w-4" /> : <Minimize2 className="h-4 w-4" />}
+            </Button>
+
+            {!isMinimized && (
+              <>
+                <div className="w-full h-[calc(100%-60px)] relative">
+                  <SplineScene
+                    scene="https://prod.spline.design/ironman-mark3/scene.splinecode"
+                    className="w-full h-full transform scale-75"
+                  />
+                </div>
+                <div className="flex gap-2 mt-auto">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className={cn("transition-all", {
+                      "animate-pulse text-red-500": isListening,
+                    })}
+                    onClick={handleMicClick}
+                  >
+                    <Mic className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className={cn("transition-all", {
+                      "animate-pulse text-blue-500": isSpeaking,
+                    })}
+                    onClick={handleSpeakClick}
+                  >
+                    <Volume2 className="h-4 w-4" />
+                  </Button>
+                </div>
+              </>
+            )}
+
+            <div
+              ref={resizeRef}
+              className="absolute bottom-0 right-0 w-4 h-4 cursor-se-resize"
+              onMouseDown={handleResizeStart}
+            />
+          </CardContent>
+        </Card>
+      </motion.div>
+    </AnimatePresence>
   );
 };
