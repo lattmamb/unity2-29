@@ -111,7 +111,7 @@ export const Hero = () => {
             className="h-[400px] w-full relative"
           >
             <SplineScene
-              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+              scene="https://prod.spline.design/6PYz-5JwvQKfUwca/scene.splinecode"
               className="w-full h-full"
               onError={handleSplineError}
             />
