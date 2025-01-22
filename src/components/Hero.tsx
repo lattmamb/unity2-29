@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ChevronRight, Shield, Zap, Download } from "lucide-react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { SplineScene } from "@/components/ui/splite";
 import { Spotlight } from "@/components/ui/spotlight";
 import { toast } from "@/components/ui/use-toast";
@@ -16,32 +16,70 @@ export const Hero = () => {
     });
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: [0.4, 0, 0.2, 1],
+      },
+    },
+  };
+
+  const backgroundVariants = {
+    hidden: { scale: 1.1, opacity: 0.8 },
+    visible: {
+      scale: 1,
+      opacity: 0.4,
+      transition: {
+        duration: 2,
+        ease: "easeOut",
+      },
+    },
+  };
+
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0B1F3B]">
       {/* Background with parallax effect */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-b from-[#0B1F3B]/80 via-[#0B1F3B]/70 to-[#0B1F3B]/90" />
         <motion.div
-          initial={{ scale: 1.1 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 1.5 }}
+          initial="hidden"
+          animate="visible"
+          variants={backgroundVariants}
           className="w-full h-full"
         >
           <img 
             src="/lovable-uploads/ec960a52-1e70-4d52-b6c3-d8e1af41e121.png"
             alt="Tesla Fleet Background"
-            className="w-full h-full object-cover opacity-40"
+            className="w-full h-full object-cover"
           />
         </motion.div>
       </div>
       
-      <div className="container mx-auto px-4 relative z-10">
+      <motion.div 
+        className="container mx-auto px-4 relative z-10"
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+      >
         <div className="max-w-5xl mx-auto text-center space-y-8">
           {/* Logo Animation */}
           <motion.div 
-            initial={{ y: -50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            variants={itemVariants}
             className="flex justify-center"
           >
             <img 
@@ -57,11 +95,7 @@ export const Hero = () => {
               className="-top-40 left-0 md:left-60 md:-top-20"
               fill="white"
             />
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
+            <motion.div variants={itemVariants}>
               <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-br from-white to-blue-400 bg-clip-text text-transparent mb-4">
                 Experience The Future of Mobility
               </h1>
@@ -73,9 +107,7 @@ export const Hero = () => {
 
           {/* 3D Model Display */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.6 }}
+            variants={itemVariants}
             className="h-[400px] w-full relative"
           >
             <SplineScene
@@ -87,9 +119,7 @@ export const Hero = () => {
 
           {/* Feature Cards */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
+            variants={itemVariants}
             className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12"
           >
             {[
@@ -111,16 +141,25 @@ export const Hero = () => {
             ].map((feature, index) => (
               <motion.div
                 key={feature.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
+                variants={itemVariants}
+                whileHover={{ 
+                  scale: 1.05,
+                  transition: { duration: 0.2 }
+                }}
+                whileTap={{ scale: 0.95 }}
                 className="p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 
-                  hover:border-blue-400/20 transition-all duration-300 group"
+                  hover:border-blue-400/20 transition-all duration-300"
               >
                 <div className="flex flex-col items-center">
-                  <div className="mb-4 transform group-hover:scale-110 transition-transform duration-300">
+                  <motion.div 
+                    className="mb-4"
+                    whileHover={{ 
+                      rotate: [0, -10, 10, -10, 0],
+                      transition: { duration: 0.5 }
+                    }}
+                  >
                     {feature.icon}
-                  </div>
+                  </motion.div>
                   <h3 className="text-xl font-semibold text-white mb-2">{feature.title}</h3>
                   <p className="text-blue-100/70">{feature.description}</p>
                 </div>
@@ -130,14 +169,12 @@ export const Hero = () => {
 
           {/* CTA Buttons */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1 }}
+            variants={itemVariants}
             className="flex flex-col sm:flex-row gap-4 justify-center mt-8"
           >
             <Button 
               size="lg" 
-              className="bg-blue-500 hover:bg-blue-600 text-white group"
+              className="bg-blue-500 hover:bg-blue-600 text-white group transition-all duration-300"
               asChild
             >
               <Link to="/subscription">
@@ -148,7 +185,7 @@ export const Hero = () => {
             <Button 
               size="lg" 
               variant="outline" 
-              className="border-blue-400/20 text-white hover:bg-blue-400/10"
+              className="border-blue-400/20 text-white hover:bg-blue-400/10 transition-all duration-300"
               asChild
             >
               <Link to="/fleet">
@@ -157,7 +194,7 @@ export const Hero = () => {
             </Button>
           </motion.div>
         </div>
-      </div>
+      </motion.div>
       
       {/* Bottom gradient overlay */}
       <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#0B1F3B] to-transparent" />
