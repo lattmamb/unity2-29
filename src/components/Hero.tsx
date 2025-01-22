@@ -128,7 +128,7 @@ export const Hero = () => {
               )}
             </AnimatePresence>
             <SplineScene
-              scene="https://prod.spline.design/6PYz-5JwvQKfUwca/scene.splinecode"
+              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
               className="w-full h-full"
               onError={handleSplineError}
               onLoad={() => setIsLoading(false)}
