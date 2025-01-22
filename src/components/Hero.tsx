@@ -1,117 +1,165 @@
 import { Button } from "@/components/ui/button";
-import { ChevronRight, Download, Shield, Zap } from "lucide-react";
+import { ChevronRight, Shield, Zap, Download } from "lucide-react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { SplineScene } from "@/components/ui/splite";
+import { Spotlight } from "@/components/ui/spotlight";
+import { toast } from "@/components/ui/use-toast";
 
 export const Hero = () => {
+  const handleSplineError = (error: any) => {
+    console.error("Spline loading error:", error);
+    toast({
+      title: "3D Model Loading Error",
+      description: "We're having trouble loading the 3D model. Please refresh the page.",
+      variant: "destructive",
+    });
+  };
+
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0B1F3B]">
+      {/* Background with parallax effect */}
       <div className="absolute inset-0">
-        <img 
-          src="/lovable-uploads/ec960a52-1e70-4d52-b6c3-d8e1af41e121.png"
-          alt="Tesla Fleet Lineup"
-          className="w-full h-full object-cover opacity-40"
-        />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0B1F3B]/80 via-[#0B1F3B]/70 to-[#0B1F3B]/90" />
+        <motion.div
+          initial={{ scale: 1.1 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1.5 }}
+          className="w-full h-full"
+        >
+          <img 
+            src="/lovable-uploads/ec960a52-1e70-4d52-b6c3-d8e1af41e121.png"
+            alt="Tesla Fleet Background"
+            className="w-full h-full object-cover opacity-40"
+          />
+        </motion.div>
       </div>
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-5xl mx-auto text-center space-y-8">
-          <div className="flex justify-center">
+          {/* Logo Animation */}
+          <motion.div 
+            initial={{ y: -50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="flex justify-center"
+          >
             <img 
               src="/lovable-uploads/f927bb84-ef36-4762-8d10-ade9a41f18ce.png" 
               alt="Unity Fleet Logo" 
               className="w-32 h-32 mb-6 animate-float"
             />
-          </div>
+          </motion.div>
 
-          {/* Additional Subscribe Now Button */}
-          <div className="flex justify-center mb-4">
-            <Button 
-              asChild
-              size="lg"
-              className="glass-button bg-gradient-to-r from-[#8B5CF6] to-[#6366F1] text-white 
-                px-8 py-3 font-semibold tracking-wide shadow-lg hover:shadow-xl
-                border border-white/20 backdrop-blur-sm
-                transition-all duration-300 hover:scale-105 active:scale-95"
+          {/* Main Title with Spotlight Effect */}
+          <div className="relative">
+            <Spotlight
+              className="-top-40 left-0 md:left-60 md:-top-20"
+              fill="white"
+            />
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
             >
-              <Link to="/subscription" className="flex items-center gap-2">
-                Subscribe Now
-                <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </Button>
-          </div>
-          
-          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-6 animate-fade-up [animation-delay:200ms] leading-tight">
-            Join the EV Revolution with{" "}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#00FFC6] to-[#C4FF00]">
-              Unity Fleet
-            </span>
-          </h1>
-          
-          <p className="text-lg md:text-xl text-white/80 mb-8 animate-fade-up [animation-delay:400ms] max-w-2xl mx-auto">
-            Flexible Tesla Subscriptions, Immersive 3D Previews, and a Greener Future—All in One App
-          </p>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 animate-fade-up [animation-delay:600ms]">
-            <div className="p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-[#00FFC6]/20 transition-all duration-300">
-              <Zap className="w-10 h-10 text-[#00FFC6] mb-4 mx-auto" />
-              <h3 className="text-lg font-semibold text-white mb-2">Flexible Subscriptions</h3>
-              <p className="text-white/70">From $350/mo (Model 3) up to $2,500/mo (Model X Plaid)</p>
-            </div>
-            <div className="p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-[#00FFC6]/20 transition-all duration-300">
-              <Shield className="w-10 h-10 text-[#00FFC6] mb-4 mx-auto" />
-              <h3 className="text-lg font-semibold text-white mb-2">High-End Electric Vehicles</h3>
-              <p className="text-white/70">Drive Tesla's latest models—Model 3, Model Y, Model S, and Model X</p>
-            </div>
-            <div className="p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-[#00FFC6]/20 transition-all duration-300">
-              <Download className="w-10 h-10 text-[#00FFC6] mb-4 mx-auto" />
-              <h3 className="text-lg font-semibold text-white mb-2">Seamless Technology</h3>
-              <p className="text-white/70">Manage your fleet from our intuitive mobile app</p>
-            </div>
+              <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-br from-white to-blue-400 bg-clip-text text-transparent mb-4">
+                Experience The Future of Mobility
+              </h1>
+              <p className="text-xl text-blue-100/80 max-w-2xl mx-auto">
+                Join the electric revolution with our premium Tesla fleet
+              </p>
+            </motion.div>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up [animation-delay:800ms]">
+          {/* 3D Model Display */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.6 }}
+            className="h-[400px] w-full relative"
+          >
+            <SplineScene
+              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+              className="w-full h-full"
+              onError={handleSplineError}
+            />
+          </motion.div>
+
+          {/* Feature Cards */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12"
+          >
+            {[
+              {
+                icon: <Zap className="w-8 h-8 text-blue-400" />,
+                title: "Instant Access",
+                description: "Get your Tesla in minutes"
+              },
+              {
+                icon: <Shield className="w-8 h-8 text-blue-400" />,
+                title: "Premium Fleet",
+                description: "Latest Tesla models"
+              },
+              {
+                icon: <Download className="w-8 h-8 text-blue-400" />,
+                title: "Smart App",
+                description: "Full control at your fingertips"
+              }
+            ].map((feature, index) => (
+              <motion.div
+                key={feature.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
+                className="p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 
+                  hover:border-blue-400/20 transition-all duration-300 group"
+              >
+                <div className="flex flex-col items-center">
+                  <div className="mb-4 transform group-hover:scale-110 transition-transform duration-300">
+                    {feature.icon}
+                  </div>
+                  <h3 className="text-xl font-semibold text-white mb-2">{feature.title}</h3>
+                  <p className="text-blue-100/70">{feature.description}</p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* CTA Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center mt-8"
+          >
             <Button 
               size="lg" 
-              className="bg-[#00FFC6] text-[#0B1F3B] hover:bg-[#00FFC6]/90 group transition-all duration-300"
+              className="bg-blue-500 hover:bg-blue-600 text-white group"
               asChild
             >
               <Link to="/subscription">
-                View Plans
+                Start Now
                 <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </Button>
             <Button 
               size="lg" 
               variant="outline" 
-              className="border-[#00FFC6]/20 text-white hover:bg-[#00FFC6]/10"
+              className="border-blue-400/20 text-white hover:bg-blue-400/10"
               asChild
             >
-              <Link to="/subscription">
-                Get Started
+              <Link to="/fleet">
+                View Fleet
               </Link>
             </Button>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-16 animate-fade-up [animation-delay:1000ms]">
-            {[
-              { title: "Premium Fleet", value: "100% Tesla Vehicles" },
-              { title: "Coverage", value: "25+ Charging Stations" },
-              { title: "Community", value: "10k+ Active Members" },
-            ].map((stat) => (
-              <div 
-                key={stat.title} 
-                className="p-4 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 
-                  hover:border-[#00FFC6]/20 transition-all duration-300"
-              >
-                <h3 className="text-2xl font-bold text-[#00FFC6]">{stat.value}</h3>
-                <p className="text-white/70 mt-1">{stat.title}</p>
-              </div>
-            ))}
-          </div>
+          </motion.div>
         </div>
       </div>
       
+      {/* Bottom gradient overlay */}
       <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#0B1F3B] to-transparent" />
     </div>
   );
