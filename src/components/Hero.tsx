@@ -5,10 +5,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import { SplineScene } from "@/components/ui/splite";
 import { Spotlight } from "@/components/ui/spotlight";
 import { toast } from "@/components/ui/use-toast";
+import { useState } from "react";
 
 export const Hero = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState<Error | null>(null);
+
   const handleSplineError = (error: any) => {
     console.error("Spline loading error:", error);
+    setLoadError(error);
     toast({
       title: "3D Model Loading Error",
       description: "We're having trouble loading the 3D model. Please refresh the page.",
@@ -110,10 +115,23 @@ export const Hero = () => {
             variants={itemVariants}
             className="h-[400px] w-full relative"
           >
+            <AnimatePresence mode="wait">
+              {isLoading && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="absolute inset-0 flex items-center justify-center"
+                >
+                  <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                </motion.div>
+              )}
+            </AnimatePresence>
             <SplineScene
               scene="https://prod.spline.design/6PYz-5JwvQKfUwca/scene.splinecode"
               className="w-full h-full"
               onError={handleSplineError}
+              onLoad={() => setIsLoading(false)}
             />
           </motion.div>
 
