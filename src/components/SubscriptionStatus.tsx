@@ -4,9 +4,11 @@ import { Calendar, CreditCard } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/components/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 export const SubscriptionStatus = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   const { data: subscription } = useQuery({
     queryKey: ["subscription", user?.id],
@@ -20,6 +22,10 @@ export const SubscriptionStatus = () => {
     },
     enabled: !!user,
   });
+
+  const handleManageSubscription = () => {
+    navigate("/subscription");
+  };
 
   return (
     <Card className="glass-card animate-fade-up">
@@ -41,7 +47,10 @@ export const SubscriptionStatus = () => {
             {subscription?.renewalDate}
           </p>
         </div>
-        <Button className="w-full glass-button">
+        <Button 
+          className="w-full glass-button"
+          onClick={handleManageSubscription}
+        >
           Manage Subscription
         </Button>
       </CardContent>

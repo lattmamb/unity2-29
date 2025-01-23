@@ -38,7 +38,13 @@ const Index = () => {
       <main className="relative">
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background/90 to-background pointer-events-none" />
         
-        <ContainerScroll>
+        <ContainerScroll
+          titleComponent={
+            <h1 className="text-4xl md:text-6xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-500">
+              Experience Luxury
+            </h1>
+          }
+        >
           <div className="container mx-auto px-4 py-16">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <motion.div

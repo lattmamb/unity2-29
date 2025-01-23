@@ -3,9 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Car } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "@/components/ui/use-toast";
 
 export const AvailableVehicles = () => {
+  const navigate = useNavigate();
+  
   const { data: vehicles } = useQuery({
     queryKey: ["available-vehicles"],
     queryFn: async () => {
@@ -19,6 +22,18 @@ export const AvailableVehicles = () => {
       return data;
     },
   });
+
+  const handleBookNow = (vehicleId: string) => {
+    navigate(`/booking?vehicle=${vehicleId}`);
+    toast({
+      title: "Starting Booking Process",
+      description: "Please complete your vehicle reservation.",
+    });
+  };
+
+  const handleViewAll = () => {
+    navigate("/fleet");
+  };
 
   return (
     <Card className="glass-card animate-fade-up [animation-delay:200ms]">
@@ -47,13 +62,22 @@ export const AvailableVehicles = () => {
                 </p>
               </div>
             </div>
-            <Button variant="secondary" size="sm" className="glass-button" asChild>
-              <Link to="/booking">Book Now</Link>
+            <Button 
+              variant="secondary" 
+              size="sm" 
+              className="glass-button"
+              onClick={() => handleBookNow(vehicle.id)}
+            >
+              Book Now
             </Button>
           </div>
         ))}
-        <Button className="w-full glass-button" variant="outline" asChild>
-          <Link to="/fleet">View All Vehicles</Link>
+        <Button 
+          className="w-full glass-button" 
+          variant="outline"
+          onClick={handleViewAll}
+        >
+          View All Vehicles
         </Button>
       </CardContent>
     </Card>
