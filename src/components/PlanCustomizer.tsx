@@ -51,7 +51,6 @@ export const PlanCustomizer = ({
   const [savings, setSavings] = useState(0);
 
   useEffect(() => {
-    // Calculate bulk discount savings
     const totalAddOns = addOns.reduce((acc, addon) => acc + addon.price * addon.value, 0);
     const bulkDiscount = totalAddOns > 500 ? totalAddOns * 0.1 : 0;
     setSavings(bulkDiscount);
@@ -72,12 +71,12 @@ export const PlanCustomizer = ({
   };
 
   return (
-    <Card className="glass-card">
-      <CardHeader className="p-4 md:p-6 bg-gradient-to-r from-blue-500/10 to-violet-500/10 backdrop-blur-sm">
-        <CardTitle className="text-xl md:text-2xl break-words flex items-center justify-between text-primary-foreground">
-          Customize Your {basePlan}
+    <Card className="bg-background/80 backdrop-blur-sm border-[0.5px] border-white/10">
+      <CardHeader className="p-4 md:p-6">
+        <CardTitle className="text-xl font-light flex items-center justify-between">
+          Customize {basePlan}
           {savings > 0 && (
-            <Badge variant="secondary" className="ml-2 bg-green-500/20 text-green-400 border border-green-500/30">
+            <Badge variant="secondary" className="bg-green-500/10 text-green-400 border-0">
               Save ${savings.toFixed(0)}
             </Badge>
           )}
@@ -88,10 +87,10 @@ export const PlanCustomizer = ({
           {addOns.map((addon, index) => (
             <div key={addon.name} className="space-y-2">
               <div className="flex justify-between items-center">
-                <Label className="text-base break-words text-primary-foreground">
+                <Label className="text-sm">
                   {addon.name}
                 </Label>
-                <div className="text-sm text-primary">
+                <div className="text-sm text-primary/90">
                   +${addon.price * addon.value}
                 </div>
               </div>
@@ -125,18 +124,18 @@ export const PlanCustomizer = ({
                 <span>-${savings.toFixed(0)}</span>
               </div>
             )}
-            <div className="flex justify-between font-bold text-lg text-primary-foreground">
-              <span>Total Price</span>
+            <div className="flex justify-between text-lg">
+              <span>Total</span>
               <span>${totalPrice.toFixed(0)}</span>
             </div>
           </div>
 
           <Progress 
             value={(totalPrice / 2000) * 100} 
-            className="h-2 bg-primary/20"
+            className="h-1.5 bg-primary/10"
           />
           
-          <p className="text-sm text-muted-foreground text-center">
+          <p className="text-xs text-center text-muted-foreground">
             {totalPrice > 1500 
               ? "Maximum plan value reached" 
               : "Adjust add-ons to customize your plan"}

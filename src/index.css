@@ -32,7 +32,7 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 225 25% 11%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
   }
 
   * {
@@ -45,21 +45,21 @@
 
   body {
     @apply bg-rental-dark text-foreground min-h-screen overflow-x-hidden;
-    background-image: 
-      radial-gradient(at 50% 0%, rgba(0, 102, 255, 0.15) 0px, transparent 75%),
-      radial-gradient(at 100% 0%, rgba(0, 102, 255, 0.15) 0px, transparent 50%);
-    background-attachment: fixed;
   }
 
-  /* Improve touch targets on mobile */
-  @media (max-width: 640px) {
-    button, a {
-      @apply min-h-[44px] min-w-[44px];
+  @keyframes fade-in-bottom {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
     }
-    
-    input, select, textarea {
-      @apply text-base;
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
+  }
+
+  .fade-in-bottom {
+    animation: fade-in-bottom 0.3s ease-out forwards;
   }
 }
 
