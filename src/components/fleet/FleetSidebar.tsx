@@ -11,6 +11,19 @@ interface FleetSidebarProps {
 }
 
 export function FleetSidebar({ vehicles, isLoading, selectedVehicleId, onVehicleSelect }: FleetSidebarProps) {
+  const formatVehicleName = (name: string) => {
+    // Convert names to proper Tesla model format
+    const modelMap: Record<string, string> = {
+      'model y': 'Model Y',
+      'model x': 'Model X',
+      'model s': 'Model S',
+      'model 3': 'Model 3',
+    };
+    
+    const lowercaseName = name.toLowerCase();
+    return modelMap[lowercaseName] || name;
+  };
+
   return (
     <div className="bg-accent/5 backdrop-blur-sm rounded-lg border border-accent/20 overflow-hidden">
       <div className="p-4 border-b border-accent/20">
@@ -59,12 +72,12 @@ export function FleetSidebar({ vehicles, isLoading, selectedVehicleId, onVehicle
                     {vehicle.image_url && (
                       <img 
                         src={vehicle.image_url} 
-                        alt={vehicle.name}
+                        alt={formatVehicleName(vehicle.name)}
                         className="w-20 h-20 object-cover rounded-md"
                       />
                     )}
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-medium truncate">{vehicle.name}</h3>
+                      <h3 className="font-medium truncate">{formatVehicleName(vehicle.name)}</h3>
                       <div className="mt-2 grid grid-cols-2 gap-2 text-sm">
                         <div className="flex items-center text-muted-foreground">
                           <Battery className="h-4 w-4 mr-1" />
