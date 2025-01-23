@@ -29,8 +29,7 @@ export const Hero = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0B1F3B]">
-      {/* Background gradient */}
+    <div className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-[#0B1F3B]">
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-b from-[#0B1F3B]/80 via-[#0B1F3B]/70 to-[#0B1F3B]/90" />
       </div>
@@ -41,8 +40,7 @@ export const Hero = () => {
         animate="visible"
         variants={containerVariants}
       >
-        <div className="max-w-5xl mx-auto text-center space-y-8">
-          {/* Logo Animation */}
+        <div className="max-w-4xl mx-auto text-center space-y-8">
           <motion.div 
             variants={itemVariants}
             className="flex justify-center"
@@ -50,44 +48,42 @@ export const Hero = () => {
             <img 
               src="/lovable-uploads/f927bb84-ef36-4762-8d10-ade9a41f18ce.png" 
               alt="Unity Fleet Logo" 
-              className="w-32 h-32 mb-6 animate-float"
+              className="w-24 h-24 mb-4 animate-float"
             />
           </motion.div>
 
-          {/* Main Title with Spotlight Effect */}
           <div className="relative">
             <Spotlight
               className="-top-40 left-0 md:left-60 md:-top-20"
               fill="white"
             />
             <motion.div variants={itemVariants}>
-              <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-br from-white to-blue-400 bg-clip-text text-transparent mb-4">
+              <h1 className="text-3xl md:text-5xl font-bold bg-gradient-to-br from-white to-blue-400 bg-clip-text text-transparent mb-4">
                 Experience The Future of Mobility
               </h1>
-              <p className="text-xl text-blue-100/80 max-w-2xl mx-auto">
+              <p className="text-lg text-blue-100/80 max-w-xl mx-auto">
                 Join the electric revolution with our premium Tesla fleet
               </p>
             </motion.div>
           </div>
 
-          {/* Feature Cards */}
           <motion.div
             variants={itemVariants}
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12"
+            className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8"
           >
             {[
               {
-                icon: <Zap className="w-8 h-8 text-blue-400" />,
+                icon: <Zap className="w-6 h-6 text-blue-400" />,
                 title: "Instant Access",
                 description: "Get your Tesla in minutes"
               },
               {
-                icon: <Shield className="w-8 h-8 text-blue-400" />,
+                icon: <Shield className="w-6 h-6 text-blue-400" />,
                 title: "Premium Fleet",
                 description: "Latest Tesla models"
               },
               {
-                icon: <Download className="w-8 h-8 text-blue-400" />,
+                icon: <Download className="w-6 h-6 text-blue-400" />,
                 title: "Smart App",
                 description: "Full control at your fingertips"
               }
@@ -95,35 +91,22 @@ export const Hero = () => {
               <motion.div
                 key={feature.title}
                 variants={itemVariants}
-                whileHover={{ 
-                  scale: 1.05,
-                  transition: { duration: 0.2 }
-                }}
-                whileTap={{ scale: 0.95 }}
-                className="p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 
+                whileHover={{ scale: 1.02 }}
+                className="p-4 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 
                   hover:border-blue-400/20 transition-all duration-300"
               >
                 <div className="flex flex-col items-center">
-                  <motion.div 
-                    className="mb-4"
-                    whileHover={{ 
-                      rotate: [0, -10, 10, -10, 0],
-                      transition: { duration: 0.5 }
-                    }}
-                  >
-                    {feature.icon}
-                  </motion.div>
-                  <h3 className="text-xl font-semibold text-white mb-2">{feature.title}</h3>
-                  <p className="text-blue-100/70">{feature.description}</p>
+                  {feature.icon}
+                  <h3 className="text-lg font-medium text-white mt-2">{feature.title}</h3>
+                  <p className="text-sm text-blue-100/70 mt-1">{feature.description}</p>
                 </div>
               </motion.div>
             ))}
           </motion.div>
 
-          {/* CTA Buttons */}
           <motion.div
             variants={itemVariants}
-            className="flex flex-col sm:flex-row gap-4 justify-center mt-8"
+            className="flex flex-col sm:flex-row gap-4 justify-center mt-6"
           >
             <Button 
               size="lg" 
@@ -149,8 +132,7 @@ export const Hero = () => {
         </div>
       </motion.div>
       
-      {/* Bottom gradient overlay */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#0B1F3B] to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#0B1F3B] to-transparent" />
     </div>
   );
 };
