@@ -28,27 +28,27 @@ export const SubscriptionStatus = () => {
   };
 
   return (
-    <Card className="glass-card animate-fade-up">
+    <Card className="bg-background/50 backdrop-blur-sm border-accent/10 hover:border-accent/20 transition-colors duration-300">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-secondary">
           <CreditCard className="h-5 w-5" />
           Subscription Status
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-6">
         <div className="space-y-2">
           <p className="text-sm text-muted-foreground">Current Plan</p>
-          <p className="text-lg font-semibold glow-text">{subscription?.plan}</p>
+          <p className="text-lg font-semibold text-blue-500">{subscription?.plan}</p>
         </div>
         <div className="space-y-2">
           <p className="text-sm text-muted-foreground">Renewal Date</p>
-          <p className="flex items-center gap-2 text-secondary">
+          <div className="flex items-center gap-2 text-secondary">
             <Calendar className="h-4 w-4" />
             {subscription?.renewalDate}
-          </p>
+          </div>
         </div>
         <Button 
-          className="w-full glass-button"
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white transition-colors"
           onClick={handleManageSubscription}
         >
           Manage Subscription
