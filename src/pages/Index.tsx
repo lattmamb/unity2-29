@@ -7,8 +7,6 @@ import { AvailableVehicles } from "@/components/AvailableVehicles";
 import { ActiveRentals } from "@/components/ActiveRentals";
 import { PromotionsBanner } from "@/components/PromotionsBanner";
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
-import { SplineScene } from "@/components/ui/splite";
-import { Spotlight } from "@/components/ui/spotlight";
 import { useEffect } from "react";
 import { toast } from "@/components/ui/use-toast";
 import { motion } from "framer-motion";
@@ -40,36 +38,7 @@ const Index = () => {
       <main className="relative">
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background/90 to-background pointer-events-none" />
         
-        <ContainerScroll
-          titleComponent={
-            <div className="relative max-w-5xl mx-auto px-4">
-              <Spotlight
-                className="-top-40 left-0 md:left-60 md:-top-20"
-                size={500}
-              />
-              <motion.div
-                initial={{ opacity: 0.5, y: 100 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{
-                  delay: 0.3,
-                  duration: 0.8,
-                  ease: "easeInOut",
-                }}
-                className="relative z-10 space-y-8"
-              >
-                <h2 className="text-4xl md:text-6xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-500">
-                  Experience Luxury
-                </h2>
-                <div className="mt-8 h-[400px] md:h-[600px] w-full">
-                  <SplineScene
-                    scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-                    className="w-full h-full"
-                  />
-                </div>
-              </motion.div>
-            </div>
-          }
-        >
+        <ContainerScroll>
           <div className="container mx-auto px-4 py-16">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <motion.div
