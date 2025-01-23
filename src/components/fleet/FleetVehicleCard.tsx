@@ -11,6 +11,20 @@ interface FleetVehicleCardProps {
 }
 
 export function FleetVehicleCard({ vehicle }: FleetVehicleCardProps) {
+  const formatVehicleName = (name: string) => {
+    // Convert names to proper model format
+    const modelMap: Record<string, string> = {
+      'model y': 'Model Y',
+      'model x': 'Model X',
+      'model s': 'Model S',
+      'model 3': 'Model 3',
+      'bmw i4': 'Tesla Model 3', // Replace BMW i4 with Tesla Model 3
+    };
+    
+    const lowercaseName = name.toLowerCase();
+    return modelMap[lowercaseName] || name;
+  };
+
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-all duration-500 bg-background/50 backdrop-blur-sm border-accent/20 group">
       <motion.div 
@@ -21,7 +35,7 @@ export function FleetVehicleCard({ vehicle }: FleetVehicleCardProps) {
         {vehicle.image_url ? (
           <img
             src={vehicle.image_url}
-            alt={vehicle.name}
+            alt={formatVehicleName(vehicle.name)}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         ) : null}
@@ -35,7 +49,7 @@ export function FleetVehicleCard({ vehicle }: FleetVehicleCardProps) {
       
       <div className="p-6 space-y-6">
         <h3 className="text-2xl font-semibold bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent">
-          {vehicle.name}
+          {formatVehicleName(vehicle.name)}
         </h3>
         
         <VehicleStats 

@@ -12,12 +12,13 @@ interface FleetSidebarProps {
 
 export function FleetSidebar({ vehicles, isLoading, selectedVehicleId, onVehicleSelect }: FleetSidebarProps) {
   const formatVehicleName = (name: string) => {
-    // Convert names to proper Tesla model format
+    // Convert names to proper model format
     const modelMap: Record<string, string> = {
       'model y': 'Model Y',
       'model x': 'Model X',
       'model s': 'Model S',
       'model 3': 'Model 3',
+      'bmw i4': 'Tesla Model 3', // Replace BMW i4 with Tesla Model 3
     };
     
     const lowercaseName = name.toLowerCase();
