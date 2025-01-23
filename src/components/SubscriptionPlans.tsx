@@ -4,7 +4,7 @@ import { PlanCard } from "./subscription/PlanCard";
 import { PlanComparison } from "./PlanComparison";
 import { PlanCustomizer } from "./PlanCustomizer";
 import { useToast } from "@/components/ui/use-toast";
-import { Car, Zap, Crown } from "lucide-react";
+import { motion } from "framer-motion";
 
 export const SubscriptionPlans = () => {
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
@@ -24,36 +24,76 @@ export const SubscriptionPlans = () => {
 
   return (
     <section className="max-w-6xl mx-auto px-4 py-12">
-      <div className="text-center mb-12 space-y-2">
-        <h1 className="text-3xl font-light">Choose Your Plan</h1>
-        <p className="text-muted-foreground text-sm">
-          Select a subscription that fits your driving needs
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="text-center mb-16 space-y-4"
+      >
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-rental-blue via-white to-rental-blue">
+          Join Unity Fleet for Exclusive Benefits
+        </h1>
+        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+          Choose the plan that powers your journey with unmatched convenience and innovation
         </p>
-      </div>
+      </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-        {plans.map((plan) => (
-          <PlanCard
+        {plans.map((plan, index) => (
+          <motion.div
             key={plan.name}
-            plan={plan}
-            onSubscribe={handleSubscribe}
-            isLoading={isLoading === plan.name}
-          />
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+          >
+            <PlanCard
+              plan={plan}
+              onSubscribe={handleSubscribe}
+              isLoading={isLoading === plan.name}
+            />
+          </motion.div>
         ))}
       </div>
 
       {selectedPlan && (
-        <div className="fade-in-bottom">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-16"
+        >
           <PlanCustomizer
             basePlan={selectedPlan}
             basePrice={Number(plans.find((p) => p.name === selectedPlan)?.price) || 0}
           />
-        </div>
+        </motion.div>
       )}
 
-      <div className="mt-20">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+      >
         <PlanComparison />
-      </div>
+      </motion.div>
+
+      <motion.footer
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+        className="mt-24 text-center space-y-6 text-sm text-muted-foreground"
+      >
+        <div className="space-x-4">
+          <a href="#" className="hover:text-rental-blue transition-colors">Terms & Conditions</a>
+          <span>•</span>
+          <a href="#" className="hover:text-rental-blue transition-colors">Refund Policy</a>
+          <span>•</span>
+          <a href="#" className="hover:text-rental-blue transition-colors">Support</a>
+        </div>
+        <p className="text-xs">
+          Driving the future of sustainable and innovative travel
+        </p>
+      </motion.footer>
     </section>
   );
 };
