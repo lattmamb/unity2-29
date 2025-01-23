@@ -28,35 +28,11 @@ export const Hero = () => {
     },
   };
 
-  const backgroundVariants = {
-    hidden: { scale: 1.1, opacity: 0.8 },
-    visible: {
-      scale: 1,
-      opacity: 0.4,
-      transition: {
-        duration: 2,
-        ease: "easeOut",
-      },
-    },
-  };
-
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0B1F3B]">
-      {/* Background with parallax effect */}
+      {/* Background gradient */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-b from-[#0B1F3B]/80 via-[#0B1F3B]/70 to-[#0B1F3B]/90" />
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={backgroundVariants}
-          className="w-full h-full"
-        >
-          <img 
-            src="/lovable-uploads/ec960a52-1e70-4d52-b6c3-d8e1af41e121.png"
-            alt="Tesla Fleet Background"
-            className="w-full h-full object-cover"
-          />
-        </motion.div>
       </div>
       
       <motion.div 
