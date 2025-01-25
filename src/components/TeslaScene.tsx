@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { motion } from 'framer-motion';
+import { toast } from '@/components/ui/use-toast';
 
 export const TeslaScene = () => {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -11,6 +12,7 @@ export const TeslaScene = () => {
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const controlsRef = useRef<OrbitControls | null>(null);
   const animationFrameRef = useRef<number>();
+  const modelRef = useRef<THREE.Group | null>(null);
 
   useEffect(() => {
     if (!mountRef.current) return;
@@ -33,11 +35,13 @@ export const TeslaScene = () => {
     // Renderer setup
     const renderer = new THREE.WebGLRenderer({ 
       antialias: true,
+      alpha: true,
       powerPreference: "high-performance"
     });
     rendererRef.current = renderer;
     renderer.setSize(mountRef.current.clientWidth, mountRef.current.clientHeight);
     renderer.shadowMap.enabled = true;
+    renderer.setPixelRatio(window.devicePixelRatio);
     mountRef.current.appendChild(renderer.domElement);
 
     // Lighting
@@ -49,7 +53,7 @@ export const TeslaScene = () => {
     directionalLight.castShadow = true;
     scene.add(directionalLight);
 
-    // Ground plane
+    // Ground plane with grid
     const groundGeometry = new THREE.PlaneGeometry(20, 20);
     const groundMaterial = new THREE.MeshStandardMaterial({ 
       color: 0x1a1b1e,
@@ -73,41 +77,68 @@ export const TeslaScene = () => {
     controls.dampingFactor = 0.05;
     controls.maxPolarAngle = Math.PI / 2;
 
-    // Load Tesla Model with error handling
-    const loader = new GLTFLoader();
-    try {
-      loader.load(
-        '/tesla-model-s.glb',
-        (gltf) => {
-          const model = gltf.scene;
-          model.traverse((child) => {
-            if (child instanceof THREE.Mesh) {
-              child.castShadow = true;
-              child.receiveShadow = true;
-            }
-          });
-          scene.add(model);
+    // Temporary cube while model loads
+    const cubeGeometry = new THREE.BoxGeometry(2, 1, 4);
+    const cubeMaterial = new THREE.MeshPhongMaterial({ 
+      color: 0x0066FF,
+      transparent: true,
+      opacity: 0.8
+    });
+    const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+    cube.position.y = 0.5;
+    scene.add(cube);
 
-          // Center and scale the model
-          const box = new THREE.Box3().setFromObject(model);
-          const center = box.getCenter(new THREE.Vector3());
-          const size = box.getSize(new THREE.Vector3());
-          
-          const maxDim = Math.max(size.x, size.y, size.z);
-          const scale = 2 / maxDim;
-          model.scale.multiplyScalar(scale);
-          
-          model.position.sub(center.multiplyScalar(scale));
-          model.position.y = 0.5;
-        },
-        undefined,
-        (error) => {
-          console.error('Error loading model:', error);
+    // Load Tesla Model
+    const loader = new GLTFLoader();
+    const modelPath = '/tesla-model-s.glb'; // This should be in the public folder
+
+    loader.load(
+      modelPath,
+      (gltf) => {
+        if (modelRef.current) {
+          scene.remove(modelRef.current);
         }
-      );
-    } catch (error) {
-      console.error('Error in model loading setup:', error);
-    }
+        
+        const model = gltf.scene;
+        modelRef.current = model;
+        
+        model.traverse((child) => {
+          if (child instanceof THREE.Mesh) {
+            child.castShadow = true;
+            child.receiveShadow = true;
+          }
+        });
+
+        // Center and scale model
+        const box = new THREE.Box3().setFromObject(model);
+        const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
+        
+        const maxDim = Math.max(size.x, size.y, size.z);
+        const scale = 2 / maxDim;
+        model.scale.multiplyScalar(scale);
+        
+        model.position.sub(center.multiplyScalar(scale));
+        model.position.y = 0.5;
+        
+        scene.add(model);
+        scene.remove(cube); // Remove temporary cube
+        
+        toast({
+          title: "Model loaded successfully",
+          description: "You can now interact with the 3D model",
+        });
+      },
+      undefined,
+      (error) => {
+        console.error('Error loading model:', error);
+        toast({
+          title: "Error loading 3D model",
+          description: "Using placeholder model instead",
+          variant: "destructive",
+        });
+      }
+    );
 
     // Animation loop
     const animate = () => {
@@ -135,17 +166,34 @@ export const TeslaScene = () => {
     // Cleanup
     return () => {
       window.removeEventListener('resize', handleResize);
+      
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
+      
       if (mountRef.current && rendererRef.current) {
         mountRef.current.removeChild(rendererRef.current.domElement);
       }
+      
       if (rendererRef.current) {
         rendererRef.current.dispose();
       }
+      
       if (controlsRef.current) {
         controlsRef.current.dispose();
+      }
+      
+      if (sceneRef.current) {
+        sceneRef.current.traverse((object) => {
+          if (object instanceof THREE.Mesh) {
+            object.geometry.dispose();
+            if (object.material instanceof THREE.Material) {
+              object.material.dispose();
+            } else if (Array.isArray(object.material)) {
+              object.material.forEach((material) => material.dispose());
+            }
+          }
+        });
       }
     };
   }, []);
@@ -153,7 +201,7 @@ export const TeslaScene = () => {
   return (
     <motion.div 
       ref={mountRef} 
-      className="w-full h-[80vh] rounded-xl overflow-hidden"
+      className="w-full h-[80vh] rounded-xl overflow-hidden glass-card"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}

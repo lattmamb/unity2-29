@@ -13,20 +13,16 @@ import { DockNav } from "@/components/navigation/DockNav";
 const Index = () => {
   useEffect(() => {
     const handleError = (error: ErrorEvent) => {
-      if (error.message.includes('postMessage')) {
-        console.error('PostMessage Error:', error);
-        toast({
-          title: "Connection Issue",
-          description: "We're experiencing some technical difficulties. Please try refreshing the page.",
-          variant: "destructive",
-        });
-      }
+      console.error('Error:', error);
+      toast({
+        title: "An error occurred",
+        description: "Please refresh the page or contact support if the issue persists.",
+        variant: "destructive",
+      });
     };
 
     window.addEventListener('error', handleError);
-    return () => {
-      window.removeEventListener('error', handleError);
-    };
+    return () => window.removeEventListener('error', handleError);
   }, []);
 
   return (
@@ -55,7 +51,10 @@ const Index = () => {
               </p>
             </div>
 
-            <TeslaScene />
+            <div className="relative">
+              <TeslaScene />
+              <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-rental-dark via-transparent to-transparent" />
+            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
               <div className="md:col-span-8 space-y-8">
