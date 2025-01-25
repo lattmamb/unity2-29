@@ -1,14 +1,16 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { motion } from 'framer-motion';
 
 export const TeslaScene = () => {
   const mountRef = useRef<HTMLDivElement>(null);
-  const sceneRef = useRef<THREE.Scene>();
-  const cameraRef = useRef<THREE.PerspectiveCamera>();
-  const rendererRef = useRef<THREE.WebGLRenderer>();
+  const sceneRef = useRef<THREE.Scene | null>(null);
+  const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
+  const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
+  const controlsRef = useRef<OrbitControls | null>(null);
+  const animationFrameRef = useRef<number>();
 
   useEffect(() => {
     if (!mountRef.current) return;
@@ -29,7 +31,10 @@ export const TeslaScene = () => {
     camera.position.set(5, 2, 5);
 
     // Renderer setup
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    const renderer = new THREE.WebGLRenderer({ 
+      antialias: true,
+      powerPreference: "high-performance"
+    });
     rendererRef.current = renderer;
     renderer.setSize(mountRef.current.clientWidth, mountRef.current.clientHeight);
     renderer.shadowMap.enabled = true;
@@ -63,66 +68,85 @@ export const TeslaScene = () => {
 
     // Controls
     const controls = new OrbitControls(camera, renderer.domElement);
+    controlsRef.current = controls;
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
     controls.maxPolarAngle = Math.PI / 2;
 
-    // Load Tesla Model
+    // Load Tesla Model with error handling
     const loader = new GLTFLoader();
-    loader.load('/tesla-model-s.glb', (gltf) => {
-      const model = gltf.scene;
-      model.traverse((child) => {
-        if (child instanceof THREE.Mesh) {
-          child.castShadow = true;
-          child.receiveShadow = true;
-        }
-      });
-      scene.add(model);
+    try {
+      loader.load(
+        '/tesla-model-s.glb',
+        (gltf) => {
+          const model = gltf.scene;
+          model.traverse((child) => {
+            if (child instanceof THREE.Mesh) {
+              child.castShadow = true;
+              child.receiveShadow = true;
+            }
+          });
+          scene.add(model);
 
-      // Center and scale the model
-      const box = new THREE.Box3().setFromObject(model);
-      const center = box.getCenter(new THREE.Vector3());
-      const size = box.getSize(new THREE.Vector3());
-      
-      const maxDim = Math.max(size.x, size.y, size.z);
-      const scale = 2 / maxDim;
-      model.scale.multiplyScalar(scale);
-      
-      model.position.sub(center.multiplyScalar(scale));
-      model.position.y = 0.5;
-    });
+          // Center and scale the model
+          const box = new THREE.Box3().setFromObject(model);
+          const center = box.getCenter(new THREE.Vector3());
+          const size = box.getSize(new THREE.Vector3());
+          
+          const maxDim = Math.max(size.x, size.y, size.z);
+          const scale = 2 / maxDim;
+          model.scale.multiplyScalar(scale);
+          
+          model.position.sub(center.multiplyScalar(scale));
+          model.position.y = 0.5;
+        },
+        undefined,
+        (error) => {
+          console.error('Error loading model:', error);
+        }
+      );
+    } catch (error) {
+      console.error('Error in model loading setup:', error);
+    }
 
     // Animation loop
     const animate = () => {
-      requestAnimationFrame(animate);
-      controls.update();
-      renderer.render(scene, camera);
+      if (!sceneRef.current || !cameraRef.current || !rendererRef.current || !controlsRef.current) return;
+      
+      animationFrameRef.current = requestAnimationFrame(animate);
+      controlsRef.current.update();
+      rendererRef.current.render(sceneRef.current, cameraRef.current);
     };
     animate();
 
     // Handle window resize
     const handleResize = () => {
-      if (!mountRef.current) return;
+      if (!mountRef.current || !cameraRef.current || !rendererRef.current) return;
       
       const width = mountRef.current.clientWidth;
       const height = mountRef.current.clientHeight;
       
-      if (cameraRef.current) {
-        cameraRef.current.aspect = width / height;
-        cameraRef.current.updateProjectionMatrix();
-      }
-      
-      if (rendererRef.current) {
-        rendererRef.current.setSize(width, height);
-      }
+      cameraRef.current.aspect = width / height;
+      cameraRef.current.updateProjectionMatrix();
+      rendererRef.current.setSize(width, height);
     };
     window.addEventListener('resize', handleResize);
 
     // Cleanup
     return () => {
       window.removeEventListener('resize', handleResize);
-      mountRef.current?.removeChild(renderer.domElement);
-      renderer.dispose();
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+      if (mountRef.current && rendererRef.current) {
+        mountRef.current.removeChild(rendererRef.current.domElement);
+      }
+      if (rendererRef.current) {
+        rendererRef.current.dispose();
+      }
+      if (controlsRef.current) {
+        controlsRef.current.dispose();
+      }
     };
   }, []);
 
