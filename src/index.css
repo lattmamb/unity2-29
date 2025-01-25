@@ -4,33 +4,33 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
-    --foreground: 222 47% 11%;
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card: 222 47% 11%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 40% 98%;
 
     --primary: 210 100% 50%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222 47% 11%;
+    --secondary: 217 32% 17%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted: 217 32% 17%;
+    --muted-foreground: 215 20% 65%;
 
     --accent: 191 100% 50%;
-    --accent-foreground: 222 47% 11%;
+    --accent-foreground: 210 40% 98%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 222 47% 11%;
+    --border: 217 32% 17%;
+    --input: 217 32% 17%;
+    --ring: 224 71.4% 4.1%;
 
     --radius: 0.75rem;
   }
@@ -44,7 +44,7 @@
   }
 
   body {
-    @apply bg-background text-foreground min-h-screen overflow-x-hidden;
+    @apply bg-rental-dark text-rental-light min-h-screen overflow-x-hidden;
     background-image: url('/lovable-uploads/035967c7-d42d-4182-8f2e-c409406e2e44.png');
     background-size: cover;
     background-position: center;
@@ -69,7 +69,7 @@
 
 @layer components {
   .glass-card {
-    @apply bg-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-lg;
+    @apply bg-rental-dark/10 backdrop-blur-md border border-rental-light/20 rounded-xl shadow-lg;
   }
 
   .glass-button {

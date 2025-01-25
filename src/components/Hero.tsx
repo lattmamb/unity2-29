@@ -29,7 +29,7 @@ export const Hero = () => {
   };
 
   return (
-    <div className="relative min-h-[60vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#0B1F3B] to-background">
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-rental-dark to-background">
       <motion.div 
         className="container mx-auto px-4 relative z-10"
         initial="hidden"
@@ -37,50 +37,33 @@ export const Hero = () => {
         variants={containerVariants}
       >
         <div className="max-w-4xl mx-auto text-center space-y-8">
-          <motion.div 
-            variants={itemVariants}
-            className="flex justify-center"
-          >
-            <img 
-              src="/lovable-uploads/f927bb84-ef36-4762-8d10-ade9a41f18ce.png" 
-              alt="Unity Fleet Logo" 
-              className="w-16 h-16 mb-4"
-            />
+          <motion.div variants={itemVariants}>
+            <h1 className="text-4xl md:text-7xl font-bold text-white mb-4">
+              Unity Fleet
+            </h1>
+            <p className="text-xl md:text-2xl text-rental-light/80 max-w-xl mx-auto">
+              The Future of Electric Mobility
+            </p>
           </motion.div>
-
-          <div className="relative">
-            <Spotlight
-              className="-top-40 left-0 md:left-60 md:-top-20"
-              fill="white"
-            />
-            <motion.div variants={itemVariants}>
-              <h1 className="text-2xl md:text-4xl font-bold text-white mb-4">
-                Your Next Ride Awaits
-              </h1>
-              <p className="text-base md:text-lg text-blue-100/80 max-w-xl mx-auto">
-                Experience sustainable mobility with Unity Fleet
-              </p>
-            </motion.div>
-          </div>
 
           <motion.div
             variants={itemVariants}
-            className="flex flex-col sm:flex-row gap-4 justify-center mt-6"
+            className="flex flex-col sm:flex-row gap-4 justify-center mt-12"
           >
             <Button 
               size="lg" 
-              className="bg-blue-500 hover:bg-blue-600 text-white group transition-all duration-300"
+              className="glass-button group text-lg"
               asChild
             >
               <Link to="/booking">
-                Start Ride
-                <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                Book Now
+                <ChevronRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Link>
             </Button>
             <Button 
               size="lg" 
               variant="outline" 
-              className="border-blue-400/20 text-white hover:bg-blue-400/10 transition-all duration-300"
+              className="border-rental-light/20 text-white hover:bg-rental-light/10 transition-all duration-300 text-lg"
               asChild
             >
               <Link to="/fleet">
@@ -90,6 +73,9 @@ export const Hero = () => {
           </motion.div>
         </div>
       </motion.div>
+      
+      <div className="absolute inset-0 bg-frost-pattern opacity-10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-rental-dark via-transparent to-transparent" />
     </div>
   );
 };

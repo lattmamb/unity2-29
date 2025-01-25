@@ -32,9 +32,9 @@ export const AvailableVehicles = () => {
   };
 
   return (
-    <Card className="bg-background/50 backdrop-blur-sm border-accent/10 hover:border-accent/20 transition-colors duration-300">
+    <Card className="bg-rental-dark/50 backdrop-blur-sm border-rental-light/10 hover:border-rental-light/20 transition-colors duration-300">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-secondary">
+        <CardTitle className="flex items-center gap-2 text-rental-light">
           <Car className="h-5 w-5" />
           Available Vehicles
         </CardTitle>
@@ -43,24 +43,24 @@ export const AvailableVehicles = () => {
         {vehicles?.map((vehicle) => (
           <div 
             key={vehicle.id} 
-            className="flex items-center justify-between p-4 bg-accent/5 backdrop-blur-sm 
-              border border-accent/10 rounded-lg transition-all duration-300 
-              hover:bg-accent/10 hover:border-accent/20"
+            className="flex items-center justify-between p-6 bg-rental-light/5 backdrop-blur-sm 
+              border border-rental-light/10 rounded-lg transition-all duration-300 
+              hover:bg-rental-light/10 hover:border-rental-light/20"
           >
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center">
-                <Car className="h-6 w-6 text-blue-500" />
+              <div className="w-12 h-12 bg-rental-blue/10 rounded-lg flex items-center justify-center">
+                <Car className="h-6 w-6 text-rental-blue" />
               </div>
               <div>
-                <p className="font-medium text-secondary">{vehicle.name}</p>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <p className="font-medium text-rental-light">{vehicle.name}</p>
+                <div className="flex items-center gap-2 text-sm text-rental-light/60">
                   <Battery className="h-4 w-4" />
                   <span>{vehicle.battery_level}%</span>
                 </div>
               </div>
             </div>
             <Button 
-              className="bg-blue-500 hover:bg-blue-600 text-white transition-colors"
+              className="glass-button"
               onClick={() => handleBookNow(vehicle.id)}
             >
               Book Now
@@ -70,7 +70,7 @@ export const AvailableVehicles = () => {
         
         <Button 
           variant="outline" 
-          className="w-full"
+          className="w-full border-rental-light/20 text-rental-light hover:bg-rental-light/10"
           asChild
         >
           <Link to="/fleet">View All Vehicles</Link>
