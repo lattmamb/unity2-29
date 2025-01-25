@@ -88,9 +88,9 @@ export const TeslaScene = () => {
     cube.position.y = 0.5;
     scene.add(cube);
 
-    // Load Tesla Model
+    // Load Tesla Model X
     const loader = new GLTFLoader();
-    const modelPath = '/tesla-model-s.glb'; // This should be in the public folder
+    const modelPath = '/tesla-model-x.glb'; // This should be in the public folder
 
     loader.load(
       modelPath,
@@ -125,7 +125,7 @@ export const TeslaScene = () => {
         scene.remove(cube); // Remove temporary cube
         
         toast({
-          title: "Model loaded successfully",
+          title: "Model X loaded successfully",
           description: "You can now interact with the 3D model",
         });
       },
@@ -133,7 +133,7 @@ export const TeslaScene = () => {
       (error) => {
         console.error('Error loading model:', error);
         toast({
-          title: "Error loading 3D model",
+          title: "Error loading Model X",
           description: "Using placeholder model instead",
           variant: "destructive",
         });
