@@ -4,6 +4,7 @@ import { Footer } from "@/components/Footer";
 import { SubscriptionStatus } from "@/components/SubscriptionStatus";
 import { AvailableVehicles } from "@/components/AvailableVehicles";
 import { ActiveRentals } from "@/components/ActiveRentals";
+import { TeslaScene } from "@/components/TeslaScene";
 import { useEffect } from "react";
 import { toast } from "@/components/ui/use-toast";
 import { motion } from "framer-motion";
@@ -31,25 +32,40 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-rental-dark text-rental-light">
       <Navigation />
-      <Hero />
       
-      <main className="relative py-16">
-        <div className="container mx-auto px-4 space-y-12">
+      <main className="relative">
+        <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="grid grid-cols-1 md:grid-cols-12 gap-8"
+            className="py-16 space-y-8"
           >
-            {/* Main Content - 8 columns on desktop */}
-            <div className="md:col-span-8 space-y-8">
-              <ActiveRentals />
-              <AvailableVehicles />
+            <div className="text-center space-y-4">
+              <div className="inline-flex items-center gap-4 bg-rental-blue/10 px-6 py-3 rounded-full backdrop-blur-sm mb-6 border border-rental-blue/20">
+                <div className="text-rental-cyan font-semibold">UNITY FLEET</div>
+                <div className="w-px h-6 bg-rental-blue/20" />
+                <div className="text-rental-blue">Experience the Future</div>
+              </div>
+              <h1 className="hero-title">
+                The Future of Electric Mobility
+              </h1>
+              <p className="text-xl text-rental-light/80 max-w-2xl mx-auto">
+                Join Unity Fleet and experience the next generation of sustainable transportation
+              </p>
             </div>
 
-            {/* Sidebar - 4 columns on desktop */}
-            <div className="md:col-span-4 space-y-8">
-              <SubscriptionStatus />
+            <TeslaScene />
+
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+              <div className="md:col-span-8 space-y-8">
+                <ActiveRentals />
+                <AvailableVehicles />
+              </div>
+
+              <div className="md:col-span-4 space-y-8">
+                <SubscriptionStatus />
+              </div>
             </div>
           </motion.div>
         </div>
