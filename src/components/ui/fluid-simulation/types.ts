@@ -18,16 +18,21 @@ export interface FluidConfig {
 }
 
 export interface Material {
-  vertexShader: string;
+  gl: WebGL2RenderingContext;
+  vertexShader: WebGLShader;
   fragmentShaderSource: string;
-  programs: Program[];
-  activeProgram: Program | null;
+  programs: { [key: number]: WebGLProgram };
+  activeProgram: WebGLProgram | null;
   uniforms: { [key: string]: WebGLUniformLocation };
+  setKeywords(keywords: string[]): void;
+  bind(): void;
 }
 
 export interface Program {
-  uniforms: { [key: string]: WebGLUniformLocation };
+  gl: WebGL2RenderingContext;
   program: WebGLProgram;
+  uniforms: { [key: string]: WebGLUniformLocation };
+  bind(): void;
 }
 
 export interface Pointer {

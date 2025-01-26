@@ -1,7 +1,7 @@
 import { Material, Program } from './types';
 
 export function createShaderProgram(
-  gl: WebGLRenderingContext,
+  gl: WebGL2RenderingContext,
   vertexShader: WebGLShader,
   fragmentShader: WebGLShader
 ): WebGLProgram {
@@ -20,7 +20,7 @@ export function createShaderProgram(
 }
 
 export function compileShader(
-  gl: WebGLRenderingContext,
+  gl: WebGL2RenderingContext,
   type: number,
   source: string,
   keywords?: string[]
@@ -50,14 +50,14 @@ function addKeywords(source: string, keywords?: string[]): string {
 }
 
 export class MaterialImpl implements Material {
+  gl: WebGL2RenderingContext;
   vertexShader: WebGLShader;
   fragmentShaderSource: string;
   programs: { [key: number]: WebGLProgram };
   activeProgram: WebGLProgram | null;
   uniforms: { [key: string]: WebGLUniformLocation };
-  gl: WebGLRenderingContext;
 
-  constructor(gl: WebGLRenderingContext, vertexShader: WebGLShader, fragmentShaderSource: string) {
+  constructor(gl: WebGL2RenderingContext, vertexShader: WebGLShader, fragmentShaderSource: string) {
     this.gl = gl;
     this.vertexShader = vertexShader;
     this.fragmentShaderSource = fragmentShaderSource;
@@ -100,9 +100,9 @@ export class MaterialImpl implements Material {
 export class ProgramImpl implements Program {
   uniforms: { [key: string]: WebGLUniformLocation };
   program: WebGLProgram;
-  gl: WebGLRenderingContext;
+  gl: WebGL2RenderingContext;
 
-  constructor(gl: WebGLRenderingContext, vertexShader: WebGLShader, fragmentShader: WebGLShader) {
+  constructor(gl: WebGL2RenderingContext, vertexShader: WebGLShader, fragmentShader: WebGLShader) {
     this.gl = gl;
     this.program = createShaderProgram(gl, vertexShader, fragmentShader);
     this.uniforms = getUniforms(gl, this.program);
@@ -113,7 +113,7 @@ export class ProgramImpl implements Program {
   }
 }
 
-function getUniforms(gl: WebGLRenderingContext, program: WebGLProgram): { [key: string]: WebGLUniformLocation } {
+function getUniforms(gl: WebGL2RenderingContext, program: WebGLProgram): { [key: string]: WebGLUniformLocation } {
   const uniforms: { [key: string]: WebGLUniformLocation } = {};
   const uniformCount = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS);
   

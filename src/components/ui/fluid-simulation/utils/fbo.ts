@@ -1,5 +1,3 @@
-import { Material, Program } from '../types';
-
 export function createFBO(
   gl: WebGL2RenderingContext,
   w: number,
@@ -85,9 +83,8 @@ export function createDoubleFBO(
   };
 }
 
-export function resizeFBO(
-  gl: WebGL2RenderingContext,
-  target: any,
+export function resizeDoubleFBO(
+  target: ReturnType<typeof createDoubleFBO>,
   w: number,
   h: number,
   internalFormat: number,
@@ -95,14 +92,13 @@ export function resizeFBO(
   type: number,
   param: number,
   filtering?: number,
-  wrap?: number,
-  texId?: number
+  wrap?: number
 ) {
-  const newFBO = createFBO(gl, w, h, internalFormat, format, type, param, texId, false, wrap, filtering);
+  const newFBO = createDoubleFBO(target.read.gl, w, h, internalFormat, format, type, param, filtering, wrap);
   return newFBO;
 }
 
-export function blit(gl: WebGL2RenderingContext, target?: any) {
+export function blit(gl: WebGL2RenderingContext, target?: ReturnType<typeof createFBO>) {
   gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, -1, 1, 1, 1, 1, -1]), gl.STATIC_DRAW);
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, gl.createBuffer());
