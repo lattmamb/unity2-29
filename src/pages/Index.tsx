@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { toast } from "@/components/ui/use-toast";
 import { motion } from "framer-motion";
 import { DockNav } from "@/components/navigation/DockNav";
+import { SplashCursor } from "@/components/ui/splash-cursor";
 
 const Index = () => {
   useEffect(() => {
@@ -26,7 +27,8 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-rental-dark text-rental-light">
+    <div className="min-h-screen bg-rental-dark text-rental-light relative">
+      <SplashCursor />
       <Navigation />
       
       <main className="relative">
