@@ -2,14 +2,17 @@ import { Material, Program } from './types';
 
 export function createShaderProgram(
   gl: WebGL2RenderingContext,
-  vertexShader: WebGLShader,
-  fragmentShader: WebGLShader
+  vertexShader: string,
+  fragmentShader: string
 ): WebGLProgram {
   const program = gl.createProgram();
   if (!program) throw new Error('Failed to create shader program');
 
-  gl.attachShader(program, vertexShader);
-  gl.attachShader(program, fragmentShader);
+  const vs = compileShader(gl, gl.VERTEX_SHADER, vertexShader);
+  const fs = compileShader(gl, gl.FRAGMENT_SHADER, fragmentShader);
+
+  gl.attachShader(program, vs);
+  gl.attachShader(program, fs);
   gl.linkProgram(program);
 
   if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
@@ -51,13 +54,13 @@ function addKeywords(source: string, keywords?: string[]): string {
 
 export class MaterialImpl implements Material {
   gl: WebGL2RenderingContext;
-  vertexShader: WebGLShader;
+  vertexShader: string;
   fragmentShaderSource: string;
-  programs: { [key: number]: WebGLProgram };
-  activeProgram: WebGLProgram | null;
+  programs: { [key: number]: Program };
+  activeProgram: Program | null;
   uniforms: { [key: string]: WebGLUniformLocation };
 
-  constructor(gl: WebGL2RenderingContext, vertexShader: WebGLShader, fragmentShaderSource: string) {
+  constructor(gl: WebGL2RenderingContext, vertexShader: string, fragmentShaderSource: string) {
     this.gl = gl;
     this.vertexShader = vertexShader;
     this.fragmentShaderSource = fragmentShaderSource;
@@ -74,25 +77,24 @@ export class MaterialImpl implements Material {
 
     let program = this.programs[hash];
     if (!program) {
-      const fragmentShader = compileShader(
+      const glProgram = createShaderProgram(
         this.gl,
-        this.gl.FRAGMENT_SHADER,
-        this.fragmentShaderSource,
-        keywords
+        this.vertexShader,
+        this.fragmentShaderSource
       );
-      program = createShaderProgram(this.gl, this.vertexShader, fragmentShader);
+      program = new ProgramImpl(this.gl, glProgram);
       this.programs[hash] = program;
     }
 
     if (program === this.activeProgram) return;
 
-    this.uniforms = getUniforms(this.gl, program);
+    this.uniforms = program.uniforms;
     this.activeProgram = program;
   }
 
   bind(): void {
     if (this.activeProgram) {
-      this.gl.useProgram(this.activeProgram);
+      this.gl.useProgram(this.activeProgram.program);
     }
   }
 }
@@ -102,32 +104,32 @@ export class ProgramImpl implements Program {
   program: WebGLProgram;
   gl: WebGL2RenderingContext;
 
-  constructor(gl: WebGL2RenderingContext, vertexShader: WebGLShader, fragmentShader: WebGLShader) {
+  constructor(gl: WebGL2RenderingContext, program: WebGLProgram) {
     this.gl = gl;
-    this.program = createShaderProgram(gl, vertexShader, fragmentShader);
-    this.uniforms = getUniforms(gl, this.program);
+    this.program = program;
+    this.uniforms = this.getUniforms();
+  }
+
+  private getUniforms(): { [key: string]: WebGLUniformLocation } {
+    const uniforms: { [key: string]: WebGLUniformLocation } = {};
+    const uniformCount = this.gl.getProgramParameter(this.program, this.gl.ACTIVE_UNIFORMS);
+    
+    for (let i = 0; i < uniformCount; i++) {
+      const uniformInfo = this.gl.getActiveUniform(this.program, i);
+      if (uniformInfo) {
+        const location = this.gl.getUniformLocation(this.program, uniformInfo.name);
+        if (location) {
+          uniforms[uniformInfo.name] = location;
+        }
+      }
+    }
+    
+    return uniforms;
   }
 
   bind(): void {
     this.gl.useProgram(this.program);
   }
-}
-
-function getUniforms(gl: WebGL2RenderingContext, program: WebGLProgram): { [key: string]: WebGLUniformLocation } {
-  const uniforms: { [key: string]: WebGLUniformLocation } = {};
-  const uniformCount = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS);
-  
-  for (let i = 0; i < uniformCount; i++) {
-    const uniformInfo = gl.getActiveUniform(program, i);
-    if (uniformInfo) {
-      const location = gl.getUniformLocation(program, uniformInfo.name);
-      if (location) {
-        uniforms[uniformInfo.name] = location;
-      }
-    }
-  }
-  
-  return uniforms;
 }
 
 function hashCode(s: string): number {
