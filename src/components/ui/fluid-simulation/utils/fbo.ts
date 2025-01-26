@@ -7,15 +7,19 @@ export function createFBO(
   internalFormat: number,
   format: number,
   type: number,
-  param: number
+  param: number,
+  texId?: number,
+  isFinal?: boolean,
+  wrap?: number,
+  filtering?: number
 ) {
-  gl.activeTexture(gl.TEXTURE0);
+  gl.activeTexture(gl.TEXTURE0 + (texId || 0));
   const texture = gl.createTexture();
   gl.bindTexture(gl.TEXTURE_2D, texture);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, param);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, param);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, wrap || gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, wrap || gl.CLAMP_TO_EDGE);
   gl.texImage2D(gl.TEXTURE_2D, 0, internalFormat, w, h, 0, format, type, null);
 
   const fbo = gl.createFramebuffer();
@@ -49,10 +53,12 @@ export function createDoubleFBO(
   internalFormat: number,
   format: number,
   type: number,
-  param: number
+  param: number,
+  filtering?: number,
+  wrap?: number
 ) {
-  let fbo1 = createFBO(gl, w, h, internalFormat, format, type, param);
-  let fbo2 = createFBO(gl, w, h, internalFormat, format, type, param);
+  let fbo1 = createFBO(gl, w, h, internalFormat, format, type, param, 0, false, wrap, filtering);
+  let fbo2 = createFBO(gl, w, h, internalFormat, format, type, param, 1, false, wrap, filtering);
 
   return {
     width: w,
@@ -88,36 +94,12 @@ export function resizeFBO(
   format: number,
   type: number,
   param: number,
-  baseVertexShader: string,
-  copyShader: string,
-  Program: any
+  filtering?: number,
+  wrap?: number,
+  texId?: number
 ) {
-  const newFBO = createFBO(gl, w, h, internalFormat, format, type, param);
-  const program = new Program(gl, baseVertexShader, copyShader);
-  program.bind();
-  gl.uniform1i(program.uniforms.uTexture, target.attach(0));
-  blit(gl, newFBO);
+  const newFBO = createFBO(gl, w, h, internalFormat, format, type, param, texId, false, wrap, filtering);
   return newFBO;
-}
-
-export function resizeDoubleFBO(
-  gl: WebGL2RenderingContext,
-  target: any,
-  w: number,
-  h: number,
-  internalFormat: number,
-  format: number,
-  type: number,
-  param: number
-) {
-  if (target.width === w && target.height === h) return target;
-  target.read = resizeFBO(gl, target.read, w, h, internalFormat, format, type, param);
-  target.write = createFBO(gl, w, h, internalFormat, format, type, param);
-  target.width = w;
-  target.height = h;
-  target.texelSizeX = 1.0 / w;
-  target.texelSizeY = 1.0 / h;
-  return target;
 }
 
 export function blit(gl: WebGL2RenderingContext, target?: any) {

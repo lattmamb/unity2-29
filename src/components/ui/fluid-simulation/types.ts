@@ -1,19 +1,3 @@
-export interface Material {
-  vertexShader: WebGLShader;
-  fragmentShaderSource: string;
-  programs: { [key: number]: WebGLProgram };
-  activeProgram: WebGLProgram | null;
-  uniforms: { [key: string]: WebGLUniformLocation };
-  setKeywords(keywords: string[]): void;
-  bind(): void;
-}
-
-export interface Program {
-  uniforms: { [key: string]: WebGLUniformLocation };
-  program: WebGLProgram;
-  bind(): void;
-}
-
 export interface FluidConfig {
   SIM_RESOLUTION: number;
   DYE_RESOLUTION: number;
@@ -30,6 +14,20 @@ export interface FluidConfig {
   PAUSED: boolean;
   BACK_COLOR: { r: number; g: number; b: number };
   TRANSPARENT: boolean;
+  COLORFUL: boolean;
+}
+
+export interface Material {
+  vertexShader: string;
+  fragmentShaderSource: string;
+  programs: Program[];
+  activeProgram: Program | null;
+  uniforms: { [key: string]: WebGLUniformLocation };
+}
+
+export interface Program {
+  uniforms: { [key: string]: WebGLUniformLocation };
+  program: WebGLProgram;
 }
 
 export interface Pointer {
