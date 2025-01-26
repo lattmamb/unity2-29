@@ -1,8 +1,10 @@
-"use client";
-
 import { useEffect, useRef } from "react";
 import { getWebGLContext } from "./fluid-simulation/webgl-utils";
-import { MaterialImpl, ProgramImpl, compileShader } from "./fluid-simulation/shaders";
+import { MaterialImpl, ProgramImpl } from "./fluid-simulation/shaders";
+import { baseVertexShader } from "./fluid-simulation/shaders/base-vertex-shader";
+import { copyShader } from "./fluid-simulation/shaders/copy-shader";
+import { displayShaderSource } from "./fluid-simulation/shaders/display-shader";
+import { createFBO, createDoubleFBO, resizeDoubleFBO, blit } from "./fluid-simulation/utils/fbo";
 import type { FluidConfig, Pointer } from "./fluid-simulation/types";
 
 interface SplashCursorProps {
@@ -44,20 +46,7 @@ export function SplashCursor({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    function pointerPrototype() {
-      this.id = -1;
-      this.texcoordX = 0;
-      this.texcoordY = 0;
-      this.prevTexcoordX = 0;
-      this.prevTexcoordY = 0;
-      this.deltaX = 0;
-      this.deltaY = 0;
-      this.down = false;
-      this.moved = false;
-      this.color = [0, 0, 0];
-    }
-
-    let config = {
+    const config: FluidConfig = {
       SIM_RESOLUTION,
       DYE_RESOLUTION,
       CAPTURE_RESOLUTION,
@@ -73,8 +62,21 @@ export function SplashCursor({
       PAUSED: false,
       BACK_COLOR,
       TRANSPARENT,
-      COLORFUL: true, // Add missing COLORFUL property
+      COLORFUL: true,
     };
+
+    function pointerPrototype() {
+      this.id = -1;
+      this.texcoordX = 0;
+      this.texcoordY = 0;
+      this.prevTexcoordX = 0;
+      this.prevTexcoordY = 0;
+      this.deltaX = 0;
+      this.deltaY = 0;
+      this.down = false;
+      this.moved = false;
+      this.color = [0, 0, 0];
+    }
 
     let pointers = [new pointerPrototype()];
 
@@ -83,139 +85,6 @@ export function SplashCursor({
       config.DYE_RESOLUTION = 256;
       config.SHADING = false;
     }
-
-    function createFBO(w: number, h: number, internalFormat: number, format: number, type: number, param: number) {
-      gl.activeTexture(gl.TEXTURE0);
-      let texture = gl.createTexture();
-      gl.bindTexture(gl.TEXTURE_2D, texture);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, param);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, param);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-      gl.texImage2D(gl.TEXTURE_2D, 0, internalFormat, w, h, 0, format, type, null);
-
-      let fbo = gl.createFramebuffer();
-      gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
-      gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0);
-      gl.viewport(0, 0, w, h);
-      gl.clear(gl.COLOR_BUFFER_BIT);
-
-      let texelSizeX = 1.0 / w;
-      let texelSizeY = 1.0 / h;
-
-      return {
-        texture,
-        fbo,
-        width: w,
-        height: h,
-        texelSizeX,
-        texelSizeY,
-        attach(id: number) {
-          gl.activeTexture(gl.TEXTURE0 + id);
-          gl.bindTexture(gl.TEXTURE_2D, texture);
-          return id;
-        },
-      };
-    }
-
-    function createDoubleFBO(w: number, h: number, internalFormat: number, format: number, type: number, param: number) {
-      let fbo1 = createFBO(w, h, internalFormat, format, type, param);
-      let fbo2 = createFBO(w, h, internalFormat, format, type, param);
-
-      return {
-        width: w,
-        height: h,
-        texelSizeX: fbo1.texelSizeX,
-        texelSizeY: fbo1.texelSizeY,
-        get read() {
-          return fbo1;
-        },
-        set read(value) {
-          fbo1 = value;
-        },
-        get write() {
-          return fbo2;
-        },
-        set write(value) {
-          fbo2 = value;
-        },
-        swap() {
-          let temp = fbo1;
-          fbo1 = fbo2;
-          fbo2 = temp;
-        },
-      };
-    }
-
-    function resizeFBO(target: any, w: number, h: number, internalFormat: number, format: number, type: number, param: number) {
-      let newFBO = createFBO(w, h, internalFormat, format, type, param);
-      const copyProgram = new ProgramImpl(baseVertexShader, copyShader);
-      copyProgram.bind();
-      gl.uniform1i(copyProgram.uniforms.uTexture, target.attach(0));
-      blit(newFBO);
-      return newFBO;
-    }
-
-    const baseVertexShader = compileShader(gl, gl.VERTEX_SHADER, `
-      precision highp float;
-      attribute vec2 aPosition;
-      varying vec2 vUv;
-      varying vec2 vL;
-      varying vec2 vR;
-      varying vec2 vT;
-      varying vec2 vB;
-      uniform vec2 texelSize;
-
-      void main () {
-          vUv = aPosition * 0.5 + 0.5;
-          vL = vUv - vec2(texelSize.x, 0.0);
-          vR = vUv + vec2(texelSize.x, 0.0);
-          vT = vUv + vec2(0.0, texelSize.y);
-          vB = vUv - vec2(0.0, texelSize.y);
-          gl_Position = vec4(aPosition, 0.0, 1.0);
-      }
-    `);
-
-    const displayShaderSource = `
-      precision highp float;
-      precision highp sampler2D;
-      varying vec2 vUv;
-      varying vec2 vL;
-      varying vec2 vR;
-      varying vec2 vT;
-      varying vec2 vB;
-      uniform sampler2D uTexture;
-      uniform sampler2D uDithering;
-      uniform vec2 ditherScale;
-      uniform vec2 texelSize;
-
-      vec3 linearToGamma (vec3 color) {
-          color = max(color, vec3(0));
-          return max(1.055 * pow(color, vec3(0.416666667)) - 0.055, vec3(0));
-      }
-
-      void main () {
-          vec3 c = texture2D(uTexture, vUv).rgb;
-          #ifdef SHADING
-              vec3 lc = texture2D(uTexture, vL).rgb;
-              vec3 rc = texture2D(uTexture, vR).rgb;
-              vec3 tc = texture2D(uTexture, vT).rgb;
-              vec3 bc = texture2D(uTexture, vB).rgb;
-
-              float dx = length(rc) - length(lc);
-              float dy = length(tc) - length(bc);
-
-              vec3 n = normalize(vec3(dx, dy, length(texelSize)));
-              vec3 l = vec3(0.0, 0.0, 1.0);
-
-              float diffuse = clamp(dot(n, l) + 0.7, 0.7, 1.0);
-              c *= diffuse;
-          #endif
-
-          float a = max(c.r, max(c.g, c.b));
-          gl_FragColor = vec4(c, a);
-      }
-    `;
 
     const displayMaterial = new MaterialImpl(gl, baseVertexShader, displayShaderSource);
 
@@ -226,30 +95,6 @@ export function SplashCursor({
     }
 
     updateKeywords();
-
-    const blit = (() => {
-      gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, -1, 1, 1, 1, 1, -1]), gl.STATIC_DRAW);
-      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, gl.createBuffer());
-      gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0, 1, 2, 0, 2, 3]), gl.STATIC_DRAW);
-      gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
-      gl.enableVertexAttribArray(0);
-
-      return (target: any, clear = false) => {
-        if (target == null) {
-          gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
-          gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-        } else {
-          gl.viewport(0, 0, target.width, target.height);
-          gl.bindFramebuffer(gl.FRAMEBUFFER, target.fbo);
-        }
-        if (clear) {
-          gl.clearColor(0.0, 0.0, 0.0, 1.0);
-          gl.clear(gl.COLOR_BUFFER_BIT);
-        }
-        gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0);
-      };
-    })();
 
     let dye: any;
     let velocity: any;
