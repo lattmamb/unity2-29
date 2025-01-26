@@ -10,11 +10,11 @@ export interface FluidConfig {
   SPLAT_RADIUS: number;
   SPLAT_FORCE: number;
   SHADING: boolean;
+  COLORFUL: boolean;
   COLOR_UPDATE_SPEED: number;
   PAUSED: boolean;
   BACK_COLOR: { r: number; g: number; b: number };
   TRANSPARENT: boolean;
-  COLORFUL: boolean;
 }
 
 export interface Material {
