@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useSceneSetup } from './three/useSceneSetup';
 import { useControls } from './three/useControls';
