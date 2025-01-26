@@ -4,33 +4,33 @@
 
 @layer base {
   :root {
-    --background: 222 47% 11%;
-    --foreground: 210 40% 98%;
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
 
-    --card: 222 47% 11%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
 
-    --popover: 222 47% 11%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
 
     --primary: 210 100% 50%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 217 32% 17%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222 47% 11%;
 
-    --muted: 217 32% 17%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 191 100% 50%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222 47% 11%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217 32% 17%;
-    --input: 217 32% 17%;
-    --ring: 224 71.4% 4.1%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222 47% 11%;
 
     --radius: 0.75rem;
   }
@@ -44,11 +44,7 @@
   }
 
   body {
-    @apply bg-rental-dark text-rental-light min-h-screen overflow-x-hidden;
-    background-image: url('/lovable-uploads/035967c7-d42d-4182-8f2e-c409406e2e44.png');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+    @apply bg-rental-light text-rental-text min-h-screen overflow-x-hidden;
   }
 
   @keyframes fade-in-bottom {
@@ -69,18 +65,18 @@
 
 @layer components {
   .glass-card {
-    @apply bg-rental-dark/10 backdrop-blur-md border border-rental-light/20 rounded-xl shadow-lg;
+    @apply bg-white/80 backdrop-blur-md border border-white/20 rounded-xl shadow-lg;
   }
 
   .glass-button {
-    @apply bg-rental-blue/90 hover:bg-rental-blue backdrop-blur-sm text-white border 
+    @apply bg-rental-blue hover:bg-rental-blue/90 text-white border 
     border-rental-blue/50 rounded-xl shadow-lg transition-all duration-300 
     hover:shadow-rental-cyan/20 hover:scale-105 active:scale-95;
   }
 
   .nav-link {
-    @apply px-4 py-2 text-sm font-medium transition-colors hover:text-rental-cyan relative
-    after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-rental-cyan
+    @apply px-4 py-2 text-sm font-medium transition-colors hover:text-rental-blue relative
+    after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-rental-blue
     after:transform after:scale-x-0 after:transition-transform hover:after:scale-x-100;
   }
 
@@ -103,23 +99,5 @@
 
   .mobile-text {
     @apply text-base sm:text-lg leading-relaxed;
-  }
-
-  .gradient-border {
-    @apply relative rounded-xl bg-background p-[1px] before:absolute before:inset-0 
-    before:-z-10 before:rounded-xl before:bg-gradient-to-r before:from-rental-cyan/50 
-    before:via-rental-blue/50 before:to-rental-orange/50 before:blur-xl;
-  }
-
-  .animated-gradient {
-    @apply relative overflow-hidden before:absolute before:inset-0 
-    before:bg-gradient-to-r before:from-transparent before:via-white/10 
-    before:to-transparent before:translate-x-[-100%] hover:before:translate-x-[100%] 
-    before:transition-transform before:duration-1000;
-  }
-
-  .frost-bg {
-    @apply relative before:absolute before:inset-0 before:bg-frost-pattern 
-    before:bg-cover before:bg-center before:opacity-50 before:-z-10;
   }
 }
