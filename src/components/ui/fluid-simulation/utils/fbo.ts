@@ -36,6 +36,7 @@ export function createFBO(
     height: h,
     texelSizeX,
     texelSizeY,
+    gl,
     attach(id: number) {
       gl.activeTexture(gl.TEXTURE0 + id);
       gl.bindTexture(gl.TEXTURE_2D, texture);
