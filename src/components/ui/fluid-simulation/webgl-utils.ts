@@ -9,7 +9,7 @@ export function getWebGLContext(canvas: HTMLCanvasElement) {
 
   const gl = (canvas.getContext('webgl2', params) || 
               canvas.getContext('webgl', params) || 
-              canvas.getContext('experimental-webgl', params)) as WebGLRenderingContext;
+              canvas.getContext('experimental-webgl', params)) as WebGL2RenderingContext;
 
   if (!gl) throw new Error('WebGL not supported');
 
@@ -29,9 +29,19 @@ export function getWebGLContext(canvas: HTMLCanvasElement) {
 
   const halfFloatTexType = isWebGL2 ? gl.HALF_FLOAT : halfFloat?.HALF_FLOAT_OES;
   
-  const formatRGBA = getSupportedFormat(gl, gl.RGBA16F, gl.RGBA, halfFloatTexType);
-  const formatRG = getSupportedFormat(gl, gl.RG16F, gl.RG, halfFloatTexType);
-  const formatR = getSupportedFormat(gl, gl.R16F, gl.RED, halfFloatTexType);
+  let formatRGBA;
+  let formatRG;
+  let formatR;
+
+  if (isWebGL2) {
+    formatRGBA = getSupportedFormat(gl, gl.RGBA16F, gl.RGBA, halfFloatTexType);
+    formatRG = getSupportedFormat(gl, gl.RG16F, gl.RG, halfFloatTexType);
+    formatR = getSupportedFormat(gl, gl.R16F, gl.RED, halfFloatTexType);
+  } else {
+    formatRGBA = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloatTexType);
+    formatRG = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloatTexType);
+    formatR = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloatTexType);
+  }
 
   return {
     gl,
@@ -46,10 +56,10 @@ export function getWebGLContext(canvas: HTMLCanvasElement) {
 }
 
 function getSupportedFormat(
-  gl: WebGLRenderingContext,
+  gl: WebGL2RenderingContext,
   internalFormat: number,
   format: number,
-  type: number
+  type: number | undefined
 ) {
   if (!supportRenderTextureFormat(gl, internalFormat, format, type)) {
     switch (internalFormat) {
@@ -68,11 +78,13 @@ function getSupportedFormat(
 }
 
 function supportRenderTextureFormat(
-  gl: WebGLRenderingContext,
+  gl: WebGL2RenderingContext,
   internalFormat: number,
   format: number,
-  type: number
+  type: number | undefined
 ): boolean {
+  if (!type) return false;
+  
   const texture = gl.createTexture();
   gl.bindTexture(gl.TEXTURE_2D, texture);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
@@ -83,13 +95,7 @@ function supportRenderTextureFormat(
 
   const fbo = gl.createFramebuffer();
   gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
-  gl.framebufferTexture2D(
-    gl.FRAMEBUFFER,
-    gl.COLOR_ATTACHMENT0,
-    gl.TEXTURE_2D,
-    texture,
-    0
-  );
+  gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0);
 
   const status = gl.checkFramebufferStatus(gl.FRAMEBUFFER);
   return status === gl.FRAMEBUFFER_COMPLETE;

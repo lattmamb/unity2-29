@@ -73,6 +73,7 @@ export function SplashCursor({
       PAUSED: false,
       BACK_COLOR,
       TRANSPARENT,
+      COLORFUL: true, // Add missing COLORFUL property
     };
 
     let pointers = [new pointerPrototype()];
@@ -148,21 +149,11 @@ export function SplashCursor({
 
     function resizeFBO(target: any, w: number, h: number, internalFormat: number, format: number, type: number, param: number) {
       let newFBO = createFBO(w, h, internalFormat, format, type, param);
+      const copyProgram = new ProgramImpl(baseVertexShader, copyShader);
       copyProgram.bind();
       gl.uniform1i(copyProgram.uniforms.uTexture, target.attach(0));
       blit(newFBO);
       return newFBO;
-    }
-
-    function resizeDoubleFBO(target: any, w: number, h: number, internalFormat: number, format: number, type: number, param: number) {
-      if (target.width === w && target.height === h) return target;
-      target.read = resizeFBO(target.read, w, h, internalFormat, format, type, param);
-      target.write = createFBO(w, h, internalFormat, format, type, param);
-      target.width = w;
-      target.height = h;
-      target.texelSizeX = 1.0 / w;
-      target.texelSizeY = 1.0 / h;
-      return target;
     }
 
     const baseVertexShader = compileShader(gl, gl.VERTEX_SHADER, `
