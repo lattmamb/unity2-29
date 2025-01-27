@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { DockNav } from "./navigation/DockNav";
 import { BreadcrumbNav } from "./navigation/BreadcrumbNav";
+import { SidebarNav } from "./navigation/SidebarNav";
 import { motion } from "framer-motion";
 
 export const Navigation = () => {
@@ -43,20 +44,6 @@ export const Navigation = () => {
             >
               <Button 
                 asChild 
-                variant="ghost" 
-                className="text-sm font-medium transition-colors hover:text-primary"
-              >
-                <Link to="/support">Support</Link>
-              </Button>
-              <Button 
-                asChild 
-                variant="ghost"
-                className="text-sm font-medium transition-colors hover:text-primary"
-              >
-                <Link to="/profile">Account</Link>
-              </Button>
-              <Button 
-                asChild 
                 className="bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20"
               >
                 <Link to="/booking">Book a Ride</Link>
@@ -66,6 +53,7 @@ export const Navigation = () => {
         </div>
       </motion.div>
       <BreadcrumbNav />
+      <SidebarNav />
     </div>
   );
 };
