@@ -1,21 +1,21 @@
 export const plans = [
   {
     name: "Flex Ride Plan",
-    tagline: "Pay as You Go, Your Way",
+    tagline: "Freedom on Your Terms",
     price: 50,
     popular: false,
     features: [
-      "Flexible rides at $0.80/mile",
-      "Short-term vehicle reservations at $10/hour",
+      "$0.80/mile for rides",
+      "$10/hour for short-term reservations",
       "Free Eco-Impact Dashboard access",
       "One free public EV charge per month",
-      "Basic app features",
+      "Priority booking during peak hours",
     ],
-    cta: "Choose Flex Plan",
+    cta: "Start Flexing",
   },
   {
     name: "Base Plan",
-    tagline: "Drive with Freedom",
+    tagline: "Unlimited Rides, Simple Pricing",
     price: 250,
     features: [
       "Unlimited rides within your city",
@@ -28,11 +28,11 @@ export const plans = [
   },
   {
     name: "Premium Take-Home",
-    tagline: "Elevate Your Journey",
+    tagline: "Take It Home. Drive on Your Schedule",
     price: 750,
     popular: true,
     features: [
-      "Take-home vehicle",
+      "Take-home vehicle (Tesla Model 3 or Y)",
       "Unlimited rides anywhere",
       "Free public charging",
       "24/7 priority support",
@@ -42,14 +42,14 @@ export const plans = [
   },
   {
     name: "Elite Take-Home",
-    tagline: "Ultimate Luxury & Freedom",
+    tagline: "Luxury, Sustainability, and Convenience",
     price: 1250,
     features: [
-      "Luxury take-home vehicle",
-      "Global unlimited rides",
+      "Exclusive access to Tesla Model Y",
       "Complimentary at-home charging setup",
-      "24/7 concierge support",
       "VIP lounge access",
+      "24/7 concierge support",
+      "Elite rewards and event tickets",
     ],
     cta: "Go Elite",
   },
