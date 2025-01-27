@@ -7,10 +7,10 @@ export function ContainerScrollDemo() {
       <ContainerScroll
         titleComponent={
           <>
-            <h1 className="text-4xl font-semibold text-black dark:text-white">
-              Unleash the power of <br />
+            <h1 className="text-4xl font-semibold text-white">
+              Experience the power of <br />
               <span className="text-4xl md:text-[6rem] font-bold mt-1 leading-none">
-                Scroll Animations
+                Electric Mobility
               </span>
             </h1>
           </>
