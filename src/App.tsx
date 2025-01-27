@@ -6,7 +6,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/components/AuthProvider";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
-import Auth from "./pages/Auth";
 import Subscription from "./pages/Subscription";
 import Advertising from "./pages/Advertising";
 import Locations from "./pages/Locations";
@@ -37,7 +36,6 @@ const App = () => (
             <Toaster />
             <Sonner />
             <Routes>
-              <Route path="/auth" element={<Auth />} />
               <Route
                 path="/"
                 element={
