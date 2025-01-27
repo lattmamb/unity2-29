@@ -3,7 +3,8 @@ import { Car, CreditCard, Gift, HelpCircle, Settings, Zap } from "lucide-react";
 import { SubscriptionHeader } from "@/components/subscription/SubscriptionHeader";
 import { PlanCards } from "@/components/subscription/PlanCards";
 import { PlanComparison } from "@/components/subscription/PlanComparison";
-import { ExclusivePerks } from "@/components/subscription/ExclusivePerks";
+import { EcoImpact } from "@/components/subscription/EcoImpact";
+import { Testimonials } from "@/components/subscription/Testimonials";
 import { SubscriptionFAQ } from "@/components/subscription/SubscriptionFAQ";
 import { SubscriptionFooter } from "@/components/subscription/SubscriptionFooter";
 import { Jarvis } from "@/components/Jarvis";
@@ -48,7 +49,8 @@ export default function Subscription() {
         <SubscriptionHeader />
         <PlanCards />
         <PlanComparison />
-        <ExclusivePerks />
+        <EcoImpact />
+        <Testimonials />
         <SubscriptionFAQ />
         <SubscriptionFooter />
       </div>
