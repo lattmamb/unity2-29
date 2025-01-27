@@ -1,5 +1,5 @@
 import { Navigation } from "@/components/Navigation";
-import { Hero } from "@/components/Hero";
+import { Hero } from "@/components/landing/Hero";
 import { Footer } from "@/components/Footer";
 import { SubscriptionStatus } from "@/components/SubscriptionStatus";
 import { AvailableVehicles } from "@/components/AvailableVehicles";
@@ -41,13 +41,11 @@ const Index = () => {
             transition={{ duration: 0.5 }}
             className="grid grid-cols-1 md:grid-cols-12 gap-6"
           >
-            {/* Main Content - 8 columns on desktop */}
             <div className="md:col-span-8 space-y-6">
               <ActiveRentals />
               <AvailableVehicles />
             </div>
 
-            {/* Sidebar - 4 columns on desktop */}
             <div className="md:col-span-4 space-y-6">
               <SubscriptionStatus />
             </div>
