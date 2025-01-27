@@ -3,16 +3,17 @@ import { Link } from "react-router-dom";
 import { DockNav } from "./navigation/DockNav";
 import { BreadcrumbNav } from "./navigation/BreadcrumbNav";
 import { SidebarNav } from "./navigation/SidebarNav";
+import { BottomNav } from "./navigation/BottomNav";
 import { motion } from "framer-motion";
 
 export const Navigation = () => {
   return (
     <>
       <motion.div 
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="fixed bottom-0 left-0 right-0 z-50 w-full border-t border-white/10 bg-background/80 backdrop-blur-lg backdrop-saturate-150 supports-[backdrop-filter]:bg-background/60"
+        className="fixed top-0 left-0 right-0 z-50 w-full border-b border-white/10 bg-background/80 backdrop-blur-lg backdrop-saturate-150 supports-[backdrop-filter]:bg-background/60"
       >
         <div className="flex h-16 items-center px-6 container mx-auto">
           <motion.div 
@@ -55,6 +56,7 @@ export const Navigation = () => {
       <div className="h-16" /> {/* Spacer to prevent content from being hidden behind fixed navigation */}
       <BreadcrumbNav />
       <SidebarNav />
+      <BottomNav />
     </>
   );
 };
