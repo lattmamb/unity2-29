@@ -4,35 +4,35 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222 47% 11%;
+    --background: 225 25% 11%;
+    --foreground: 210 40% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card: 225 25% 11%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover: 225 25% 11%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 210 100% 50%;
+    --primary: 217 100% 50%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222 47% 11%;
+    --secondary: 217 100% 50%;
+    --secondary-foreground: 225 25% 11%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222 47% 11%;
+    --accent: 217 100% 50%;
+    --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 222 47% 11%;
+    --ring: 225 25% 11%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
   }
 
   * {
@@ -44,7 +44,7 @@
   }
 
   body {
-    @apply bg-rental-light text-rental-text min-h-screen overflow-x-hidden;
+    @apply bg-rental-dark text-foreground min-h-screen overflow-x-hidden;
   }
 
   @keyframes fade-in-bottom {
@@ -65,13 +65,13 @@
 
 @layer components {
   .glass-card {
-    @apply bg-white/80 backdrop-blur-md border border-white/20 rounded-xl shadow-lg;
+    @apply bg-rental-dark/80 backdrop-blur-md border border-white/10 rounded-xl shadow-lg;
   }
 
   .glass-button {
-    @apply bg-rental-blue hover:bg-rental-blue/90 text-white border 
+    @apply bg-rental-blue/90 hover:bg-rental-blue backdrop-blur-sm text-white border 
     border-rental-blue/50 rounded-xl shadow-lg transition-all duration-300 
-    hover:shadow-rental-cyan/20 hover:scale-105 active:scale-95;
+    hover:shadow-rental-blue/20 hover:scale-105 active:scale-95;
   }
 
   .nav-link {
@@ -82,11 +82,11 @@
 
   .hero-title {
     @apply text-4xl sm:text-5xl md:text-6xl font-bold bg-clip-text text-transparent 
-    bg-gradient-to-r from-rental-cyan via-rental-blue to-rental-orange;
+    bg-gradient-to-r from-rental-blue via-rental-blue to-white;
   }
 
   .card-hover {
-    @apply transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-rental-cyan/20;
+    @apply transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-rental-blue/20;
   }
 
   .container {
@@ -99,5 +99,18 @@
 
   .mobile-text {
     @apply text-base sm:text-lg leading-relaxed;
+  }
+
+  .gradient-border {
+    @apply relative rounded-xl bg-background p-[1px] before:absolute before:inset-0 
+    before:-z-10 before:rounded-xl before:bg-gradient-to-r before:from-rental-blue/50 
+    before:via-rental-blue/50 before:to-white/50 before:blur-xl;
+  }
+
+  .animated-gradient {
+    @apply relative overflow-hidden before:absolute before:inset-0 
+    before:bg-gradient-to-r before:from-transparent before:via-white/10 
+    before:to-transparent before:translate-x-[-100%] hover:before:translate-x-[100%] 
+    before:transition-transform before:duration-1000;
   }
 }
