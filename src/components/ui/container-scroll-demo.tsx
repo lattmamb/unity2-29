@@ -19,7 +19,7 @@ export function ContainerScrollDemo() {
         <img
           src="/lovable-uploads/ec960a52-1e70-4d52-b6c3-d8e1af41e121.png"
           alt="Tesla Fleet"
-          className="mx-auto rounded-2xl object-cover h-full object-left-top"
+          className="mx-auto rounded-2xl object-cover h-full w-full object-center shadow-2xl"
           draggable={false}
         />
       </ContainerScroll>
