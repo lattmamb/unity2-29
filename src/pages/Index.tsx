@@ -7,16 +7,16 @@ import { Hero } from "@/components/Hero";
 import { BrandShowcase } from "@/components/BrandShowcase";
 import { Benefits } from "@/components/Benefits";
 import { ContainerScrollDemo } from "@/components/ui/container-scroll-demo";
-import { useAuth } from "@supabase/auth-helpers-react";
+import { useAuth } from "@/components/AuthProvider";
 import { useNavigate } from "react-router-dom";
 
 const Index = () => {
-  const auth = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     // If user is already authenticated, redirect to their dashboard/fleet view
-    if (auth?.user?.id) {
+    if (user?.id) {
       navigate('/fleet');
     }
 
@@ -35,7 +35,7 @@ const Index = () => {
     return () => {
       window.removeEventListener('error', handleError);
     };
-  }, [auth?.user?.id, navigate]);
+  }, [user?.id, navigate]);
 
   return (
     <div className="min-h-screen bg-background">

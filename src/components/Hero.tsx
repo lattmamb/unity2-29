@@ -3,11 +3,11 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, Shield, Zap, Download } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useAuth } from "@supabase/auth-helpers-react";
+import { useAuth } from "@/components/AuthProvider";
 import { Spotlight } from "@/components/ui/spotlight";
 
 export const Hero = () => {
-  const auth = useAuth();
+  const { user } = useAuth();
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#0B1F3B] to-background">
@@ -84,7 +84,7 @@ export const Hero = () => {
             }}
             className="flex flex-col sm:flex-row gap-4 justify-center mt-8"
           >
-            {auth?.user?.id ? (
+            {user?.id ? (
               <Button 
                 size="lg" 
                 className="bg-rental-blue hover:bg-rental-blue/90 text-white group transition-all duration-300 
