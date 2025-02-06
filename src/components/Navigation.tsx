@@ -1,12 +1,17 @@
+
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { DockNav } from "./navigation/DockNav";
 import { BreadcrumbNav } from "./navigation/BreadcrumbNav";
 import { SidebarNav } from "./navigation/SidebarNav";
 import { BottomNav } from "./navigation/BottomNav";
+import { MobileNav } from "./navigation/MobileNav";
 import { motion } from "framer-motion";
+import { useAuth } from "@/components/AuthProvider";
 
 export const Navigation = () => {
+  const { user } = useAuth();
+
   return (
     <>
       <motion.div 
@@ -34,26 +39,50 @@ export const Navigation = () => {
             </Link>
           </motion.div>
 
-          <DockNav />
+          <div className="hidden md:flex">
+            <DockNav />
+          </div>
 
-          <div className="ml-auto flex items-center space-x-6">
+          <div className="md:hidden">
+            <MobileNav />
+          </div>
+
+          <div className="ml-auto flex items-center space-x-4">
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
               className="flex items-center space-x-4"
             >
-              <Button 
-                asChild 
-                className="bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20"
-              >
-                <Link to="/booking">Book a Ride</Link>
-              </Button>
+              {user?.id ? (
+                <Button 
+                  asChild 
+                  className="bg-rental-blue hover:bg-rental-blue/90 text-white"
+                >
+                  <Link to="/fleet">View Fleet</Link>
+                </Button>
+              ) : (
+                <>
+                  <Button 
+                    variant="ghost" 
+                    className="text-foreground/60 hover:text-foreground/80"
+                    asChild
+                  >
+                    <Link to="/subscription">Subscribe</Link>
+                  </Button>
+                  <Button 
+                    asChild 
+                    className="bg-rental-blue hover:bg-rental-blue/90 text-white"
+                  >
+                    <Link to="/booking">Book a Ride</Link>
+                  </Button>
+                </>
+              )}
             </motion.div>
           </div>
         </div>
       </motion.div>
-      <div className="h-16" /> {/* Spacer to prevent content from being hidden behind fixed navigation */}
+      <div className="h-16" />
       <BreadcrumbNav />
       <SidebarNav />
       <BottomNav />

@@ -1,6 +1,8 @@
+
 import { Link, useLocation } from "react-router-dom";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Home } from "lucide-react";
+import { motion } from "framer-motion";
 
 const routeNames: { [key: string]: string } = {
   "": "Home",
@@ -21,12 +23,17 @@ export function BreadcrumbNav() {
   const pathSegments = location.pathname.split('/').filter(Boolean);
 
   return (
-    <div className="container mx-auto px-4 py-2">
+    <motion.div 
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, delay: 0.2 }}
+      className="container mx-auto px-4 py-2"
+    >
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link to="/" className="flex items-center gap-2">
+              <Link to="/" className="flex items-center gap-2 text-foreground/60 hover:text-foreground transition-colors">
                 <Home className="h-4 w-4" />
                 Home
               </Link>
@@ -41,10 +48,17 @@ export function BreadcrumbNav() {
               <BreadcrumbItem key={path}>
                 <BreadcrumbSeparator />
                 {isLast ? (
-                  <BreadcrumbPage>{routeNames[segment] || segment}</BreadcrumbPage>
+                  <BreadcrumbPage className="text-rental-blue">
+                    {routeNames[segment] || segment}
+                  </BreadcrumbPage>
                 ) : (
                   <BreadcrumbLink asChild>
-                    <Link to={path}>{routeNames[segment] || segment}</Link>
+                    <Link 
+                      to={path}
+                      className="text-foreground/60 hover:text-foreground transition-colors"
+                    >
+                      {routeNames[segment] || segment}
+                    </Link>
                   </BreadcrumbLink>
                 )}
               </BreadcrumbItem>
@@ -52,6 +66,6 @@ export function BreadcrumbNav() {
           })}
         </BreadcrumbList>
       </Breadcrumb>
-    </div>
+    </motion.div>
   );
 }
