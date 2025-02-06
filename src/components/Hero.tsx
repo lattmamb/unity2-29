@@ -1,32 +1,13 @@
+
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, Shield, Zap, Download } from "lucide-react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { useAuth } from "@supabase/auth-helpers-react";
 import { Spotlight } from "@/components/ui/spotlight";
 
 export const Hero = () => {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        ease: [0.4, 0, 0.2, 1],
-      },
-    },
-  };
+  const auth = useAuth();
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#0B1F3B] to-background">
@@ -49,11 +30,23 @@ export const Hero = () => {
         className="container mx-auto px-4 relative z-20"
         initial="hidden"
         animate="visible"
-        variants={containerVariants}
+        variants={{
+          hidden: { opacity: 0 },
+          visible: {
+            opacity: 1,
+            transition: {
+              staggerChildren: 0.2,
+              delayChildren: 0.3,
+            },
+          },
+        }}
       >
         <div className="max-w-4xl mx-auto text-center space-y-8">
           <motion.div 
-            variants={itemVariants}
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0 },
+            }}
             className="flex justify-center"
           >
             <img 
@@ -68,7 +61,12 @@ export const Hero = () => {
               className="-top-40 left-0 md:left-60 md:-top-20"
               fill="white"
             />
-            <motion.div variants={itemVariants}>
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0 },
+              }}
+            >
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">
                 Your Next Ride Awaits
               </h1>
@@ -80,35 +78,57 @@ export const Hero = () => {
           </div>
 
           <motion.div
-            variants={itemVariants}
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0 },
+            }}
             className="flex flex-col sm:flex-row gap-4 justify-center mt-8"
           >
-            <Button 
-              size="lg" 
-              className="bg-rental-blue hover:bg-rental-blue/90 text-white group transition-all duration-300 
-                transform hover:scale-105 hover:shadow-lg hover:shadow-rental-blue/20"
-              asChild
-            >
-              <Link to="/booking">
-                Start Your Journey
-                <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </Button>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="border-rental-blue/20 text-white hover:bg-rental-blue/10 transition-all duration-300
-                transform hover:scale-105 backdrop-blur-sm"
-              asChild
-            >
-              <Link to="/fleet">
-                Explore Our Fleet
-              </Link>
-            </Button>
+            {auth?.user?.id ? (
+              <Button 
+                size="lg" 
+                className="bg-rental-blue hover:bg-rental-blue/90 text-white group transition-all duration-300 
+                  transform hover:scale-105 hover:shadow-lg hover:shadow-rental-blue/20"
+                asChild
+              >
+                <Link to="/fleet">
+                  View Available Vehicles
+                  <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </Button>
+            ) : (
+              <>
+                <Button 
+                  size="lg" 
+                  className="bg-rental-blue hover:bg-rental-blue/90 text-white group transition-all duration-300 
+                    transform hover:scale-105 hover:shadow-lg hover:shadow-rental-blue/20"
+                  asChild
+                >
+                  <Link to="/subscription">
+                    Start Your Journey
+                    <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                </Button>
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="border-rental-blue/20 text-white hover:bg-rental-blue/10 transition-all duration-300
+                    transform hover:scale-105 backdrop-blur-sm"
+                  asChild
+                >
+                  <Link to="/fleet">
+                    Explore Our Fleet
+                  </Link>
+                </Button>
+              </>
+            )}
           </motion.div>
 
           <motion.div
-            variants={itemVariants}
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0 },
+            }}
             className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16"
           >
             {[
