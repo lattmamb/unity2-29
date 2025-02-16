@@ -14,72 +14,57 @@ import {
 import { Dock, DockIcon, DockItem, DockLabel } from '@/components/ui/dock';
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { useAuth } from "@/components/AuthProvider";
 
 const navigationItems = [
   {
     title: 'Home',
     icon: HomeIcon,
     href: '/',
-    requiresAuth: false
   },
   {
     title: 'Fleet',
     icon: Car,
     href: '/fleet',
-    requiresAuth: false
   },
   {
     title: 'Subscription',
     icon: Package,
     href: '/subscription',
-    requiresAuth: false
   },
   {
     title: 'Advertising',
     icon: Megaphone,
     href: '/advertising',
-    requiresAuth: true
   },
   {
     title: 'Locations',
     icon: MapPin,
     href: '/locations',
-    requiresAuth: false
   },
   {
     title: 'Charging',
     icon: Zap,
     href: '/charging-stations',
-    requiresAuth: true
   },
   {
     title: 'Book',
     icon: Calendar,
     href: '/booking',
-    requiresAuth: true
   },
   {
     title: 'Profile',
     icon: UserCircle,
     href: '/profile',
-    requiresAuth: true
   },
   {
     title: 'Support',
     icon: LifeBuoy,
     href: '/support',
-    requiresAuth: false
   },
 ];
 
 export function DockNav() {
   const location = useLocation();
-  const { user } = useAuth();
-
-  const filteredItems = navigationItems.filter(item => 
-    !item.requiresAuth || (item.requiresAuth && user?.id)
-  );
 
   return (
     <motion.div 
@@ -89,7 +74,7 @@ export function DockNav() {
       className='fixed top-16 left-1/2 max-w-full -translate-x-1/2 z-40'
     >
       <Dock className='items-start pt-3 bg-background/80 backdrop-blur-sm border border-white/10 rounded-full shadow-lg'>
-        {filteredItems.map((item, idx) => (
+        {navigationItems.map((item, idx) => (
           <Link to={item.href} key={idx}>
             <DockItem
               className={cn(
