@@ -9,7 +9,7 @@ export const ActiveRentals = () => {
   const { data: activeBookings } = useQuery({
     queryKey: ["active-bookings"],
     queryFn: async () => {
-      // Placeholder data since we removed auth
+      // Return empty array for demo purposes
       return [];
     },
   });
@@ -37,9 +37,6 @@ export const ActiveRentals = () => {
     );
   }
 
-  const booking = activeBookings[0];
-  const vehicle = booking.vehicles;
-
   return (
     <Card className="bg-background/50 backdrop-blur-sm border-accent/10 hover:border-accent/20 transition-colors duration-300">
       <CardHeader>
@@ -54,7 +51,7 @@ export const ActiveRentals = () => {
             <p className="text-sm text-muted-foreground">Vehicle</p>
             <div className="flex items-center gap-2 text-secondary">
               <Car className="h-4 w-4" />
-              <p className="font-medium">{vehicle.name}</p>
+              <p className="font-medium">Demo Vehicle</p>
             </div>
           </div>
           
@@ -62,7 +59,7 @@ export const ActiveRentals = () => {
             <p className="text-sm text-muted-foreground">Battery Level</p>
             <div className="flex items-center gap-2 text-secondary">
               <Battery className="h-4 w-4" />
-              <p>{vehicle.battery_level}%</p>
+              <p>85%</p>
             </div>
           </div>
 
@@ -79,7 +76,7 @@ export const ActiveRentals = () => {
           asChild
           className="w-full bg-blue-500 hover:bg-blue-600 text-white transition-colors"
         >
-          <Link to={`/rentals/${vehicle.id}`}>View Details</Link>
+          <Link to="/rentals/demo">View Details</Link>
         </Button>
       </CardContent>
     </Card>
