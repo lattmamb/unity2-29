@@ -1,17 +1,31 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Clock, Car, Battery, MapPin } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/components/AuthProvider";
 import { Link } from "react-router-dom";
 
 export const ActiveRentals = () => {
+  const { user } = useAuth();
+
   const { data: activeBookings } = useQuery({
-    queryKey: ["active-bookings"],
+    queryKey: ["active-bookings", user?.id],
     queryFn: async () => {
-      // Return empty array for demo purposes
-      return [];
+      const { data, error } = await supabase
+        .from("bookings")
+        .select(`
+          *,
+          vehicles (*)
+        `)
+        .eq("user_id", user?.id)
+        .eq("status", "active")
+        .limit(1);
+      
+      if (error) throw error;
+      return data;
     },
+    enabled: !!user,
   });
 
   if (!activeBookings?.length) {
@@ -37,6 +51,9 @@ export const ActiveRentals = () => {
     );
   }
 
+  const booking = activeBookings[0];
+  const vehicle = booking.vehicles;
+
   return (
     <Card className="bg-background/50 backdrop-blur-sm border-accent/10 hover:border-accent/20 transition-colors duration-300">
       <CardHeader>
@@ -51,7 +68,7 @@ export const ActiveRentals = () => {
             <p className="text-sm text-muted-foreground">Vehicle</p>
             <div className="flex items-center gap-2 text-secondary">
               <Car className="h-4 w-4" />
-              <p className="font-medium">Demo Vehicle</p>
+              <p className="font-medium">{vehicle.name}</p>
             </div>
           </div>
           
@@ -59,7 +76,7 @@ export const ActiveRentals = () => {
             <p className="text-sm text-muted-foreground">Battery Level</p>
             <div className="flex items-center gap-2 text-secondary">
               <Battery className="h-4 w-4" />
-              <p>85%</p>
+              <p>{vehicle.battery_level}%</p>
             </div>
           </div>
 
@@ -76,7 +93,7 @@ export const ActiveRentals = () => {
           asChild
           className="w-full bg-blue-500 hover:bg-blue-600 text-white transition-colors"
         >
-          <Link to="/rentals/demo">View Details</Link>
+          <Link to={`/rentals/${vehicle.id}`}>View Details</Link>
         </Button>
       </CardContent>
     </Card>

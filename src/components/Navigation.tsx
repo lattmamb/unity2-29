@@ -7,8 +7,11 @@ import { SidebarNav } from "./navigation/SidebarNav";
 import { BottomNav } from "./navigation/BottomNav";
 import { MobileNav } from "./navigation/MobileNav";
 import { motion } from "framer-motion";
+import { useAuth } from "@/components/AuthProvider";
 
 export const Navigation = () => {
+  const { user } = useAuth();
+
   return (
     <>
       <motion.div 
@@ -51,19 +54,30 @@ export const Navigation = () => {
               transition={{ duration: 0.5, delay: 0.4 }}
               className="flex items-center space-x-4"
             >
-              <Button 
-                variant="ghost" 
-                className="text-foreground/60 hover:text-foreground/80"
-                asChild
-              >
-                <Link to="/subscription">Subscribe</Link>
-              </Button>
-              <Button 
-                asChild 
-                className="bg-rental-blue hover:bg-rental-blue/90 text-white"
-              >
-                <Link to="/booking">Book a Ride</Link>
-              </Button>
+              {user?.id ? (
+                <Button 
+                  asChild 
+                  className="bg-rental-blue hover:bg-rental-blue/90 text-white"
+                >
+                  <Link to="/fleet">View Fleet</Link>
+                </Button>
+              ) : (
+                <>
+                  <Button 
+                    variant="ghost" 
+                    className="text-foreground/60 hover:text-foreground/80"
+                    asChild
+                  >
+                    <Link to="/subscription">Subscribe</Link>
+                  </Button>
+                  <Button 
+                    asChild 
+                    className="bg-rental-blue hover:bg-rental-blue/90 text-white"
+                  >
+                    <Link to="/booking">Book a Ride</Link>
+                  </Button>
+                </>
+              )}
             </motion.div>
           </div>
         </div>

@@ -3,9 +3,12 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, Shield, Zap, Download } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/components/AuthProvider";
 import { Spotlight } from "@/components/ui/spotlight";
 
 export const Hero = () => {
+  const { user } = useAuth();
+
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#0B1F3B] to-background">
       {/* Video Background */}
@@ -81,28 +84,44 @@ export const Hero = () => {
             }}
             className="flex flex-col sm:flex-row gap-4 justify-center mt-8"
           >
-            <Button 
-              size="lg" 
-              className="bg-rental-blue hover:bg-rental-blue/90 text-white group transition-all duration-300 
-                transform hover:scale-105 hover:shadow-lg hover:shadow-rental-blue/20"
-              asChild
-            >
-              <Link to="/subscription">
-                Start Your Journey
-                <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </Button>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="border-rental-blue/20 text-white hover:bg-rental-blue/10 transition-all duration-300
-                transform hover:scale-105 backdrop-blur-sm"
-              asChild
-            >
-              <Link to="/fleet">
-                Explore Our Fleet
-              </Link>
-            </Button>
+            {user?.id ? (
+              <Button 
+                size="lg" 
+                className="bg-rental-blue hover:bg-rental-blue/90 text-white group transition-all duration-300 
+                  transform hover:scale-105 hover:shadow-lg hover:shadow-rental-blue/20"
+                asChild
+              >
+                <Link to="/fleet">
+                  View Available Vehicles
+                  <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </Button>
+            ) : (
+              <>
+                <Button 
+                  size="lg" 
+                  className="bg-rental-blue hover:bg-rental-blue/90 text-white group transition-all duration-300 
+                    transform hover:scale-105 hover:shadow-lg hover:shadow-rental-blue/20"
+                  asChild
+                >
+                  <Link to="/subscription">
+                    Start Your Journey
+                    <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                </Button>
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="border-rental-blue/20 text-white hover:bg-rental-blue/10 transition-all duration-300
+                    transform hover:scale-105 backdrop-blur-sm"
+                  asChild
+                >
+                  <Link to="/fleet">
+                    Explore Our Fleet
+                  </Link>
+                </Button>
+              </>
+            )}
           </motion.div>
 
           <motion.div
