@@ -1,17 +1,15 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar, CreditCard } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/components/AuthProvider";
 import { useNavigate } from "react-router-dom";
 
 export const SubscriptionStatus = () => {
-  const { user } = useAuth();
   const navigate = useNavigate();
 
   const { data: subscription } = useQuery({
-    queryKey: ["subscription", user?.id],
+    queryKey: ["subscription"],
     queryFn: async () => {
       // Placeholder for subscription data
       return {
@@ -20,7 +18,6 @@ export const SubscriptionStatus = () => {
         status: "active"
       };
     },
-    enabled: !!user,
   });
 
   const handleManageSubscription = () => {
@@ -56,4 +53,4 @@ export const SubscriptionStatus = () => {
       </CardContent>
     </Card>
   );
-};
+}

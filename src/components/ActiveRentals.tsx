@@ -1,31 +1,17 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Clock, Car, Battery, MapPin } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/components/AuthProvider";
 import { Link } from "react-router-dom";
 
 export const ActiveRentals = () => {
-  const { user } = useAuth();
-
   const { data: activeBookings } = useQuery({
-    queryKey: ["active-bookings", user?.id],
+    queryKey: ["active-bookings"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("bookings")
-        .select(`
-          *,
-          vehicles (*)
-        `)
-        .eq("user_id", user?.id)
-        .eq("status", "active")
-        .limit(1);
-      
-      if (error) throw error;
-      return data;
+      // Placeholder data since we removed auth
+      return [];
     },
-    enabled: !!user,
   });
 
   if (!activeBookings?.length) {

@@ -1,17 +1,14 @@
+
 import { PageLayout } from "@/components/PageLayout";
-import { useAuth } from "@/components/AuthProvider";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { User, Settings, Key, History, CreditCard } from "lucide-react";
 
 export default function Profile() {
-  const { user } = useAuth();
   const navigate = useNavigate();
 
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    navigate("/auth");
+  const handleSignOut = () => {
+    navigate("/");
   };
 
   const menuItems = [
@@ -46,11 +43,11 @@ export default function Profile() {
     <PageLayout title="Profile" menuItems={menuItems}>
       <div className="max-w-md mx-auto space-y-4">
         <div className="p-4 bg-accent rounded-lg">
-          <p className="text-sm text-gray-600">Email</p>
-          <p className="font-medium">{user?.email}</p>
+          <p className="text-sm text-gray-600">Guest User</p>
+          <p className="font-medium">example@email.com</p>
         </div>
         <Button variant="destructive" className="w-full" onClick={handleSignOut}>
-          Sign Out
+          Return to Home
         </Button>
       </div>
     </PageLayout>
