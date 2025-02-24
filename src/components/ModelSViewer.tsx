@@ -106,29 +106,37 @@ export const ModelSViewer = () => {
           transition={{ duration: 0.6 }}
           className="space-y-12"
         >
-          <div className="text-center">
-            <h2 className="text-4xl font-bold mb-4">SUBSCRIPTION VEHICLES</h2>
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-center"
+          >
+            <h2 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">
+              SUBSCRIPTION VEHICLES
+            </h2>
             <h3 className="text-2xl text-muted-foreground mb-2">Choose Your Perfect Tesla</h3>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               All subscription vehicles include maintenance, insurance, and charging benefits.
             </p>
-          </div>
+          </motion.div>
 
           {/* Main Car Display */}
           <div className="relative">
             <Button
               variant="ghost"
               size="icon"
-              className="absolute left-0 top-1/2 -translate-y-1/2 z-10"
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 hover:bg-background/20 backdrop-blur-sm"
               onClick={handlePrevious}
             >
               <ChevronLeft className="h-8 w-8" />
             </Button>
             <motion.div 
               key={selectedCar.id}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3 }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4 }}
               className="aspect-[16/9] relative"
             >
               <img
@@ -140,7 +148,7 @@ export const ModelSViewer = () => {
             <Button
               variant="ghost"
               size="icon"
-              className="absolute right-0 top-1/2 -translate-y-1/2 z-10"
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 hover:bg-background/20 backdrop-blur-sm"
               onClick={handleNext}
             >
               <ChevronRight className="h-8 w-8" />
@@ -148,9 +156,15 @@ export const ModelSViewer = () => {
           </div>
 
           {/* Filters */}
-          <div className="flex justify-center gap-4 mb-8">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="flex justify-center gap-4 mb-8"
+          >
             <Select value={location} onValueChange={setLocation}>
-              <SelectTrigger className="w-[200px]">
+              <SelectTrigger className="w-[200px] bg-background/50 backdrop-blur-sm">
                 {location}
               </SelectTrigger>
               <SelectContent>
@@ -163,7 +177,7 @@ export const ModelSViewer = () => {
             </Select>
 
             <Select value={modelType} onValueChange={setModelType}>
-              <SelectTrigger className="w-[200px]">
+              <SelectTrigger className="w-[200px] bg-background/50 backdrop-blur-sm">
                 {modelType}
               </SelectTrigger>
               <SelectContent>
@@ -176,7 +190,7 @@ export const ModelSViewer = () => {
             </Select>
 
             <Select value={color} onValueChange={setColor}>
-              <SelectTrigger className="w-[200px]">
+              <SelectTrigger className="w-[200px] bg-background/50 backdrop-blur-sm">
                 {color}
               </SelectTrigger>
               <SelectContent>
@@ -187,54 +201,72 @@ export const ModelSViewer = () => {
                 ))}
               </SelectContent>
             </Select>
-          </div>
+          </motion.div>
 
           {/* Car Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {carModels.map((car) => (
-              <Card 
-                key={car.id} 
-                className={`p-4 hover:shadow-lg transition-all cursor-pointer ${
-                  selectedCar.id === car.id ? 'ring-2 ring-primary' : ''
-                }`}
-                onClick={() => setSelectedCar(car)}
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          >
+            {carModels.map((car, index) => (
+              <motion.div
+                key={car.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                <motion.div
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ duration: 0.2 }}
+                <Card 
+                  className={`p-6 hover:shadow-lg transition-all cursor-pointer bg-background/50 backdrop-blur-sm
+                    border border-white/10 ${
+                    selectedCar.id === car.id ? 'ring-2 ring-rental-blue' : ''
+                  }`}
+                  onClick={() => setSelectedCar(car)}
                 >
-                  <img
-                    src={car.image}
-                    alt={car.name}
-                    className="w-full h-auto mb-4"
-                  />
-                  <div className="text-center">
-                    <h3 className="text-2xl font-semibold">{car.name}</h3>
-                    <p className="text-sm text-muted-foreground mt-2">
-                      {car.specs.range} | {car.specs.acceleration} | {car.specs.topSpeed}
-                    </p>
-                    <div className="mt-4 space-y-2">
-                      {car.features.map((feature, index) => (
-                        <p key={index} className="text-sm text-muted-foreground">
-                          {feature}
-                        </p>
-                      ))}
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <img
+                      src={car.image}
+                      alt={car.name}
+                      className="w-full h-auto mb-4"
+                    />
+                    <div className="text-center space-y-4">
+                      <h3 className="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">
+                        {car.name}
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        {car.specs.range} | {car.specs.acceleration} | {car.specs.topSpeed}
+                      </p>
+                      <div className="space-y-2">
+                        {car.features.map((feature, index) => (
+                          <p key={index} className="text-sm text-muted-foreground">
+                            {feature}
+                          </p>
+                        ))}
+                      </div>
+                      <p className="text-lg font-semibold text-rental-blue">{car.price}</p>
+                      <Button 
+                        className="w-full bg-rental-blue hover:bg-rental-blue/90 text-white
+                          transition-all duration-300 transform hover:scale-105 hover:shadow-lg 
+                          hover:shadow-rental-blue/20"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleSubscribe(car);
+                        }}
+                      >
+                        Subscribe Now
+                      </Button>
                     </div>
-                    <p className="text-lg font-semibold mt-4">{car.price}</p>
-                    <Button 
-                      className="mt-4 w-full"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleSubscribe(car);
-                      }}
-                    >
-                      Subscribe Now
-                    </Button>
-                  </div>
-                </motion.div>
-              </Card>
+                  </motion.div>
+                </Card>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>
