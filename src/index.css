@@ -5,35 +5,35 @@
 
 @layer base {
   :root {
-    --background: 225 25% 11%;
+    --background: 260 25% 11%;
     --foreground: 210 40% 98%;
 
-    --card: 225 25% 11%;
+    --card: 260 25% 11%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 225 25% 11%;
+    --popover: 260 25% 11%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 217 100% 50%;
+    --primary: 252 100% 67%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 217 100% 50%;
-    --secondary-foreground: 225 25% 11%;
+    --secondary: 252 100% 67%;
+    --secondary-foreground: 260 25% 11%;
 
-    --muted: 215 27.9% 16.9%;
+    --muted: 260 27.9% 16.9%;
     --muted-foreground: 217.9 10.6% 64.9%;
 
-    --accent: 217 100% 50%;
+    --accent: 252 100% 67%;
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 225 25% 11%;
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 260 25% 11%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
   }
 
   * {
@@ -45,7 +45,7 @@
   }
 
   body {
-    @apply bg-rental-dark text-foreground min-h-screen overflow-x-hidden;
+    @apply bg-[#14121F] text-foreground min-h-screen overflow-x-hidden;
   }
 
   @keyframes fade-in-bottom {
@@ -62,32 +62,37 @@
   .fade-in-bottom {
     animation: fade-in-bottom 0.3s ease-out forwards;
   }
+
+  @keyframes glow {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; }
+  }
 }
 
 @layer components {
   .glass-card {
-    @apply bg-rental-dark/80 backdrop-blur-md border border-white/10 rounded-xl shadow-lg;
+    @apply bg-[#1E1B2E]/80 backdrop-blur-md border border-white/5 rounded-2xl shadow-lg;
   }
 
   .glass-button {
-    @apply bg-rental-blue/90 hover:bg-rental-blue backdrop-blur-sm text-white border 
-    border-rental-blue/50 rounded-xl shadow-lg transition-all duration-300 
-    hover:shadow-rental-blue/20 hover:scale-105 active:scale-95;
+    @apply bg-[#7B5EFB]/90 hover:bg-[#7B5EFB] backdrop-blur-sm text-white border 
+    border-[#7B5EFB]/50 rounded-xl shadow-lg transition-all duration-300 
+    hover:shadow-[#7B5EFB]/20 hover:scale-105 active:scale-95;
   }
 
   .nav-link {
-    @apply px-4 py-2 text-sm font-medium transition-colors hover:text-rental-blue relative
-    after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-rental-blue
+    @apply px-4 py-2 text-sm font-medium transition-colors hover:text-[#7B5EFB] relative
+    after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-[#7B5EFB]
     after:transform after:scale-x-0 after:transition-transform hover:after:scale-x-100;
   }
 
   .hero-title {
     @apply text-4xl sm:text-5xl md:text-6xl font-bold bg-clip-text text-transparent 
-    bg-gradient-to-r from-rental-blue via-rental-blue to-white;
+    bg-gradient-to-r from-[#7B5EFB] via-[#9D7FFB] to-white;
   }
 
   .card-hover {
-    @apply transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-rental-blue/20;
+    @apply transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#7B5EFB]/20;
   }
 
   .container {
@@ -104,8 +109,8 @@
 
   .gradient-border {
     @apply relative rounded-xl bg-background p-[1px] before:absolute before:inset-0 
-    before:-z-10 before:rounded-xl before:bg-gradient-to-r before:from-rental-blue/50 
-    before:via-rental-blue/50 before:to-white/50 before:blur-xl;
+    before:-z-10 before:rounded-xl before:bg-gradient-to-r before:from-[#7B5EFB]/50 
+    before:via-[#9D7FFB]/50 before:to-white/50 before:blur-xl;
   }
 
   .animated-gradient {
@@ -113,5 +118,11 @@
     before:bg-gradient-to-r before:from-transparent before:via-white/10 
     before:to-transparent before:translate-x-[-100%] hover:before:translate-x-[100%] 
     before:transition-transform before:duration-1000;
+  }
+
+  .glow-effect {
+    @apply relative after:absolute after:inset-0 after:rounded-xl 
+    after:bg-gradient-to-r after:from-[#7B5EFB]/20 after:to-transparent 
+    after:blur-xl after:animate-glow;
   }
 }
