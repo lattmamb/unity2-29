@@ -10,13 +10,14 @@ export const Hero = () => {
   const { user } = useAuth();
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#0B1F3B] to-background">
-      {/* Video Background */}
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* 3D Background */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-black/50 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-background z-10" />
         <iframe 
-          src="https://dream-machine.lumalabs.ai/embed/f0eba3e5-0a08-41ff-af52-6475d4120af8?mode=theater&background=255255255&color=ffffff&showTitle=0&loading=eager"
-          className="w-full h-full object-cover"
+          src="https://dream-machine.lumalabs.ai/embed/f0eba3e5-0a08-41ff-af52-6475d4120af8?mode=theater&background=000000&color=ffffff&showTitle=0&loading=eager"
+          className="w-full h-full"
+          style={{ border: 'none', margin: 0, padding: 0 }}
           allow="accelerometer; ambient-light-sensor; camera; encrypted-media; gyroscope; magnetometer; microphone; xr-spatial-tracking"
           sandbox="allow-scripts allow-same-origin"
         ></iframe>
