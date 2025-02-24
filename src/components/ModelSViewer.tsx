@@ -6,43 +6,71 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "./ui/button";
 import { useNavigate } from "react-router-dom";
+import { plans } from "./subscription/PlanData";
 
 const carModels = [
   {
     id: 1,
-    name: "Model S P85",
+    name: "Model S Plaid",
     image: "/lovable-uploads/a5d5e04e-262f-4be9-8bce-605793c030ed.png",
-    year: "2012",
-    miles: "37,187",
-    price: "$83,850",
-    color: "Red Multi-Coat",
-    vin: "S00393"
+    specs: {
+      range: "396 miles",
+      acceleration: "1.99s 0-60",
+      topSpeed: "200 mph"
+    },
+    price: "$1,250/mo",
+    color: "Pearl White",
+    plan: "Elite Take-Home",
+    features: [
+      "Luxury take-home vehicle",
+      "Global unlimited rides",
+      "Free premium charging",
+      "24/7 concierge support"
+    ]
   },
   {
     id: 2,
-    name: "Model S 85",
+    name: "Model Y Performance",
     image: "/lovable-uploads/a5d5e04e-262f-4be9-8bce-605793c030ed.png",
-    year: "2013",
-    miles: "13,249",
-    price: "$83,850",
+    specs: {
+      range: "330 miles",
+      acceleration: "4.8s 0-60",
+      topSpeed: "135 mph"
+    },
+    price: "$750/mo",
     color: "Red Multi-Coat",
-    vin: "P09049"
+    plan: "Premium Take-Home",
+    features: [
+      "Take-home vehicle",
+      "Unlimited rides anywhere",
+      "Free public charging",
+      "24/7 priority support"
+    ]
   },
   {
     id: 3,
-    name: "Model S 85",
+    name: "Model 3 Standard",
     image: "/lovable-uploads/a5d5e04e-262f-4be9-8bce-605793c030ed.png",
-    year: "2013",
-    miles: "13,039",
-    price: "$85,150",
-    color: "Gray",
-    vin: "P18069"
+    specs: {
+      range: "250 miles",
+      acceleration: "5.8s 0-60",
+      topSpeed: "140 mph"
+    },
+    price: "$350/mo",
+    color: "Midnight Silver",
+    plan: "Base Plan",
+    features: [
+      "Standard vehicle access",
+      "Unlimited rides within city",
+      "Public charging (pay-as-you-go)",
+      "Basic support"
+    ]
   }
 ];
 
 const locations = ["San Francisco Bay Area", "Los Angeles", "New York", "Miami"];
-const modelTypes = ["Any Model S", "Model S P85", "Model S 85"];
-const colors = ["Any Color", "Red Multi-Coat", "Gray", "White", "Black"];
+const modelTypes = ["Any Model", "Model S", "Model Y", "Model 3"];
+const colors = ["Any Color", "Pearl White", "Red Multi-Coat", "Midnight Silver", "Deep Blue"];
 
 export const ModelSViewer = () => {
   const [selectedCar, setSelectedCar] = useState(carModels[0]);
@@ -63,6 +91,11 @@ export const ModelSViewer = () => {
     setSelectedCar(carModels[newIndex]);
   };
 
+  const handleSubscribe = (car: typeof carModels[0]) => {
+    const plan = plans.find(p => p.name === car.plan);
+    navigate('/subscription', { state: { selectedPlan: plan } });
+  };
+
   return (
     <section className="relative py-20 overflow-hidden bg-gradient-to-b from-background to-background/80">
       <div className="container mx-auto px-4">
@@ -74,10 +107,10 @@ export const ModelSViewer = () => {
           className="space-y-12"
         >
           <div className="text-center">
-            <h2 className="text-4xl font-bold mb-4">MODEL S</h2>
-            <h3 className="text-2xl text-muted-foreground mb-2">Pre-Owned Model S</h3>
+            <h2 className="text-4xl font-bold mb-4">SUBSCRIPTION VEHICLES</h2>
+            <h3 className="text-2xl text-muted-foreground mb-2">Choose Your Perfect Tesla</h3>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Every pre-owned Model S comes with a 4 year, 50,000 mile limited warranty.
+              All subscription vehicles include maintenance, insurance, and charging benefits.
             </p>
           </div>
 
@@ -178,17 +211,24 @@ export const ModelSViewer = () => {
                   <div className="text-center">
                     <h3 className="text-2xl font-semibold">{car.name}</h3>
                     <p className="text-sm text-muted-foreground mt-2">
-                      {car.year} | {car.miles} miles | {car.vin}
+                      {car.specs.range} | {car.specs.acceleration} | {car.specs.topSpeed}
                     </p>
-                    <p className="text-lg font-semibold mt-2">{car.price}</p>
+                    <div className="mt-4 space-y-2">
+                      {car.features.map((feature, index) => (
+                        <p key={index} className="text-sm text-muted-foreground">
+                          {feature}
+                        </p>
+                      ))}
+                    </div>
+                    <p className="text-lg font-semibold mt-4">{car.price}</p>
                     <Button 
                       className="mt-4 w-full"
                       onClick={(e) => {
                         e.stopPropagation();
-                        navigate(`/fleet/${car.id}`);
+                        handleSubscribe(car);
                       }}
                     >
-                      View Details
+                      Subscribe Now
                     </Button>
                   </div>
                 </motion.div>
