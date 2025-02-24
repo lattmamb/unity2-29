@@ -14,16 +14,12 @@ export const Hero = () => {
       {/* Video Background */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-black/50 z-10" />
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
+        <iframe 
+          src="https://dream-machine.lumalabs.ai/embed/f0eba3e5-0a08-41ff-af52-6475d4120af8?mode=theater&background=255255255&color=ffffff&showTitle=0&loading=eager"
           className="w-full h-full object-cover"
-        >
-          <source src="/tesla-drive.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+          allow="accelerometer; ambient-light-sensor; camera; encrypted-media; gyroscope; magnetometer; microphone; xr-spatial-tracking"
+          sandbox="allow-scripts allow-same-origin"
+        ></iframe>
       </div>
 
       <motion.div 
