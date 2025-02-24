@@ -12,7 +12,7 @@ const carModels = [
   {
     id: 1,
     name: "Model S Plaid",
-    image: "/lovable-uploads/a5d5e04e-262f-4be9-8bce-605793c030ed.png",
+    image: "/lovable-uploads/eeacc0d3-ab5a-4ff2-9e0a-a9bd44422918.png",
     specs: {
       range: "396 miles",
       acceleration: "1.99s 0-60",
@@ -31,7 +31,7 @@ const carModels = [
   {
     id: 2,
     name: "Model Y Performance",
-    image: "/lovable-uploads/a5d5e04e-262f-4be9-8bce-605793c030ed.png",
+    image: "/lovable-uploads/eeacc0d3-ab5a-4ff2-9e0a-a9bd44422918.png",
     specs: {
       range: "330 miles",
       acceleration: "4.8s 0-60",
@@ -50,7 +50,7 @@ const carModels = [
   {
     id: 3,
     name: "Model 3 Standard",
-    image: "/lovable-uploads/a5d5e04e-262f-4be9-8bce-605793c030ed.png",
+    image: "/lovable-uploads/eeacc0d3-ab5a-4ff2-9e0a-a9bd44422918.png",
     specs: {
       range: "250 miles",
       acceleration: "5.8s 0-60",
