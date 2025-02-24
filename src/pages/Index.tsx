@@ -9,6 +9,7 @@ import { Benefits } from "@/components/Benefits";
 import { ContainerScrollDemo } from "@/components/ui/container-scroll-demo";
 import { useAuth } from "@/components/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import { ModelSViewer } from "@/components/ModelSViewer";
 
 const Index = () => {
   const { user } = useAuth();
@@ -41,6 +42,7 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
       <Hero />
+      <ModelSViewer />
       <BrandShowcase />
       <Benefits />
       <ContainerScrollDemo />
