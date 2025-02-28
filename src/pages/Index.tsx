@@ -10,7 +10,6 @@ import { ContainerScrollDemo } from "@/components/ui/container-scroll-demo";
 import { useAuth } from "@/components/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import { ModelSViewer } from "@/components/ModelSViewer";
-import { motion } from "framer-motion";
 
 const Index = () => {
   const { user } = useAuth();
@@ -39,12 +38,7 @@ const Index = () => {
   }, [user?.id, navigate]);
 
   return (
-    <motion.div 
-      className="min-h-screen bg-[#14121F]"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1, delay: 1 }}
-    >
+    <div className="min-h-screen bg-[#14121F]">
       <div className="absolute inset-0 bg-[url('/circuit-pattern.svg')] opacity-[0.02] pointer-events-none" />
       <div className="absolute inset-0 bg-gradient-to-b from-[#7B5EFB]/5 via-transparent to-transparent pointer-events-none" />
       
@@ -63,7 +57,7 @@ const Index = () => {
       </div>
       
       <Footer />
-    </motion.div>
+    </div>
   );
 };
 

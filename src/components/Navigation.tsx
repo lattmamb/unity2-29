@@ -1,6 +1,10 @@
 
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { DockNav } from "./navigation/DockNav";
+import { BreadcrumbNav } from "./navigation/BreadcrumbNav";
+import { SidebarNav } from "./navigation/SidebarNav";
+import { BottomNav } from "./navigation/BottomNav";
 import { MobileNav } from "./navigation/MobileNav";
 import { motion } from "framer-motion";
 import { useAuth } from "@/components/AuthProvider";
@@ -34,6 +38,10 @@ export const Navigation = () => {
               </span>
             </Link>
           </motion.div>
+
+          <div className="hidden md:flex">
+            <DockNav />
+          </div>
 
           <div className="md:hidden">
             <MobileNav />
@@ -75,6 +83,9 @@ export const Navigation = () => {
         </div>
       </motion.div>
       <div className="h-16" />
+      <BreadcrumbNav />
+      <SidebarNav />
+      <BottomNav />
     </>
   );
 };
