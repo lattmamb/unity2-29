@@ -14,7 +14,131 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bookings: {
+        Row: {
+          created_at: string
+          dropoff_location: string | null
+          end_date: string
+          id: string
+          pickup_location: string | null
+          start_date: string
+          status: string
+          total_price: number | null
+          updated_at: string
+          user_id: string
+          vehicle_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          dropoff_location?: string | null
+          end_date: string
+          id?: string
+          pickup_location?: string | null
+          start_date: string
+          status?: string
+          total_price?: number | null
+          updated_at?: string
+          user_id: string
+          vehicle_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          dropoff_location?: string | null
+          end_date?: string
+          id?: string
+          pickup_location?: string | null
+          start_date?: string
+          status?: string
+          total_price?: number | null
+          updated_at?: string
+          user_id?: string
+          vehicle_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_vehicle_id_fkey"
+            columns: ["vehicle_id"]
+            isOneToOne: false
+            referencedRelation: "vehicles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      vehicles: {
+        Row: {
+          acceleration_0_60: number | null
+          battery_level: number
+          created_at: string
+          current_location: Json | null
+          horsepower: number
+          id: string
+          image_url: string | null
+          name: string
+          range_miles: number
+          status: string
+          top_speed: number | null
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          acceleration_0_60?: number | null
+          battery_level?: number
+          created_at?: string
+          current_location?: Json | null
+          horsepower?: number
+          id?: string
+          image_url?: string | null
+          name: string
+          range_miles?: number
+          status?: string
+          top_speed?: number | null
+          type: string
+          updated_at?: string
+        }
+        Update: {
+          acceleration_0_60?: number | null
+          battery_level?: number
+          created_at?: string
+          current_location?: Json | null
+          horsepower?: number
+          id?: string
+          image_url?: string | null
+          name?: string
+          range_miles?: number
+          status?: string
+          top_speed?: number | null
+          type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
