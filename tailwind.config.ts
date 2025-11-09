@@ -52,6 +52,11 @@ export default {
           dark: "#1A1B1F",
           light: "#F5F7FF",
         },
+        cyan: "hsl(var(--accent-cyan))",
+        teal: "hsl(var(--accent-teal))",
+        success: "hsl(var(--success))",
+        warning: "hsl(var(--warning))",
+        danger: "hsl(var(--danger))",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -116,6 +121,14 @@ export default {
             transform: "scale(1)",
           },
         },
+        "pulse-glow": {
+          "0%, 100%": {
+            boxShadow: "0 0 0 0 rgba(53, 242, 219, 0.7)",
+          },
+          "70%": {
+            boxShadow: "0 0 0 10px rgba(53, 242, 219, 0)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -126,6 +139,7 @@ export default {
         "glow": "glow 2s ease-in-out infinite",
         "shimmer": "shimmer 2s linear infinite",
         "scale-in": "scale-in 0.3s ease-out",
+        "pulse-glow": "pulse-glow 2s ease-in-out infinite",
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

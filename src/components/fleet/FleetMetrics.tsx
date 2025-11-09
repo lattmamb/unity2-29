@@ -1,8 +1,8 @@
 import { Tables } from "@/integrations/supabase/types";
-import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Battery, DollarSign, Gauge } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { DollarSign, Gauge, Battery } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { StatCard } from "@/components/ui/stat-card";
 
 interface FleetMetricsProps {
   vehicles: Tables<"vehicles">[];
@@ -28,70 +28,116 @@ export function FleetMetrics({ vehicles }: FleetMetricsProps) {
   };
 
   return (
-    <Card className="p-6 bg-accent/5 backdrop-blur-sm border-accent/20">
+    <div className="bg-card/30 backdrop-blur-sm rounded-xl border border-border p-6">
+      <h2 className="text-2xl font-bold mb-6">Fleet Metrics</h2>
       <Tabs defaultValue="daily" className="w-full">
-        <TabsList className="grid w-full grid-cols-3 mb-6">
-          <TabsTrigger value="daily" className="data-[state=active]:bg-secondary">Daily</TabsTrigger>
-          <TabsTrigger value="weekly" className="data-[state=active]:bg-secondary">Weekly</TabsTrigger>
-          <TabsTrigger value="monthly" className="data-[state=active]:bg-secondary">Monthly</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-3 mb-8 bg-accent/10 backdrop-blur-sm p-1 rounded-full">
+          <TabsTrigger value="daily" className="rounded-full data-[state=active]:bg-primary">Daily</TabsTrigger>
+          <TabsTrigger value="weekly" className="rounded-full data-[state=active]:bg-primary">Weekly</TabsTrigger>
+          <TabsTrigger value="monthly" className="rounded-full data-[state=active]:bg-primary">Monthly</TabsTrigger>
         </TabsList>
         
         <AnimatePresence mode="wait">
-          {Object.entries(metrics).map(([period, data]) => (
-            <TabsContent key={period} value={period} className="mt-0">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ delay: 0.1 }}
-                  className="p-4 rounded-lg bg-background/50 border border-accent/20 hover:border-secondary/50 transition-colors"
-                >
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-sm font-medium text-muted-foreground">Revenue</h3>
-                    <DollarSign className="h-4 w-4 text-green-400" />
-                  </div>
-                  <p className="text-2xl font-bold mt-2 bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent">
-                    ${data.revenue.toLocaleString()}
-                  </p>
-                </motion.div>
-                
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ delay: 0.2 }}
-                  className="p-4 rounded-lg bg-background/50 border border-accent/20 hover:border-secondary/50 transition-colors"
-                >
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-sm font-medium text-muted-foreground">Total Mileage</h3>
-                    <Gauge className="h-4 w-4 text-blue-400" />
-                  </div>
-                  <p className="text-2xl font-bold mt-2 bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent">
-                    {data.mileage.toLocaleString()} mi
-                  </p>
-                </motion.div>
-                
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ delay: 0.3 }}
-                  className="p-4 rounded-lg bg-background/50 border border-accent/20 hover:border-secondary/50 transition-colors"
-                >
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-sm font-medium text-muted-foreground">Maintenance</h3>
-                    <Battery className="h-4 w-4 text-yellow-400" />
-                  </div>
-                  <p className="text-2xl font-bold mt-2 bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent">
-                    {data.maintenance} vehicles
-                  </p>
-                </motion.div>
-              </div>
-            </TabsContent>
-          ))}
+          <TabsContent value="daily">
+            <motion.div
+              key="daily"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.3 }}
+              className="grid grid-cols-1 md:grid-cols-3 gap-6"
+            >
+              <StatCard
+                title="Revenue"
+                value={`$${metrics.daily.revenue.toLocaleString()}`}
+                icon={DollarSign}
+                change={{ value: 12.5, label: "from yesterday" }}
+                variant="primary"
+              />
+              <StatCard
+                title="Total Mileage"
+                value={`${metrics.daily.mileage.toLocaleString()} mi`}
+                icon={Gauge}
+                change={{ value: 8.3, label: "from yesterday" }}
+                variant="success"
+              />
+              <StatCard
+                title="Maintenance"
+                value={metrics.daily.maintenance}
+                icon={Battery}
+                change={{ value: -2.1, label: "from yesterday" }}
+                variant="warning"
+              />
+            </motion.div>
+          </TabsContent>
+          
+          <TabsContent value="weekly">
+            <motion.div
+              key="weekly"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.3 }}
+              className="grid grid-cols-1 md:grid-cols-3 gap-6"
+            >
+              <StatCard
+                title="Revenue"
+                value={`$${metrics.weekly.revenue.toLocaleString()}`}
+                icon={DollarSign}
+                change={{ value: 15.7, label: "from last week" }}
+                variant="primary"
+              />
+              <StatCard
+                title="Total Mileage"
+                value={`${metrics.weekly.mileage.toLocaleString()} mi`}
+                icon={Gauge}
+                change={{ value: 10.2, label: "from last week" }}
+                variant="success"
+              />
+              <StatCard
+                title="Maintenance"
+                value={metrics.weekly.maintenance}
+                icon={Battery}
+                change={{ value: 5.4, label: "from last week" }}
+                variant="warning"
+              />
+            </motion.div>
+          </TabsContent>
+          
+          <TabsContent value="monthly">
+            <motion.div
+              key="monthly"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.3 }}
+              className="grid grid-cols-1 md:grid-cols-3 gap-6"
+            >
+              <StatCard
+                title="Revenue"
+                value={`$${metrics.monthly.revenue.toLocaleString()}`}
+                icon={DollarSign}
+                change={{ value: 23.8, label: "from last month" }}
+                variant="primary"
+              />
+              <StatCard
+                title="Total Mileage"
+                value={`${metrics.monthly.mileage.toLocaleString()} mi`}
+                icon={Gauge}
+                change={{ value: 18.5, label: "from last month" }}
+                variant="success"
+              />
+              <StatCard
+                title="Maintenance"
+                value={metrics.monthly.maintenance}
+                icon={Battery}
+                change={{ value: -3.2, label: "from last month" }}
+                variant="warning"
+              />
+            </motion.div>
+          </TabsContent>
         </AnimatePresence>
       </Tabs>
-    </Card>
+    </div>
   );
 }

@@ -34,6 +34,12 @@
     --ring: 260 25% 11%;
 
     --radius: 0.75rem;
+
+    --accent-cyan: 189 100% 50%;
+    --accent-teal: 168 95% 60%;
+    --success: 146 71% 55%;
+    --warning: 38 100% 51%;
+    --danger: 355 78% 64%;
   }
 
   * {

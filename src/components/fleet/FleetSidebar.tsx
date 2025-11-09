@@ -1,7 +1,10 @@
 import { Tables } from "@/integrations/supabase/types";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Battery, Gauge, Zap } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { Loader2, Search } from "lucide-react";
+import { VehicleDetailCard } from "./VehicleDetailCard";
+import { FilterButtonGroup } from "@/components/ui/filter-button-group";
+import { VehicleStatus } from "@/components/ui/status-badge";
+import { useState, useMemo } from "react";
+import { Input } from "@/components/ui/input";
 
 interface FleetSidebarProps {
   vehicles: Tables<"vehicles">[];
@@ -11,100 +14,86 @@ interface FleetSidebarProps {
 }
 
 export function FleetSidebar({ vehicles, isLoading, selectedVehicleId, onVehicleSelect }: FleetSidebarProps) {
-  const formatVehicleName = (name: string) => {
-    // Convert names to proper model format
-    const modelMap: Record<string, string> = {
-      'model y': 'Model Y',
-      'model x': 'Model X',
-      'model s': 'Model S',
-      'model 3': 'Model 3',
-      'bmw i4': 'Tesla Model 3', // Replace BMW i4 with Tesla Model 3
-    };
-    
-    const lowercaseName = name.toLowerCase();
-    return modelMap[lowercaseName] || name;
-  };
+  const [filter, setFilter] = useState<VehicleStatus | "all">("all");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filterOptions = [
+    { value: "all" as const, label: "All" },
+    { value: "available" as const, label: "Available" },
+    { value: "active" as const, label: "Active" },
+    { value: "charging" as const, label: "Charging" },
+    { value: "maintenance" as const, label: "Maintenance" },
+  ];
+
+  const filteredVehicles = useMemo(() => {
+    let filtered = vehicles;
+
+    if (filter !== "all") {
+      filtered = filtered.filter((v) => v.status === filter);
+    }
+
+    if (searchQuery) {
+      filtered = filtered.filter((v) =>
+        v.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        v.type?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    return filtered;
+  }, [vehicles, filter, searchQuery]);
+
+  if (isLoading) {
+    return (
+      <div className="p-6 flex items-center justify-center min-h-[400px] bg-card/50 backdrop-blur-sm rounded-xl border border-border">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   return (
-    <div className="bg-accent/5 backdrop-blur-sm rounded-lg border border-accent/20 overflow-hidden">
-      <div className="p-4 border-b border-accent/20">
-        <h2 className="text-lg font-semibold bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent">
-          Vehicle List
-        </h2>
-        <p className="text-sm text-muted-foreground">
-          {vehicles.length} vehicles available
-        </p>
+    <div className="flex flex-col h-full bg-card/30 backdrop-blur-sm rounded-xl border border-border overflow-hidden">
+      <div className="p-6 border-b border-border bg-card/50">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-bold">Fleet Overview</h2>
+          <span className="text-sm text-muted-foreground font-medium">
+            {filteredVehicles.length} of {vehicles.length}
+          </span>
+        </div>
+
+        <div className="relative mb-4">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <Input
+            type="text"
+            placeholder="Search vehicles..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-10 bg-background/50 border-border focus:border-cyan"
+          />
+        </div>
+
+        <FilterButtonGroup
+          options={filterOptions}
+          selected={filter}
+          onChange={setFilter}
+        />
       </div>
-      
-      <ScrollArea className="h-[calc(100vh-300px)]">
-        <AnimatePresence>
-          <div className="p-4 space-y-4">
-            {isLoading ? (
-              Array(4).fill(0).map((_, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                  className="animate-pulse"
-                >
-                  <div className="h-24 bg-accent/20 rounded-lg" />
-                </motion.div>
-              ))
-            ) : (
-              vehicles.map((vehicle) => (
-                <motion.div
-                  key={vehicle.id}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  whileHover={{ scale: 1.02 }}
-                  onClick={() => onVehicleSelect(vehicle.id)}
-                  className={`
-                    p-4 rounded-lg cursor-pointer transition-colors
-                    ${selectedVehicleId === vehicle.id 
-                      ? 'bg-secondary/20 border-secondary/50' 
-                      : 'bg-background/50 hover:bg-accent/10'
-                    }
-                    border border-accent/20
-                  `}
-                >
-                  <div className="flex items-center space-x-4">
-                    {vehicle.image_url && (
-                      <img 
-                        src={vehicle.image_url} 
-                        alt={formatVehicleName(vehicle.name)}
-                        className="w-20 h-20 object-cover rounded-md"
-                      />
-                    )}
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-medium truncate">{formatVehicleName(vehicle.name)}</h3>
-                      <div className="mt-2 grid grid-cols-2 gap-2 text-sm">
-                        <div className="flex items-center text-muted-foreground">
-                          <Battery className="h-4 w-4 mr-1" />
-                          {vehicle.battery_level}%
-                        </div>
-                        <div className="flex items-center text-muted-foreground">
-                          <Zap className="h-4 w-4 mr-1" />
-                          {vehicle.range_miles}mi
-                        </div>
-                        <div className="flex items-center text-muted-foreground">
-                          <Gauge className="h-4 w-4 mr-1" />
-                          {vehicle.horsepower}hp
-                        </div>
-                        <div className="flex items-center text-muted-foreground">
-                          <Gauge className="h-4 w-4 mr-1" />
-                          OK
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              ))
-            )}
+
+      <div className="flex-1 overflow-y-auto p-4 space-y-3">
+        {filteredVehicles.length === 0 ? (
+          <div className="text-center py-12 text-muted-foreground">
+            <p>No vehicles found</p>
           </div>
-        </AnimatePresence>
-      </ScrollArea>
+        ) : (
+          filteredVehicles.map((vehicle) => (
+            <VehicleDetailCard
+              key={vehicle.id}
+              vehicle={vehicle}
+              isSelected={selectedVehicleId === vehicle.id}
+              onClick={() => onVehicleSelect(vehicle.id)}
+            />
+          ))
+        )}
+      </div>
     </div>
   );
 }
