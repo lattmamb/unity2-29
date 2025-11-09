@@ -52,9 +52,9 @@ export default function VehicleCustomization() {
           <div className="glass-card p-6 space-y-4">
             <h2 className="text-2xl font-bold">Interactive Preview</h2>
             <div className="aspect-video bg-black/5 rounded-lg">
-              {selectedVehicle && vehicles?.find(v => v.id === selectedVehicle)?.model_3d_url ? (
+              {selectedVehicle && vehicles?.find(v => v.id === selectedVehicle)?.image_url ? (
                 <Vehicle3DViewer 
-                  modelUrl={vehicles.find(v => v.id === selectedVehicle)?.model_3d_url || ''} 
+                  modelUrl={vehicles.find(v => v.id === selectedVehicle)?.image_url || ''} 
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-muted-foreground">

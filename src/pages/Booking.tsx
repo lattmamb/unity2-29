@@ -68,9 +68,9 @@ export default function Booking() {
       const { error } = await supabase.from("bookings").insert({
         vehicle_id: bookingData.vehicle.id,
         user_id: user.id,
-        start_time: bookingData.startTime.toISOString(),
-        end_time: bookingData.endTime.toISOString(),
-        pickup_location: `(${bookingData.pickupLocation.lng},${bookingData.pickupLocation.lat})` as unknown,
+        start_date: bookingData.startTime.toISOString(),
+        end_date: bookingData.endTime.toISOString(),
+        pickup_location: `${bookingData.pickupLocation.lat},${bookingData.pickupLocation.lng}`,
         status: "pending",
       });
 
